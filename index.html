@@ -4087,6 +4087,7 @@ body {
   }
 
   let toastTimeout = null;
+  let toastClickHandler = null;
 
   function showToast(message) {
     const toast = document.getElementById('toast');
@@ -4098,9 +4099,22 @@ body {
       clearTimeout(toastTimeout);
     }
 
+    // Remove any existing click handler
+    if (toastClickHandler) {
+      document.removeEventListener('click', toastClickHandler);
+    }
+
     toastTimeout = setTimeout(() => {
       toast.classList.add('hidden');
     }, 3000);
+
+    // Close toast on click outside
+    toastClickHandler = (e) => {
+      if (!toast.contains(e.target)) {
+        closeToast();
+      }
+    };
+    document.addEventListener('click', toastClickHandler);
   }
 
   function closeToast() {
@@ -4108,6 +4122,10 @@ body {
     toast.classList.add('hidden');
     if (toastTimeout) {
       clearTimeout(toastTimeout);
+    }
+    if (toastClickHandler) {
+      document.removeEventListener('click', toastClickHandler);
+      toastClickHandler = null;
     }
   }
 
