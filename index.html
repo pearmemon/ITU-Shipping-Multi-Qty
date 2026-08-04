@@ -1771,6 +1771,77 @@ body {
 }
 .modal-add-method-link:hover { text-decoration: none; }
 
+/* ── Units per package section ────────────────────────────────────── */
+.units-per-pkg-section {
+  margin-top: var(--sp-27);
+  padding-top: var(--sp-18);
+  border-top: 1px solid var(--color-grey-ea);
+}
+
+.units-per-pkg-checkbox {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: var(--sp-18);
+  cursor: pointer;
+}
+
+.units-per-pkg-checkbox input[type="checkbox"] {
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+  accent-color: #222;
+}
+
+.units-per-pkg-checkbox label {
+  margin: 0;
+  font-family: var(--font-2);
+  font-size: 14px;
+  font-weight: 600;
+  color: #222;
+  cursor: pointer;
+}
+
+.units-per-pkg-content {
+  display: none;
+}
+
+.units-per-pkg-content.visible {
+  display: block;
+}
+
+.units-per-pkg-helper {
+  font-size: 13px;
+  font-weight: 300;
+  color: var(--color-grey-66);
+  margin-top: 6px;
+  line-height: 1.4;
+}
+
+.units-per-pkg-apply-all {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: var(--sp-18);
+  cursor: pointer;
+}
+
+.units-per-pkg-apply-all input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  cursor: pointer;
+  accent-color: #222;
+}
+
+.units-per-pkg-apply-all label {
+  margin: 0;
+  font-family: var(--font-2);
+  font-size: 13px;
+  font-weight: 500;
+  color: #222;
+  cursor: pointer;
+}
+
 /* Rich Shipping Quote dropdown options */
 .pq-option {
   display: flex;
@@ -3681,6 +3752,21 @@ body {
       document.getElementById('parcel-method-divider').classList.add('hidden');
       document.getElementById('parcel-add-method-btn').classList.remove('hidden');
     }
+    // Restore units per package settings
+    const unitsPerPkgCheckbox = document.getElementById('units-per-pkg-checkbox');
+    const unitsPerPkgContent = document.getElementById('units-per-pkg-content');
+    const unitsPerPkgApplyAll = document.getElementById('units-per-pkg-apply-all');
+    if (d.unitsPerPackage) {
+      unitsPerPkgCheckbox.checked = true;
+      unitsPerPkgContent.classList.add('visible');
+      setUnitsPerPkgSelect('units-per-pkg-select', String(d.unitsPerPackage));
+      unitsPerPkgApplyAll.checked = d.applyUnitsToAll || false;
+    } else {
+      unitsPerPkgCheckbox.checked = false;
+      unitsPerPkgContent.classList.remove('visible');
+      setUnitsPerPkgSelect('units-per-pkg-select', '2');
+      unitsPerPkgApplyAll.checked = false;
+    }
     document.getElementById('parcel-edit-save-btn').disabled = true;
     document.getElementById('parcel-edit-overlay').classList.remove('hidden');
   }
@@ -3690,6 +3776,16 @@ body {
     el.querySelector('.custom-select-value').textContent = value;
     el.querySelectorAll('.custom-select-option').forEach(o => {
       const match = (o.dataset.value && o.dataset.value === value) || (!o.dataset.value && o.textContent.trim() === value);
+      o.classList.toggle('active', match);
+    });
+    el.classList.remove('open');
+  }
+
+  function setUnitsPerPkgSelect(selectId, value) {
+    const el = document.getElementById(selectId);
+    el.querySelector('.custom-select-value').textContent = value;
+    el.querySelectorAll('.custom-select-option').forEach(o => {
+      const match = o.textContent.trim() === value;
       o.classList.toggle('active', match);
     });
     el.classList.remove('open');
@@ -3818,6 +3914,26 @@ body {
     document.getElementById('parcel-edit-save-btn').disabled = !parcelEditChanged;
   }
 
+  function toggleUnitsPerPkg() {
+    const checkbox = document.getElementById('units-per-pkg-checkbox');
+    const content = document.getElementById('units-per-pkg-content');
+    content.classList.toggle('visible', checkbox.checked);
+    parcelEditChanged = true;
+    checkParcelEditValid();
+  }
+
+  function pickUnitsPerPkg(el) {
+    const value = el.textContent;
+    const select = el.closest('.custom-select');
+    select.querySelector('.custom-select-value').textContent = value;
+    select.querySelectorAll('.custom-select-option').forEach(o => {
+      o.classList.toggle('active', o.textContent === value);
+    });
+    select.classList.remove('open');
+    parcelEditChanged = true;
+    checkParcelEditValid();
+  }
+
   function closeParcelEditModal() {
     document.getElementById('parcel-edit-overlay').classList.add('hidden');
     editingParcelRegion = null;
@@ -3883,6 +3999,16 @@ body {
       document.getElementById(`parcel-add-${r}`).classList.remove('hidden');
       parcelData[r].expressQuoteType = 'Calculated Quote';
       delete parcelData[r].expressCustomPrice;
+    }
+    // Save units per package data
+    const unitsPerPkgCheckbox = document.getElementById('units-per-pkg-checkbox');
+    if (unitsPerPkgCheckbox.checked) {
+      const unitsValue = document.getElementById('units-per-pkg-select').querySelector('.custom-select-value').textContent;
+      parcelData[r].unitsPerPackage = parseInt(unitsValue);
+      parcelData[r].applyUnitsToAll = document.getElementById('units-per-pkg-apply-all').checked;
+    } else {
+      delete parcelData[r].unitsPerPackage;
+      delete parcelData[r].applyUnitsToAll;
     }
     closeParcelEditModal();
   }
@@ -4491,6 +4617,40 @@ body {
 
       <!-- Add shipping method link -->
       <button class="modal-add-method-link" id="parcel-add-method-btn" onclick="addParcelMethod()">+ Add Shipping Method</button>
+
+      <!-- Units per package section -->
+      <div class="units-per-pkg-section">
+        <div class="units-per-pkg-checkbox">
+          <input type="checkbox" id="units-per-pkg-checkbox" onchange="toggleUnitsPerPkg()">
+          <label for="units-per-pkg-checkbox">Specify max units per package</label>
+        </div>
+        <div class="units-per-pkg-content" id="units-per-pkg-content">
+          <div class="modal-field">
+            <div class="custom-select" id="units-per-pkg-select">
+              <div class="custom-select-trigger" onclick="toggleCustomSelect('units-per-pkg-select')">
+                <span class="custom-select-value">2</span>
+                <img class="custom-select-chevron" src="Down icon.svg" alt="">
+              </div>
+              <div class="custom-select-dropdown">
+                <div class="custom-select-option active" onclick="pickUnitsPerPkg(this)">2</div>
+                <div class="custom-select-option" onclick="pickUnitsPerPkg(this)">3</div>
+                <div class="custom-select-option" onclick="pickUnitsPerPkg(this)">4</div>
+                <div class="custom-select-option" onclick="pickUnitsPerPkg(this)">5</div>
+                <div class="custom-select-option" onclick="pickUnitsPerPkg(this)">6</div>
+                <div class="custom-select-option" onclick="pickUnitsPerPkg(this)">7</div>
+                <div class="custom-select-option" onclick="pickUnitsPerPkg(this)">8</div>
+                <div class="custom-select-option" onclick="pickUnitsPerPkg(this)">9</div>
+                <div class="custom-select-option" onclick="pickUnitsPerPkg(this)">10</div>
+              </div>
+            </div>
+            <p class="units-per-pkg-helper">Specify how many units fit in one package. We will calculate amount of packages based on quantity of units ordered.</p>
+          </div>
+          <div class="units-per-pkg-apply-all">
+            <input type="checkbox" id="units-per-pkg-apply-all" onchange="parcelEditChanged=true; checkParcelEditValid()">
+            <label for="units-per-pkg-apply-all">Apply to all calculated quotes</label>
+          </div>
+        </div>
+      </div>
     </div>
     <div class="modal-footer">
       <div class="modal-footer-right">
