@@ -3917,6 +3917,7 @@ body {
       setUnitsPerPkgSelect('units-per-pkg-select', '1');
       unitsPerPkgApplyAll.checked = false;
     }
+    updateUnitsPerPkgVisibility();
     document.getElementById('parcel-edit-save-btn').disabled = true;
     document.getElementById('parcel-edit-overlay').classList.remove('hidden');
   }
@@ -4000,6 +4001,22 @@ body {
       document.getElementById(`parcel-g${g}-flatrate-price`).classList.remove('hidden');
     } else if (quoteType === 'Free Shipping') {
       document.getElementById(`parcel-g${g}-free-price`).classList.remove('hidden');
+    }
+    updateUnitsPerPkgVisibility();
+  }
+
+  function updateUnitsPerPkgVisibility() {
+    const g1QuoteType = document.getElementById('parcel-edit-quote-select').querySelector('.custom-select-value').textContent;
+    const g2Visible = !document.getElementById('parcel-method-group-2').classList.contains('hidden');
+    const g2QuoteType = g2Visible ? document.getElementById('parcel-edit-quote-2-select').querySelector('.custom-select-value').textContent : null;
+
+    const hasCalculatedQuote = g1QuoteType === 'Calculated Quote' || g2QuoteType === 'Calculated Quote';
+    const unitsSection = document.querySelector('.units-per-pkg-section');
+
+    if (hasCalculatedQuote) {
+      unitsSection.style.display = '';
+    } else {
+      unitsSection.style.display = 'none';
     }
   }
 
