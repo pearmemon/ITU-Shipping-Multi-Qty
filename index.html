@@ -3824,7 +3824,8 @@ body {
       const unitsPerPkg = d.unitsPerPackage;
       const unitsText = unitsPerPkg ? ` (${unitsPerPkg}/Pkg)` : '';
       document.getElementById(`parcel-${r}-method`).textContent      = displayMethod;
-      document.getElementById(`parcel-${r}-quote-label`).textContent = d.quoteType + unitsText;
+      const labelText = d.quoteType === 'Calculated Quote' ? d.quoteType + unitsText : d.quoteType;
+      document.getElementById(`parcel-${r}-quote-label`).textContent = labelText;
       // Only update price/time DOM for Calculated Quote regions — seller-set values stay untouched
       if (d.quoteType === 'Calculated Quote') {
         document.getElementById(`parcel-${r}-time`).textContent   = d.time;
@@ -4116,18 +4117,20 @@ body {
       const unitsPerPkg = parcelData[r].unitsPerPackage;
       const unitsText = unitsPerPkg ? ` (${unitsPerPkg}/Pkg)` : '';
 
-      // Update standard quote label
+      // Update standard quote label (only show units text for Calculated Quote)
       const quoteLabel = document.getElementById(`parcel-${r}-quote-label`);
       if (quoteLabel) {
         const quoteType = parcelData[r].quoteType || 'Calculated Quote';
-        quoteLabel.textContent = quoteType + unitsText;
+        const labelText = quoteType === 'Calculated Quote' ? quoteType + unitsText : quoteType;
+        quoteLabel.textContent = labelText;
       }
 
-      // Update express quote label if it exists
+      // Update express quote label if it exists (only show units text for Calculated Quote)
       const expressQuoteLabel = document.getElementById(`parcel-${r}-express-quote-label`);
       if (expressQuoteLabel) {
         const expQuoteType = parcelData[r].expressQuoteType || 'Calculated Quote';
-        expressQuoteLabel.textContent = expQuoteType + unitsText;
+        const labelText = expQuoteType === 'Calculated Quote' ? expQuoteType + unitsText : expQuoteType;
+        expressQuoteLabel.textContent = labelText;
       }
 
       // Hide the pill (for backwards compatibility, in case it exists)
@@ -4167,7 +4170,8 @@ body {
     const unitsPerPkg = parcelData[r].unitsPerPackage;
     const unitsText = unitsPerPkg ? ` (${unitsPerPkg}/Pkg)` : '';
     document.getElementById(`parcel-${r}-method`).textContent      = displayMethod;
-    document.getElementById(`parcel-${r}-quote-label`).textContent = parcelData[r].quoteType + unitsText;
+    const labelText = parcelData[r].quoteType === 'Calculated Quote' ? parcelData[r].quoteType + unitsText : parcelData[r].quoteType;
+    document.getElementById(`parcel-${r}-quote-label`).textContent = labelText;
     if (qt1 === 'Flat Rate') {
       document.getElementById(`parcel-${r}-price`).innerHTML  = `<strong>$${parcelData[r].customPrice.toFixed(2)}</strong>`;
       document.getElementById(`parcel-${r}-time`).textContent = methodTime;
@@ -4182,7 +4186,8 @@ body {
       const expDisplayMethod = expMethod.replace(/\s*\([^)]*\)$/, '').trim();
       const expMethodTime    = (expMethod.match(/\(([^)]+)\)/) || [, ''])[1];
       document.getElementById(`parcel-${r}-express-method`).textContent      = expDisplayMethod;
-      document.getElementById(`parcel-${r}-express-quote-label`).textContent = expQuoteType + unitsText;
+      const expLabelText = expQuoteType === 'Calculated Quote' ? expQuoteType + unitsText : expQuoteType;
+      document.getElementById(`parcel-${r}-express-quote-label`).textContent = expLabelText;
       document.getElementById(`parcel-${r}-express-time`).textContent        = expMethodTime;
       if (expQuoteType === 'Flat Rate') {
         document.getElementById(`parcel-${r}-express-price`).innerHTML = `<strong>$${parcelData[r].expressCustomPrice.toFixed(2)}</strong>`;
