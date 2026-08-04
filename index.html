@@ -1772,16 +1772,9 @@ body {
 .modal-add-method-link:hover { text-decoration: none; }
 
 /* ── Units per package section ────────────────────────────────────── */
-.units-per-pkg-container {
-  margin-top: 18px;
-  padding: 9px 14px;
-  background: #f3f3f3;
-  border-radius: 4px;
-}
-
 .units-per-pkg-section {
-  margin-top: 0;
-  border-top: none;
+  margin-top: 18px;
+  border-top: 1px solid var(--color-grey-ea);
 }
 
 .units-per-pkg-section.has-content {
@@ -4857,38 +4850,36 @@ body {
       <button class="modal-add-method-link" id="parcel-add-method-btn" onclick="addParcelMethod()">+ Add Shipping Method</button>
 
       <!-- Units per package section -->
-      <div class="units-per-pkg-container">
-        <div class="units-per-pkg-section">
-          <div class="units-per-pkg-checkbox">
-            <input type="checkbox" id="units-per-pkg-checkbox" onchange="toggleUnitsPerPkg()">
-            <label for="units-per-pkg-checkbox">Specify max units per package</label>
-          </div>
-          <div class="units-per-pkg-content" id="units-per-pkg-content">
-            <div class="modal-field">
-              <div class="custom-select" id="units-per-pkg-select">
-                <div class="custom-select-trigger" onclick="toggleCustomSelect('units-per-pkg-select')">
-                  <span class="custom-select-value">1</span>
-                  <img class="custom-select-chevron" src="Down icon.svg" alt="">
-                </div>
-                <div class="custom-select-dropdown">
-                  <div class="custom-select-option active" onclick="pickUnitsPerPkg(this)">1</div>
-                  <div class="custom-select-option" onclick="pickUnitsPerPkg(this)">2</div>
-                  <div class="custom-select-option" onclick="pickUnitsPerPkg(this)">3</div>
-                  <div class="custom-select-option" onclick="pickUnitsPerPkg(this)">4</div>
-                  <div class="custom-select-option" onclick="pickUnitsPerPkg(this)">5</div>
-                  <div class="custom-select-option" onclick="pickUnitsPerPkg(this)">6</div>
-                  <div class="custom-select-option" onclick="pickUnitsPerPkg(this)">7</div>
-                  <div class="custom-select-option" onclick="pickUnitsPerPkg(this)">8</div>
-                  <div class="custom-select-option" onclick="pickUnitsPerPkg(this)">9</div>
-                  <div class="custom-select-option" onclick="pickUnitsPerPkg(this)">10</div>
-                </div>
+      <div class="units-per-pkg-section">
+        <div class="units-per-pkg-checkbox">
+          <input type="checkbox" id="units-per-pkg-checkbox" onchange="toggleUnitsPerPkg()">
+          <label for="units-per-pkg-checkbox">Specify max units per package</label>
+        </div>
+        <div class="units-per-pkg-content" id="units-per-pkg-content">
+          <div class="modal-field">
+            <div class="custom-select" id="units-per-pkg-select">
+              <div class="custom-select-trigger" onclick="toggleCustomSelect('units-per-pkg-select')">
+                <span class="custom-select-value">1</span>
+                <img class="custom-select-chevron" src="Down icon.svg" alt="">
               </div>
-              <p class="units-per-pkg-helper">Specify how many units fit in one package. We will calculate amount of packages based on quantity of units ordered.</p>
+              <div class="custom-select-dropdown">
+                <div class="custom-select-option active" onclick="pickUnitsPerPkg(this)">1</div>
+                <div class="custom-select-option" onclick="pickUnitsPerPkg(this)">2</div>
+                <div class="custom-select-option" onclick="pickUnitsPerPkg(this)">3</div>
+                <div class="custom-select-option" onclick="pickUnitsPerPkg(this)">4</div>
+                <div class="custom-select-option" onclick="pickUnitsPerPkg(this)">5</div>
+                <div class="custom-select-option" onclick="pickUnitsPerPkg(this)">6</div>
+                <div class="custom-select-option" onclick="pickUnitsPerPkg(this)">7</div>
+                <div class="custom-select-option" onclick="pickUnitsPerPkg(this)">8</div>
+                <div class="custom-select-option" onclick="pickUnitsPerPkg(this)">9</div>
+                <div class="custom-select-option" onclick="pickUnitsPerPkg(this)">10</div>
+              </div>
             </div>
-            <div class="units-per-pkg-apply-all">
-              <input type="checkbox" id="units-per-pkg-apply-all" onchange="parcelEditChanged=true; checkParcelEditValid()">
-              <label for="units-per-pkg-apply-all">Apply to all calculated quotes</label>
-            </div>
+            <p class="units-per-pkg-helper">Specify how many units fit in one package. We will calculate amount of packages based on quantity of units ordered.</p>
+          </div>
+          <div class="units-per-pkg-apply-all">
+            <input type="checkbox" id="units-per-pkg-apply-all" onchange="parcelEditChanged=true; checkParcelEditValid()">
+            <label for="units-per-pkg-apply-all">Apply to all calculated quotes</label>
           </div>
         </div>
       </div>
