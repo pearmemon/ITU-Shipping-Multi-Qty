@@ -1772,9 +1772,16 @@ body {
 .modal-add-method-link:hover { text-decoration: none; }
 
 /* ── Units per package section ────────────────────────────────────── */
-.units-per-pkg-section {
+.units-per-pkg-container {
   margin-top: 18px;
-  border-top: 1px solid var(--color-grey-ea);
+  padding: 9px 14px;
+  background: #f3f3f3;
+  border-radius: 4px;
+}
+
+.units-per-pkg-section {
+  margin-top: 0;
+  border-top: none;
 }
 
 .units-per-pkg-section.has-content {
@@ -3821,8 +3828,10 @@ body {
     ['us','eu','row'].forEach(r => {
       const d = parcelData[r];
       const displayMethod = d.method.replace(/\s*\([^)]*\)$/, '').trim();
+      const unitsPerPkg = d.unitsPerPackage;
+      const unitsText = unitsPerPkg ? ` (${unitsPerPkg}/Pkg)` : '';
       document.getElementById(`parcel-${r}-method`).textContent      = displayMethod;
-      document.getElementById(`parcel-${r}-quote-label`).textContent = d.quoteType;
+      document.getElementById(`parcel-${r}-quote-label`).textContent = d.quoteType + unitsText;
       // Only update price/time DOM for Calculated Quote regions — seller-set values stay untouched
       if (d.quoteType === 'Calculated Quote') {
         document.getElementById(`parcel-${r}-time`).textContent   = d.time;
@@ -3845,6 +3854,14 @@ body {
     const d = parcelData[region];
     document.getElementById('parcel-edit-title').textContent = `Edit Quote for ${d.name}`;
     document.getElementById('parcel-edit-location-val').textContent = d.name;
+    // Hide location field for mandatory regions (US, EU, ROW)
+    const mandatoryRegions = ['us', 'eu', 'row'];
+    const locationField = document.getElementById('parcel-edit-location-field');
+    if (mandatoryRegions.includes(region)) {
+      locationField.style.display = 'none';
+    } else {
+      locationField.style.display = '';
+    }
     // Restore all method option visibility before setting exclusivity
     document.querySelectorAll('#parcel-edit-method-select .custom-select-option, #parcel-edit-method-2-select .custom-select-option').forEach(o => {
       o.style.display = '';
@@ -4103,10 +4120,26 @@ body {
   function updateMultiQtyPills() {
     const regions = ['us', 'eu', 'row'];
     regions.forEach(r => {
+      const unitsPerPkg = parcelData[r].unitsPerPackage;
+      const unitsText = unitsPerPkg ? ` (${unitsPerPkg}/Pkg)` : '';
+
+      // Update standard quote label
+      const quoteLabel = document.getElementById(`parcel-${r}-quote-label`);
+      if (quoteLabel) {
+        const quoteType = parcelData[r].quoteType || 'Calculated Quote';
+        quoteLabel.textContent = quoteType + unitsText;
+      }
+
+      // Update express quote label if it exists
+      const expressQuoteLabel = document.getElementById(`parcel-${r}-express-quote-label`);
+      if (expressQuoteLabel) {
+        const expQuoteType = parcelData[r].expressQuoteType || 'Calculated Quote';
+        expressQuoteLabel.textContent = expQuoteType + unitsText;
+      }
+
+      // Hide the pill (for backwards compatibility, in case it exists)
       const pill = document.getElementById(`parcel-${r}-multi-qty-pill`);
-      if (parcelData[r].unitsPerPackage) {
-        pill.classList.remove('hidden');
-      } else {
+      if (pill) {
         pill.classList.add('hidden');
       }
     });
@@ -4138,8 +4171,10 @@ body {
     // Re-render group 1 on card — time comes from the method name
     const displayMethod = parcelData[r].method.replace(/\s*\([^)]*\)$/, '').trim();
     const methodTime = (parcelData[r].method.match(/\(([^)]+)\)/) || [, ''])[1];
+    const unitsPerPkg = parcelData[r].unitsPerPackage;
+    const unitsText = unitsPerPkg ? ` (${unitsPerPkg}/Pkg)` : '';
     document.getElementById(`parcel-${r}-method`).textContent      = displayMethod;
-    document.getElementById(`parcel-${r}-quote-label`).textContent = parcelData[r].quoteType;
+    document.getElementById(`parcel-${r}-quote-label`).textContent = parcelData[r].quoteType + unitsText;
     if (qt1 === 'Flat Rate') {
       document.getElementById(`parcel-${r}-price`).innerHTML  = `<strong>$${parcelData[r].customPrice.toFixed(2)}</strong>`;
       document.getElementById(`parcel-${r}-time`).textContent = methodTime;
@@ -4154,7 +4189,7 @@ body {
       const expDisplayMethod = expMethod.replace(/\s*\([^)]*\)$/, '').trim();
       const expMethodTime    = (expMethod.match(/\(([^)]+)\)/) || [, ''])[1];
       document.getElementById(`parcel-${r}-express-method`).textContent      = expDisplayMethod;
-      document.getElementById(`parcel-${r}-express-quote-label`).textContent = expQuoteType;
+      document.getElementById(`parcel-${r}-express-quote-label`).textContent = expQuoteType + unitsText;
       document.getElementById(`parcel-${r}-express-time`).textContent        = expMethodTime;
       if (expQuoteType === 'Flat Rate') {
         document.getElementById(`parcel-${r}-express-price`).innerHTML = `<strong>$${parcelData[r].expressCustomPrice.toFixed(2)}</strong>`;
@@ -4677,7 +4712,7 @@ body {
     </div>
     <div class="modal-body">
       <!-- Location (disabled) -->
-      <div class="modal-field">
+      <div class="modal-field" id="parcel-edit-location-field">
         <label class="modal-label">Location</label>
         <div class="custom-select cs-disabled">
           <div class="custom-select-trigger">
@@ -4822,36 +4857,38 @@ body {
       <button class="modal-add-method-link" id="parcel-add-method-btn" onclick="addParcelMethod()">+ Add Shipping Method</button>
 
       <!-- Units per package section -->
-      <div class="units-per-pkg-section">
-        <div class="units-per-pkg-checkbox">
-          <input type="checkbox" id="units-per-pkg-checkbox" onchange="toggleUnitsPerPkg()">
-          <label for="units-per-pkg-checkbox">Specify max units per package</label>
-        </div>
-        <div class="units-per-pkg-content" id="units-per-pkg-content">
-          <div class="modal-field">
-            <div class="custom-select" id="units-per-pkg-select">
-              <div class="custom-select-trigger" onclick="toggleCustomSelect('units-per-pkg-select')">
-                <span class="custom-select-value">1</span>
-                <img class="custom-select-chevron" src="Down icon.svg" alt="">
-              </div>
-              <div class="custom-select-dropdown">
-                <div class="custom-select-option active" onclick="pickUnitsPerPkg(this)">1</div>
-                <div class="custom-select-option" onclick="pickUnitsPerPkg(this)">2</div>
-                <div class="custom-select-option" onclick="pickUnitsPerPkg(this)">3</div>
-                <div class="custom-select-option" onclick="pickUnitsPerPkg(this)">4</div>
-                <div class="custom-select-option" onclick="pickUnitsPerPkg(this)">5</div>
-                <div class="custom-select-option" onclick="pickUnitsPerPkg(this)">6</div>
-                <div class="custom-select-option" onclick="pickUnitsPerPkg(this)">7</div>
-                <div class="custom-select-option" onclick="pickUnitsPerPkg(this)">8</div>
-                <div class="custom-select-option" onclick="pickUnitsPerPkg(this)">9</div>
-                <div class="custom-select-option" onclick="pickUnitsPerPkg(this)">10</div>
-              </div>
-            </div>
-            <p class="units-per-pkg-helper">Specify how many units fit in one package. We will calculate amount of packages based on quantity of units ordered.</p>
+      <div class="units-per-pkg-container">
+        <div class="units-per-pkg-section">
+          <div class="units-per-pkg-checkbox">
+            <input type="checkbox" id="units-per-pkg-checkbox" onchange="toggleUnitsPerPkg()">
+            <label for="units-per-pkg-checkbox">Specify max units per package</label>
           </div>
-          <div class="units-per-pkg-apply-all">
-            <input type="checkbox" id="units-per-pkg-apply-all" onchange="parcelEditChanged=true; checkParcelEditValid()">
-            <label for="units-per-pkg-apply-all">Apply to all calculated quotes</label>
+          <div class="units-per-pkg-content" id="units-per-pkg-content">
+            <div class="modal-field">
+              <div class="custom-select" id="units-per-pkg-select">
+                <div class="custom-select-trigger" onclick="toggleCustomSelect('units-per-pkg-select')">
+                  <span class="custom-select-value">1</span>
+                  <img class="custom-select-chevron" src="Down icon.svg" alt="">
+                </div>
+                <div class="custom-select-dropdown">
+                  <div class="custom-select-option active" onclick="pickUnitsPerPkg(this)">1</div>
+                  <div class="custom-select-option" onclick="pickUnitsPerPkg(this)">2</div>
+                  <div class="custom-select-option" onclick="pickUnitsPerPkg(this)">3</div>
+                  <div class="custom-select-option" onclick="pickUnitsPerPkg(this)">4</div>
+                  <div class="custom-select-option" onclick="pickUnitsPerPkg(this)">5</div>
+                  <div class="custom-select-option" onclick="pickUnitsPerPkg(this)">6</div>
+                  <div class="custom-select-option" onclick="pickUnitsPerPkg(this)">7</div>
+                  <div class="custom-select-option" onclick="pickUnitsPerPkg(this)">8</div>
+                  <div class="custom-select-option" onclick="pickUnitsPerPkg(this)">9</div>
+                  <div class="custom-select-option" onclick="pickUnitsPerPkg(this)">10</div>
+                </div>
+              </div>
+              <p class="units-per-pkg-helper">Specify how many units fit in one package. We will calculate amount of packages based on quantity of units ordered.</p>
+            </div>
+            <div class="units-per-pkg-apply-all">
+              <input type="checkbox" id="units-per-pkg-apply-all" onchange="parcelEditChanged=true; checkParcelEditValid()">
+              <label for="units-per-pkg-apply-all">Apply to all calculated quotes</label>
+            </div>
           </div>
         </div>
       </div>
