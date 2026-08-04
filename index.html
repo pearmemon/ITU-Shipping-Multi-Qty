@@ -1795,6 +1795,7 @@ body {
 
 .units-per-pkg-checkbox label {
   margin: 0;
+  margin-left: 18px;
   font-family: var(--font-2);
   font-size: 14px;
   font-weight: 600;
@@ -1804,10 +1805,15 @@ body {
 
 .units-per-pkg-content {
   display: none;
+  margin-left: 28px;
 }
 
 .units-per-pkg-content.visible {
   display: block;
+}
+
+.units-per-pkg-content .modal-field {
+  margin-bottom: 0;
 }
 
 .units-per-pkg-helper {
@@ -1822,7 +1828,7 @@ body {
   display: flex;
   align-items: center;
   gap: 8px;
-  margin-top: var(--sp-18);
+  margin-top: 9px;
   cursor: pointer;
 }
 
@@ -3764,7 +3770,7 @@ body {
     } else {
       unitsPerPkgCheckbox.checked = false;
       unitsPerPkgContent.classList.remove('visible');
-      setUnitsPerPkgSelect('units-per-pkg-select', '2');
+      setUnitsPerPkgSelect('units-per-pkg-select', '1');
       unitsPerPkgApplyAll.checked = false;
     }
     document.getElementById('parcel-edit-save-btn').disabled = true;
@@ -4002,10 +4008,19 @@ body {
     }
     // Save units per package data
     const unitsPerPkgCheckbox = document.getElementById('units-per-pkg-checkbox');
+    const applyToAll = document.getElementById('units-per-pkg-apply-all').checked;
     if (unitsPerPkgCheckbox.checked) {
       const unitsValue = document.getElementById('units-per-pkg-select').querySelector('.custom-select-value').textContent;
-      parcelData[r].unitsPerPackage = parseInt(unitsValue);
-      parcelData[r].applyUnitsToAll = document.getElementById('units-per-pkg-apply-all').checked;
+      const unitsPerPkg = parseInt(unitsValue);
+      parcelData[r].unitsPerPackage = unitsPerPkg;
+      parcelData[r].applyUnitsToAll = applyToAll;
+      // If "Apply to all calculated quotes" is checked, apply to all regions
+      if (applyToAll) {
+        ['us', 'eu', 'row'].forEach(region => {
+          parcelData[region].unitsPerPackage = unitsPerPkg;
+          parcelData[region].applyUnitsToAll = true;
+        });
+      }
     } else {
       delete parcelData[r].unitsPerPackage;
       delete parcelData[r].applyUnitsToAll;
@@ -4628,11 +4643,12 @@ body {
           <div class="modal-field">
             <div class="custom-select" id="units-per-pkg-select">
               <div class="custom-select-trigger" onclick="toggleCustomSelect('units-per-pkg-select')">
-                <span class="custom-select-value">2</span>
+                <span class="custom-select-value">1</span>
                 <img class="custom-select-chevron" src="Down icon.svg" alt="">
               </div>
               <div class="custom-select-dropdown">
-                <div class="custom-select-option active" onclick="pickUnitsPerPkg(this)">2</div>
+                <div class="custom-select-option active" onclick="pickUnitsPerPkg(this)">1</div>
+                <div class="custom-select-option" onclick="pickUnitsPerPkg(this)">2</div>
                 <div class="custom-select-option" onclick="pickUnitsPerPkg(this)">3</div>
                 <div class="custom-select-option" onclick="pickUnitsPerPkg(this)">4</div>
                 <div class="custom-select-option" onclick="pickUnitsPerPkg(this)">5</div>
