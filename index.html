@@ -1854,6 +1854,57 @@ body {
   cursor: pointer;
 }
 
+/* ── Toast notification ──────────────────────────────────────────── */
+.toast {
+  position: fixed;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 16px 24px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  font-family: var(--font-2);
+  font-size: 14px;
+  font-weight: 400;
+  color: #222;
+  line-height: 1.5;
+  z-index: 1010;
+  max-width: 500px;
+  animation: slideDown 0.3s ease-out;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateX(-50%) translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+}
+
+.toast.hidden {
+  display: none;
+  pointer-events: none;
+}
+
+/* ── Multi-qty pill ──────────────────────────────────────────────── */
+.multi-qty-pill {
+  background-color: #EFF9EA;
+  color: #2A7140;
+  font-family: var(--font-2);
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.5;
+  padding: 0.5px 9px;
+  border-radius: 12px;
+  display: inline-block;
+  white-space: nowrap;
+}
+
 /* Rich Shipping Quote dropdown options */
 .pq-option {
   display: flex;
@@ -2163,6 +2214,9 @@ body {
 </style>
 </head>
 <body>
+
+<!-- Toast notification -->
+<div id="toast" class="toast hidden"></div>
 
 <div class="page">
 
@@ -2642,9 +2696,12 @@ body {
         <!-- US -->
         <div class="parcel-region-card" id="parcel-card-us">
           <div class="parcel-card-header">
-            <div class="region-name" style="margin-bottom:0">
-              <img src="globe.svg" alt="" width="18" height="18">
-              United States
+            <div style="display: flex; align-items: center; gap: 12px;">
+              <div class="region-name" style="margin-bottom:0">
+                <img src="globe.svg" alt="" width="18" height="18">
+                United States
+              </div>
+              <div class="multi-qty-pill hidden" id="parcel-us-multi-qty-pill">Multi-qty Set</div>
             </div>
             <div class="meatball-menu-wrap">
               <button class="three-dot-btn" onclick="toggleMeatball(this)" title="Options">
@@ -2708,9 +2765,12 @@ body {
         <!-- Europe -->
         <div class="parcel-region-card" id="parcel-card-eu">
           <div class="parcel-card-header">
-            <div class="region-name" style="margin-bottom:0">
-              <img src="globe.svg" alt="" width="18" height="18">
-              Europe
+            <div style="display: flex; align-items: center; gap: 12px;">
+              <div class="region-name" style="margin-bottom:0">
+                <img src="globe.svg" alt="" width="18" height="18">
+                Europe
+              </div>
+              <div class="multi-qty-pill hidden" id="parcel-eu-multi-qty-pill">Multi-qty Set</div>
             </div>
             <div class="meatball-menu-wrap">
               <button class="three-dot-btn" onclick="toggleMeatball(this)" title="Options">
@@ -2774,9 +2834,12 @@ body {
         <!-- Rest of World -->
         <div class="parcel-region-card" id="parcel-card-row">
           <div class="parcel-card-header">
-            <div class="region-name" style="margin-bottom:0">
-              <img src="globe.svg" alt="" width="18" height="18">
-              Rest of the World
+            <div style="display: flex; align-items: center; gap: 12px;">
+              <div class="region-name" style="margin-bottom:0">
+                <img src="globe.svg" alt="" width="18" height="18">
+                Rest of the World
+              </div>
+              <div class="multi-qty-pill hidden" id="parcel-row-multi-qty-pill">Multi-qty Set</div>
             </div>
             <div class="meatball-menu-wrap">
               <button class="three-dot-btn" onclick="toggleMeatball(this)" title="Options">
@@ -3951,6 +4014,27 @@ body {
     checkParcelEditValid();
   }
 
+  function showToast(message) {
+    const toast = document.getElementById('toast');
+    toast.textContent = message;
+    toast.classList.remove('hidden');
+    setTimeout(() => {
+      toast.classList.add('hidden');
+    }, 10000);
+  }
+
+  function updateMultiQtyPills() {
+    const regions = ['us', 'eu', 'row'];
+    regions.forEach(r => {
+      const pill = document.getElementById(`parcel-${r}-multi-qty-pill`);
+      if (parcelData[r].unitsPerPackage) {
+        pill.classList.remove('hidden');
+      } else {
+        pill.classList.add('hidden');
+      }
+    });
+  }
+
   function closeParcelEditModal() {
     document.getElementById('parcel-edit-overlay').classList.add('hidden');
     editingParcelRegion = null;
@@ -4036,6 +4120,22 @@ body {
       delete parcelData[r].unitsPerPackage;
       delete parcelData[r].applyUnitsToAll;
     }
+
+    // Show toast if multi-qty was enabled
+    if (unitsPerPkgCheckbox.checked) {
+      const unitsValue = document.getElementById('units-per-pkg-select').querySelector('.custom-select-value').textContent;
+
+      let toastMessage = `Successfully enabled ${unitsValue} maximum units per package for `;
+      if (applyToAll) {
+        toastMessage += 'United States, Europe, and Rest of the World.';
+      } else {
+        const regionNames = { us: 'United States', eu: 'Europe', row: 'Rest of the World' };
+        toastMessage += regionNames[r] + '.';
+      }
+      showToast(toastMessage);
+      updateMultiQtyPills();
+    }
+
     closeParcelEditModal();
   }
 
