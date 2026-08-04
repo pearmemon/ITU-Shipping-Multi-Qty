@@ -1861,7 +1861,7 @@ body {
   right: 36px;
   background: #fff;
   border-radius: 4px;
-  padding: 9px;
+  padding: 12px 9px 9px 9px;
   font-family: var(--font-2);
   font-size: 14px;
   font-weight: 300;
@@ -1872,14 +1872,18 @@ body {
   display: flex;
   flex-direction: column;
   gap: 0;
+  overflow: hidden;
 }
 
 .toast-progress {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
   height: 3px;
   background: #f0f0f0;
-  border-radius: 3px;
+  border-radius: 0;
   overflow: hidden;
-  margin-bottom: 9px;
 }
 
 .toast-progress-bar {
