@@ -1775,6 +1775,9 @@ body {
 .units-per-pkg-section {
   margin-top: 18px;
   border-top: 1px solid var(--color-grey-ea);
+}
+
+.units-per-pkg-section.has-content {
   margin-bottom: 18px;
 }
 
@@ -3764,15 +3767,18 @@ body {
     // Restore units per package settings
     const unitsPerPkgCheckbox = document.getElementById('units-per-pkg-checkbox');
     const unitsPerPkgContent = document.getElementById('units-per-pkg-content');
+    const unitsPerPkgSection = unitsPerPkgContent.closest('.units-per-pkg-section');
     const unitsPerPkgApplyAll = document.getElementById('units-per-pkg-apply-all');
     if (d.unitsPerPackage) {
       unitsPerPkgCheckbox.checked = true;
       unitsPerPkgContent.classList.add('visible');
+      unitsPerPkgSection.classList.add('has-content');
       setUnitsPerPkgSelect('units-per-pkg-select', String(d.unitsPerPackage));
       unitsPerPkgApplyAll.checked = d.applyUnitsToAll || false;
     } else {
       unitsPerPkgCheckbox.checked = false;
       unitsPerPkgContent.classList.remove('visible');
+      unitsPerPkgSection.classList.remove('has-content');
       setUnitsPerPkgSelect('units-per-pkg-select', '1');
       unitsPerPkgApplyAll.checked = false;
     }
@@ -3926,7 +3932,9 @@ body {
   function toggleUnitsPerPkg() {
     const checkbox = document.getElementById('units-per-pkg-checkbox');
     const content = document.getElementById('units-per-pkg-content');
+    const section = content.closest('.units-per-pkg-section');
     content.classList.toggle('visible', checkbox.checked);
+    section.classList.toggle('has-content', checkbox.checked);
     parcelEditChanged = true;
     checkParcelEditValid();
   }
