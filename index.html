@@ -1857,33 +1857,78 @@ body {
 /* ── Toast notification ──────────────────────────────────────────── */
 .toast {
   position: fixed;
-  top: 20px;
-  left: 50%;
-  transform: translateX(-50%);
-  background: #fff;
-  border: 1px solid #ddd;
+  bottom: 36px;
+  right: 36px;
+  background: #2A7140;
   border-radius: 4px;
-  padding: 16px 24px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  padding: 9px;
   font-family: var(--font-2);
   font-size: 14px;
-  font-weight: 400;
-  color: #222;
-  line-height: 1.5;
+  font-weight: 300;
+  color: #fff;
+  line-height: 1.428;
   z-index: 1010;
-  max-width: 500px;
-  animation: slideDown 0.3s ease-out;
+  width: 450px;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
 }
 
-@keyframes slideDown {
+.toast-progress {
+  height: 3px;
+  background: rgba(255, 255, 255, 0.3);
+  border-radius: 3px;
+  overflow: hidden;
+  margin-bottom: 9px;
+}
+
+.toast-progress-bar {
+  height: 100%;
+  background: #fff;
+  width: 100%;
+  animation: toastTimer 10s linear forwards;
+}
+
+@keyframes toastTimer {
   from {
-    opacity: 0;
-    transform: translateX(-50%) translateY(-20px);
+    width: 100%;
   }
   to {
-    opacity: 1;
-    transform: translateX(-50%) translateY(0);
+    width: 0%;
   }
+}
+
+.toast-content {
+  display: flex;
+  align-items: flex-start;
+  gap: 0;
+  padding-right: 32px;
+}
+
+.toast-text {
+  flex: 1;
+}
+
+.toast-close {
+  position: absolute;
+  top: 9px;
+  right: 9px;
+  width: 20px;
+  height: 20px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.toast-close img,
+.toast-close svg {
+  width: 20px;
+  height: 20px;
+  filter: brightness(0) invert(1);
 }
 
 .toast.hidden {
@@ -2216,7 +2261,19 @@ body {
 <body>
 
 <!-- Toast notification -->
-<div id="toast" class="toast hidden"></div>
+<div id="toast" class="toast hidden">
+  <div class="toast-progress">
+    <div class="toast-progress-bar"></div>
+  </div>
+  <div class="toast-content">
+    <div class="toast-text" id="toast-message"></div>
+    <button class="toast-close" id="toast-close-btn" onclick="closeToast()">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M6.4 19L5 17.6L10.6 12L5 6.4L6.4 5L12 10.6L17.6 5L19 6.4L13.4 12L19 17.6L17.6 19L12 13.4L6.4 19Z" fill="white"/>
+      </svg>
+    </button>
+  </div>
+</div>
 
 <div class="page">
 
@@ -4014,13 +4071,29 @@ body {
     checkParcelEditValid();
   }
 
+  let toastTimeout = null;
+
   function showToast(message) {
     const toast = document.getElementById('toast');
-    toast.textContent = message;
+    const toastMessage = document.getElementById('toast-message');
+    toastMessage.textContent = message;
     toast.classList.remove('hidden');
-    setTimeout(() => {
+
+    if (toastTimeout) {
+      clearTimeout(toastTimeout);
+    }
+
+    toastTimeout = setTimeout(() => {
       toast.classList.add('hidden');
     }, 10000);
+  }
+
+  function closeToast() {
+    const toast = document.getElementById('toast');
+    toast.classList.add('hidden');
+    if (toastTimeout) {
+      clearTimeout(toastTimeout);
+    }
   }
 
   function updateMultiQtyPills() {
