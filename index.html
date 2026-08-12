@@ -577,6 +577,104 @@ body {
   margin-bottom: 0;
 }
 
+/* ── Price Per Quantity V3 (Container) ────────────────────────────── */
+.price-per-qty-v3-wrapper {
+  margin-top: 18px;
+}
+
+.price-per-qty-v3-wrapper.hidden {
+  display: none;
+}
+
+.price-per-qty-section {
+  padding: 18px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--r-sm);
+  margin-bottom: 18px;
+}
+
+.price-per-qty-checkbox {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  cursor: pointer;
+}
+
+.price-per-qty-checkbox input[type="checkbox"] {
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+  accent-color: #222;
+}
+
+.price-per-qty-checkbox label {
+  margin: 0;
+  margin-left: 18px;
+  font-family: var(--font-2);
+  font-size: 14px;
+  font-weight: 600;
+  color: #222;
+  cursor: pointer;
+}
+
+.price-per-qty-content {
+  display: none;
+  margin-left: 38px;
+}
+
+.price-per-qty-content.visible {
+  display: block;
+  margin-top: 9px;
+}
+
+.price-per-qty-helper {
+  font-family: var(--font-2);
+  font-size: 12px;
+  font-weight: 300;
+  color: var(--color-grey-66);
+  margin-top: 5px;
+  margin-bottom: 0;
+  line-height: 1.5;
+}
+
+/* ── Price Per Quantity V4 (Step 3) ──────────────────────────────── */
+.price-per-qty-v4-wrapper {
+  margin-top: 18px;
+}
+
+.price-per-qty-v4-wrapper.hidden {
+  display: none;
+}
+
+.price-per-qty-input-group {
+  margin-bottom: 9px;
+}
+
+.input-with-unit {
+  display: flex;
+  align-items: center;
+  border: 1px solid var(--color-border);
+  border-radius: var(--r-sm);
+  overflow: hidden;
+  background: #fff;
+}
+
+.input-prefix,
+.input-suffix {
+  padding: 0 9px;
+  color: #999;
+  font-size: 14px;
+  user-select: none;
+}
+
+.input-with-unit input {
+  flex: 1;
+  border: none;
+  padding: 9px 0;
+  font-size: 14px;
+  outline: none;
+}
+
 /* ── Package box ─────────────────────────────────────────────────── */
 .pkg-wrap {
   padding-bottom: var(--sp-18);
@@ -2465,6 +2563,8 @@ body {
   <div class="design-review-toggle">
     <button class="toggle-btn v1-btn active" onclick="switchMaxUnitsVersion('v1')">V1</button>
     <button class="toggle-btn v2-btn" onclick="switchMaxUnitsVersion('v2')">V2</button>
+    <button class="toggle-btn v3-btn" onclick="switchMaxUnitsVersion('v3')">V3</button>
+    <button class="toggle-btn v4-btn" onclick="switchMaxUnitsVersion('v4')">V4</button>
   </div>
 
   <!-- ── Two-column layout ── -->
@@ -2631,6 +2731,45 @@ body {
         </div>
 
         <p class="step3-helper">Specify how many units fit in one package. We will calculate amount of packages based on quantity of units ordered. Applies to calculated quotes only.</p>
+      </div>
+
+      <!-- V3: Price per quantity in container with checkbox -->
+      <div id="price-per-qty-v3" class="price-per-qty-v3-wrapper hidden">
+        <div class="price-per-qty-section">
+          <div class="price-per-qty-checkbox">
+            <input type="checkbox" id="enable-price-per-qty-v3" onchange="togglePricePerQty('v3')">
+            <label for="enable-price-per-qty-v3">Enable price per quantity <span style="font-weight: 400; color: var(--color-grey-66);">(flat rate only)</span></label>
+          </div>
+          <div class="price-per-qty-content" id="price-per-qty-content-v3">
+            <div class="modal-field">
+              <div class="input-with-unit">
+                <span class="input-prefix">$</span>
+                <input type="number" id="price-per-qty-input-v3" placeholder="0" min="0">
+                <span class="input-suffix">USD</span>
+              </div>
+            </div>
+            <p class="price-per-qty-helper">Specify cost per each additional unit. System will calculate cost based on quantity ordered, adding flat rate and cost per additional units.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- V4: Price per quantity as STEP 3 with input only -->
+      <div id="price-per-qty-v4" class="price-per-qty-v4-wrapper hidden">
+        <div class="step3-header">
+          <div class="step-label">Step 3</div>
+          <div class="step-question">Enable price per quantity</div>
+        </div>
+
+        <div class="price-per-qty-input-group">
+          <label style="font-size: 12px; color: #666; margin-bottom: 6px; display: block;">Price per unit</label>
+          <div class="input-with-unit">
+            <span class="input-prefix">$</span>
+            <input type="number" id="price-per-qty-input-v4" placeholder="0" min="0">
+            <span class="input-suffix">USD</span>
+          </div>
+        </div>
+
+        <p class="step3-helper">Specify cost per each additional unit. System will calculate cost based on quantity ordered, adding flat rate and cost per additional units.</p>
       </div>
 
     </div><!-- /col-left -->
@@ -4293,21 +4432,42 @@ body {
   }
 
   function switchMaxUnitsVersion(version) {
-    const v1Wrapper = document.getElementById('max-units-v1');
-    const v2Wrapper = document.getElementById('max-units-v2');
-    const v1Btn = document.querySelector('.v1-btn');
-    const v2Btn = document.querySelector('.v2-btn');
+    const wrappers = ['max-units-v1', 'max-units-v2', 'price-per-qty-v3', 'price-per-qty-v4'];
+    const btns = ['v1-btn', 'v2-btn', 'v3-btn', 'v4-btn'];
+    const versions = ['v1', 'v2', 'v3', 'v4'];
 
-    if (version === 'v1') {
-      v1Wrapper.classList.remove('hidden');
-      v2Wrapper.classList.add('hidden');
-      v1Btn.classList.add('active');
-      v2Btn.classList.remove('active');
-    } else {
-      v1Wrapper.classList.add('hidden');
-      v2Wrapper.classList.remove('hidden');
-      v1Btn.classList.remove('active');
-      v2Btn.classList.add('active');
+    // Hide all wrappers and deactivate all buttons
+    wrappers.forEach(id => {
+      const el = document.getElementById(id);
+      if (el) el.classList.add('hidden');
+    });
+    btns.forEach(cls => {
+      const el = document.querySelector('.' + cls);
+      if (el) el.classList.remove('active');
+    });
+
+    // Show the selected version
+    const versionIndex = versions.indexOf(version);
+    if (versionIndex !== -1) {
+      const wrapper = document.getElementById(wrappers[versionIndex]);
+      const btn = document.querySelector('.' + btns[versionIndex]);
+      if (wrapper) wrapper.classList.remove('hidden');
+      if (btn) btn.classList.add('active');
+    }
+  }
+
+  function togglePricePerQty(version) {
+    const checkboxId = `enable-price-per-qty-${version}`;
+    const contentId = `price-per-qty-content-${version}`;
+    const checkbox = document.getElementById(checkboxId);
+    const content = document.getElementById(contentId);
+
+    if (checkbox && content) {
+      if (checkbox.checked) {
+        content.classList.add('visible');
+      } else {
+        content.classList.remove('visible');
+      }
     }
   }
 
