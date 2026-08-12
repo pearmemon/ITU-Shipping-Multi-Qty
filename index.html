@@ -1772,6 +1772,58 @@ body {
 .modal-add-method-link:hover { text-decoration: none; }
 
 /* ── Units per package section ────────────────────────────────────── */
+/* ── Max units per package (global setting on left sidebar) ────────── */
+.max-units-section {
+  margin-top: 18px;
+  margin-bottom: 18px;
+  border-top: 1px solid var(--color-grey-ea);
+  padding-top: 18px;
+}
+
+.max-units-checkbox {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  margin-bottom: 9px;
+  cursor: pointer;
+}
+
+.max-units-checkbox input[type="checkbox"] {
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+  accent-color: #222;
+}
+
+.max-units-checkbox label {
+  margin: 0;
+  margin-left: 18px;
+  font-family: var(--font-2);
+  font-size: 14px;
+  font-weight: 600;
+  color: #222;
+  cursor: pointer;
+}
+
+.max-units-content {
+  display: none;
+  margin-left: 38px;
+}
+
+.max-units-content.visible {
+  display: block;
+}
+
+.max-units-helper {
+  font-family: var(--font-2);
+  font-size: 12px;
+  font-weight: 300;
+  color: var(--color-grey-66);
+  margin-top: 5px;
+  margin-bottom: 0;
+  line-height: 1.5;
+}
+
 .units-per-pkg-section {
   margin-top: 18px;
   border-top: 1px solid var(--color-grey-ea);
@@ -2434,6 +2486,35 @@ body {
               </a>
             </div>
           </div>
+        </div>
+      </div>
+
+      <!-- Max units per package (global setting) -->
+      <div class="max-units-section">
+        <div class="max-units-checkbox">
+          <input type="checkbox" id="global-units-per-pkg-checkbox" onchange="toggleGlobalUnitsPerPkg()">
+          <label for="global-units-per-pkg-checkbox">Specify max units per package <span style="font-weight: 400; color: var(--color-grey-66);">(calculated only)</span></label>
+        </div>
+        <div class="max-units-content" id="max-units-content">
+          <div class="custom-select" id="global-units-per-pkg-select">
+            <div class="custom-select-trigger" onclick="toggleCustomSelect('global-units-per-pkg-select')">
+              <span class="custom-select-value">1</span>
+              <img class="custom-select-chevron" src="Down icon.svg" alt="">
+            </div>
+            <div class="custom-select-dropdown">
+              <div class="custom-select-option active" onclick="pickGlobalUnitsPerPkg(this)">1</div>
+              <div class="custom-select-option" onclick="pickGlobalUnitsPerPkg(this)">2</div>
+              <div class="custom-select-option" onclick="pickGlobalUnitsPerPkg(this)">3</div>
+              <div class="custom-select-option" onclick="pickGlobalUnitsPerPkg(this)">4</div>
+              <div class="custom-select-option" onclick="pickGlobalUnitsPerPkg(this)">5</div>
+              <div class="custom-select-option" onclick="pickGlobalUnitsPerPkg(this)">6</div>
+              <div class="custom-select-option" onclick="pickGlobalUnitsPerPkg(this)">7</div>
+              <div class="custom-select-option" onclick="pickGlobalUnitsPerPkg(this)">8</div>
+              <div class="custom-select-option" onclick="pickGlobalUnitsPerPkg(this)">9</div>
+              <div class="custom-select-option" onclick="pickGlobalUnitsPerPkg(this)">10</div>
+            </div>
+          </div>
+          <p class="max-units-helper">Specify how many units fit in one package. We will calculate amount of packages based on quantity of units ordered.</p>
         </div>
       </div>
 
@@ -4105,6 +4186,7 @@ body {
 
   let toastTimeout = null;
   let toastClickHandler = null;
+  let globalUnitsPerPackage = null;  // Global units per package setting (applies to all packages)
 
   function showToast(message) {
     const toast = document.getElementById('toast');
@@ -4146,12 +4228,38 @@ body {
     }
   }
 
-  function updateMultiQtyPills() {
-    const regions = ['us', 'eu', 'row'];
-    regions.forEach(r => {
-      const unitsPerPkg = parcelData[r].unitsPerPackage;
-      const unitsText = unitsPerPkg ? ` (${unitsPerPkg}/Pkg)` : '';
+  function toggleGlobalUnitsPerPkg() {
+    const checkbox = document.getElementById('global-units-per-pkg-checkbox');
+    const content = document.getElementById('max-units-content');
+    if (checkbox.checked) {
+      content.classList.add('visible');
+      globalUnitsPerPackage = parseInt(document.getElementById('global-units-per-pkg-select').querySelector('.custom-select-value').textContent) || null;
+    } else {
+      content.classList.remove('visible');
+      globalUnitsPerPackage = null;
+    }
+    updateQuoteLabelsWithGlobalUnits();
+    showToast('Multi-qty settings saved for all regions');
+  }
 
+  function pickGlobalUnitsPerPkg(optionEl) {
+    const selectEl = document.getElementById('global-units-per-pkg-select');
+    const value = optionEl.textContent.trim();
+    selectEl.querySelector('.custom-select-value').textContent = value;
+    selectEl.querySelectorAll('.custom-select-option').forEach(o => o.classList.remove('active'));
+    optionEl.classList.add('active');
+    selectEl.classList.remove('open');
+
+    globalUnitsPerPackage = parseInt(value);
+    updateQuoteLabelsWithGlobalUnits();
+    showToast('Multi-qty settings saved for all regions');
+  }
+
+  function updateQuoteLabelsWithGlobalUnits() {
+    const regions = ['us', 'eu', 'row'];
+    const unitsText = globalUnitsPerPackage ? ` (${globalUnitsPerPackage}/Pkg)` : '';
+
+    regions.forEach(r => {
       // Update standard quote label (only show units text for Calculated Quote)
       const quoteLabel = document.getElementById(`parcel-${r}-quote-label`);
       if (quoteLabel) {
@@ -4167,13 +4275,12 @@ body {
         const labelText = expQuoteType === 'Calculated Quote' ? expQuoteType + unitsText : expQuoteType;
         expressQuoteLabel.textContent = labelText;
       }
-
-      // Hide the pill (for backwards compatibility, in case it exists)
-      const pill = document.getElementById(`parcel-${r}-multi-qty-pill`);
-      if (pill) {
-        pill.classList.add('hidden');
-      }
     });
+  }
+
+  function updateMultiQtyPills() {
+    // Now using global units per package setting - call the global update function
+    updateQuoteLabelsWithGlobalUnits();
   }
 
   function closeParcelEditModal() {
@@ -4889,40 +4996,6 @@ body {
       <!-- Add shipping method link -->
       <button class="modal-add-method-link" id="parcel-add-method-btn" onclick="addParcelMethod()">+ Add Shipping Method</button>
 
-      <!-- Units per package section -->
-      <div class="units-per-pkg-section">
-        <div class="units-per-pkg-checkbox">
-          <input type="checkbox" id="units-per-pkg-checkbox" onchange="toggleUnitsPerPkg()">
-          <label for="units-per-pkg-checkbox">Specify max units per package (calculated only)</label>
-        </div>
-        <div class="units-per-pkg-content" id="units-per-pkg-content">
-          <div class="modal-field">
-            <div class="custom-select" id="units-per-pkg-select">
-              <div class="custom-select-trigger" onclick="toggleCustomSelect('units-per-pkg-select')">
-                <span class="custom-select-value">1</span>
-                <img class="custom-select-chevron" src="Down icon.svg" alt="">
-              </div>
-              <div class="custom-select-dropdown">
-                <div class="custom-select-option active" onclick="pickUnitsPerPkg(this)">1</div>
-                <div class="custom-select-option" onclick="pickUnitsPerPkg(this)">2</div>
-                <div class="custom-select-option" onclick="pickUnitsPerPkg(this)">3</div>
-                <div class="custom-select-option" onclick="pickUnitsPerPkg(this)">4</div>
-                <div class="custom-select-option" onclick="pickUnitsPerPkg(this)">5</div>
-                <div class="custom-select-option" onclick="pickUnitsPerPkg(this)">6</div>
-                <div class="custom-select-option" onclick="pickUnitsPerPkg(this)">7</div>
-                <div class="custom-select-option" onclick="pickUnitsPerPkg(this)">8</div>
-                <div class="custom-select-option" onclick="pickUnitsPerPkg(this)">9</div>
-                <div class="custom-select-option" onclick="pickUnitsPerPkg(this)">10</div>
-              </div>
-            </div>
-            <p class="units-per-pkg-helper">Specify how many units fit in one package. We will calculate amount of packages based on quantity of units ordered.</p>
-          </div>
-          <div class="units-per-pkg-apply-all">
-            <input type="checkbox" id="units-per-pkg-apply-all" onchange="parcelEditChanged=true; checkParcelEditValid()">
-            <label for="units-per-pkg-apply-all">Apply to all calculated quotes</label>
-          </div>
-        </div>
-      </div>
     </div>
     <div class="modal-footer">
       <div class="modal-footer-right">
