@@ -500,6 +500,9 @@ body {
   padding: 18px;
   border: 1px solid var(--color-border);
   border-radius: var(--r-sm);
+}
+
+.max-units-section.has-content {
   margin-bottom: 18px;
 }
 
@@ -4274,11 +4277,14 @@ body {
   function toggleGlobalUnitsPerPkg() {
     const checkbox = document.getElementById('global-units-per-pkg-checkbox');
     const content = document.getElementById('max-units-content');
+    const section = document.querySelector('.max-units-section');
     if (checkbox.checked) {
       content.classList.add('visible');
+      section.classList.add('has-content');
       globalUnitsPerPackage = parseInt(document.getElementById('global-units-per-pkg-select-v1').querySelector('.custom-select-value').textContent) || null;
     } else {
       content.classList.remove('visible');
+      section.classList.remove('has-content');
       globalUnitsPerPackage = null;
     }
     updateQuoteLabelsWithGlobalUnits();
