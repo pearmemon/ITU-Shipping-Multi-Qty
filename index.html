@@ -454,6 +454,23 @@ body {
   padding: var(--sp-18) 0;
 }
 
+.step3-header {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-9);
+  padding: var(--sp-18) 0;
+}
+
+.step3-helper {
+  font-family: var(--font-2);
+  font-size: 12px;
+  font-weight: 300;
+  color: var(--color-grey-66);
+  line-height: 1.5;
+  margin-top: 9px;
+  margin-bottom: 0;
+}
+
 /* ── Package box ─────────────────────────────────────────────────── */
 .pkg-wrap {
   padding-bottom: var(--sp-18);
@@ -1772,60 +1789,6 @@ body {
 .modal-add-method-link:hover { text-decoration: none; }
 
 /* ── Units per package section ────────────────────────────────────── */
-/* ── Max units per package (global setting on left sidebar) ────────── */
-.max-units-section {
-  padding: 18px;
-  border: 1px solid var(--color-border);
-  border-radius: var(--r-sm);
-  margin-bottom: 18px;
-}
-
-.max-units-checkbox {
-  display: flex;
-  align-items: center;
-  gap: 0;
-  cursor: pointer;
-}
-
-.max-units-checkbox.has-content {
-  margin-bottom: 9px;
-}
-
-.max-units-checkbox input[type="checkbox"] {
-  width: 20px;
-  height: 20px;
-  cursor: pointer;
-  accent-color: #222;
-}
-
-.max-units-checkbox label {
-  margin: 0;
-  margin-left: 18px;
-  font-family: var(--font-2);
-  font-size: 14px;
-  font-weight: 600;
-  color: #222;
-  cursor: pointer;
-}
-
-.max-units-content {
-  display: none;
-  margin-left: 38px;
-}
-
-.max-units-content.visible {
-  display: block;
-}
-
-.max-units-helper {
-  font-family: var(--font-2);
-  font-size: 12px;
-  font-weight: 300;
-  color: var(--color-grey-66);
-  margin-top: 5px;
-  margin-bottom: 0;
-  line-height: 1.5;
-}
 
 .units-per-pkg-section {
   margin-top: 18px;
@@ -2492,33 +2455,32 @@ body {
         </div>
       </div>
 
-      <!-- Max units per package (global setting) -->
-      <div class="max-units-section">
-        <div class="max-units-checkbox">
-          <input type="checkbox" id="global-units-per-pkg-checkbox" onchange="toggleGlobalUnitsPerPkg()">
-          <label for="global-units-per-pkg-checkbox">Specify max units per package <span style="font-weight: 400; color: var(--color-grey-66);">(applies to calculated quotes only)</span></label>
+      <!-- STEP 3: Max units per package -->
+      <div class="step3-header">
+        <div class="step-label">Step 3</div>
+        <div class="step-question">Specify max units per package</div>
+      </div>
+
+      <div class="custom-select" id="global-units-per-pkg-select">
+        <div class="custom-select-trigger" onclick="toggleCustomSelect('global-units-per-pkg-select')">
+          <span class="custom-select-value">1</span>
+          <img class="custom-select-chevron" src="Down icon.svg" alt="">
         </div>
-        <div class="max-units-content" id="max-units-content">
-          <div class="custom-select" id="global-units-per-pkg-select">
-            <div class="custom-select-trigger" onclick="toggleCustomSelect('global-units-per-pkg-select')">
-              <span class="custom-select-value">1</span>
-              <img class="custom-select-chevron" src="Down icon.svg" alt="">
-            </div>
-            <div class="custom-select-dropdown">
-              <div class="custom-select-option active" onclick="pickGlobalUnitsPerPkg(this)">1</div>
-              <div class="custom-select-option" onclick="pickGlobalUnitsPerPkg(this)">2</div>
-              <div class="custom-select-option" onclick="pickGlobalUnitsPerPkg(this)">3</div>
-              <div class="custom-select-option" onclick="pickGlobalUnitsPerPkg(this)">4</div>
-              <div class="custom-select-option" onclick="pickGlobalUnitsPerPkg(this)">5</div>
-              <div class="custom-select-option" onclick="pickGlobalUnitsPerPkg(this)">6</div>
-              <div class="custom-select-option" onclick="pickGlobalUnitsPerPkg(this)">7</div>
-              <div class="custom-select-option" onclick="pickGlobalUnitsPerPkg(this)">8</div>
-              <div class="custom-select-option" onclick="pickGlobalUnitsPerPkg(this)">9</div>
-              <div class="custom-select-option" onclick="pickGlobalUnitsPerPkg(this)">10</div>
-            </div>
-          </div>
+        <div class="custom-select-dropdown">
+          <div class="custom-select-option active" onclick="pickGlobalUnitsPerPkg(this)">1</div>
+          <div class="custom-select-option" onclick="pickGlobalUnitsPerPkg(this)">2</div>
+          <div class="custom-select-option" onclick="pickGlobalUnitsPerPkg(this)">3</div>
+          <div class="custom-select-option" onclick="pickGlobalUnitsPerPkg(this)">4</div>
+          <div class="custom-select-option" onclick="pickGlobalUnitsPerPkg(this)">5</div>
+          <div class="custom-select-option" onclick="pickGlobalUnitsPerPkg(this)">6</div>
+          <div class="custom-select-option" onclick="pickGlobalUnitsPerPkg(this)">7</div>
+          <div class="custom-select-option" onclick="pickGlobalUnitsPerPkg(this)">8</div>
+          <div class="custom-select-option" onclick="pickGlobalUnitsPerPkg(this)">9</div>
+          <div class="custom-select-option" onclick="pickGlobalUnitsPerPkg(this)">10</div>
         </div>
       </div>
+
+      <p class="step3-helper">Specify how many units fit in one package. We will calculate amount of packages based on quantity of units ordered. Applies to calculated quotes only.</p>
 
       <!-- Add Another Package -->
       <button class="add-pkg-btn" onclick="addPackage()">
@@ -4159,31 +4121,6 @@ body {
       toastClickHandler = null;
     }
   }
-
-  function toggleGlobalUnitsPerPkg() {
-    const checkbox = document.getElementById('global-units-per-pkg-checkbox');
-    const checkboxWrapper = checkbox.closest('.max-units-checkbox');
-    const content = document.getElementById('max-units-content');
-    if (checkbox.checked) {
-      checkboxWrapper.classList.add('has-content');
-      content.classList.add('visible');
-      globalUnitsPerPackage = parseInt(document.getElementById('global-units-per-pkg-select').querySelector('.custom-select-value').textContent) || null;
-    } else {
-      checkboxWrapper.classList.remove('has-content');
-      content.classList.remove('visible');
-      globalUnitsPerPackage = null;
-    }
-    updateQuoteLabelsWithGlobalUnits();
-  }
-
-  // Initialize checkbox state on page load
-  document.addEventListener('DOMContentLoaded', function() {
-    const checkbox = document.getElementById('global-units-per-pkg-checkbox');
-    const checkboxWrapper = checkbox?.closest('.max-units-checkbox');
-    if (checkboxWrapper && !checkbox.checked) {
-      checkboxWrapper.classList.remove('has-content');
-    }
-  });
 
   function pickGlobalUnitsPerPkg(optionEl) {
     const selectEl = document.getElementById('global-units-per-pkg-select');
