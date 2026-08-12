@@ -1784,8 +1784,11 @@ body {
   display: flex;
   align-items: center;
   gap: 0;
-  margin-bottom: 9px;
   cursor: pointer;
+}
+
+.max-units-checkbox.has-content {
+  margin-bottom: 9px;
 }
 
 .max-units-checkbox input[type="checkbox"] {
@@ -4159,11 +4162,14 @@ body {
 
   function toggleGlobalUnitsPerPkg() {
     const checkbox = document.getElementById('global-units-per-pkg-checkbox');
+    const checkboxWrapper = document.querySelector('.max-units-checkbox');
     const content = document.getElementById('max-units-content');
     if (checkbox.checked) {
+      checkboxWrapper.classList.add('has-content');
       content.classList.add('visible');
       globalUnitsPerPackage = parseInt(document.getElementById('global-units-per-pkg-select').querySelector('.custom-select-value').textContent) || null;
     } else {
+      checkboxWrapper.classList.remove('has-content');
       content.classList.remove('visible');
       globalUnitsPerPackage = null;
     }
