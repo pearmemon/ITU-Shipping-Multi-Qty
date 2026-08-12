@@ -4162,7 +4162,7 @@ body {
 
   function toggleGlobalUnitsPerPkg() {
     const checkbox = document.getElementById('global-units-per-pkg-checkbox');
-    const checkboxWrapper = document.querySelector('.max-units-checkbox');
+    const checkboxWrapper = checkbox.closest('.max-units-checkbox');
     const content = document.getElementById('max-units-content');
     if (checkbox.checked) {
       checkboxWrapper.classList.add('has-content');
@@ -4176,6 +4176,15 @@ body {
     updateQuoteLabelsWithGlobalUnits();
     showToast('Multi-qty settings saved for all regions');
   }
+
+  // Initialize checkbox state on page load
+  document.addEventListener('DOMContentLoaded', function() {
+    const checkbox = document.getElementById('global-units-per-pkg-checkbox');
+    const checkboxWrapper = checkbox?.closest('.max-units-checkbox');
+    if (checkboxWrapper && !checkbox.checked) {
+      checkboxWrapper.classList.remove('has-content');
+    }
+  });
 
   function pickGlobalUnitsPerPkg(optionEl) {
     const selectEl = document.getElementById('global-units-per-pkg-select');
