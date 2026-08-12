@@ -1784,7 +1784,6 @@ body {
   display: flex;
   align-items: center;
   gap: 0;
-  margin-bottom: 9px;
   cursor: pointer;
 }
 
@@ -2493,7 +2492,7 @@ body {
       <div class="max-units-section">
         <div class="max-units-checkbox">
           <input type="checkbox" id="global-units-per-pkg-checkbox" onchange="toggleGlobalUnitsPerPkg()">
-          <label for="global-units-per-pkg-checkbox">Specify max units per package <span style="font-weight: 400; color: var(--color-grey-66);">(calculated only)</span></label>
+          <label for="global-units-per-pkg-checkbox">Specify max units per package <span style="font-weight: 400; color: var(--color-grey-66);">(applies to calculated quotes only)</span></label>
         </div>
         <div class="max-units-content" id="max-units-content">
           <div class="custom-select" id="global-units-per-pkg-select">
@@ -2514,7 +2513,6 @@ body {
               <div class="custom-select-option" onclick="pickGlobalUnitsPerPkg(this)">10</div>
             </div>
           </div>
-          <p class="max-units-helper">Specify how many units fit in one package. We will calculate amount of packages based on quantity of units ordered.</p>
         </div>
       </div>
 
@@ -3902,11 +3900,8 @@ body {
     ['us','eu','row'].forEach(r => {
       const d = parcelData[r];
       const displayMethod = d.method.replace(/\s*\([^)]*\)$/, '').trim();
-      const unitsPerPkg = d.unitsPerPackage;
-      const unitsText = unitsPerPkg ? ` (${unitsPerPkg}/Pkg)` : '';
       document.getElementById(`parcel-${r}-method`).textContent      = displayMethod;
-      const labelText = d.quoteType === 'Calculated Quote' ? d.quoteType + unitsText : d.quoteType;
-      document.getElementById(`parcel-${r}-quote-label`).textContent = labelText;
+      document.getElementById(`parcel-${r}-quote-label`).textContent = d.quoteType;
       // Only update price/time DOM for Calculated Quote regions — seller-set values stay untouched
       if (d.quoteType === 'Calculated Quote') {
         document.getElementById(`parcel-${r}-time`).textContent   = d.time;
@@ -3980,25 +3975,6 @@ body {
       document.getElementById('parcel-method-divider').classList.add('hidden');
       document.getElementById('parcel-add-method-btn').classList.remove('hidden');
     }
-    // Restore units per package settings
-    const unitsPerPkgCheckbox = document.getElementById('units-per-pkg-checkbox');
-    const unitsPerPkgContent = document.getElementById('units-per-pkg-content');
-    const unitsPerPkgSection = unitsPerPkgContent.closest('.units-per-pkg-section');
-    const unitsPerPkgApplyAll = document.getElementById('units-per-pkg-apply-all');
-    if (d.unitsPerPackage) {
-      unitsPerPkgCheckbox.checked = true;
-      unitsPerPkgContent.classList.add('visible');
-      unitsPerPkgSection.classList.add('has-content');
-      setUnitsPerPkgSelect('units-per-pkg-select', String(d.unitsPerPackage));
-      unitsPerPkgApplyAll.checked = d.applyUnitsToAll || false;
-    } else {
-      unitsPerPkgCheckbox.checked = false;
-      unitsPerPkgContent.classList.remove('visible');
-      unitsPerPkgSection.classList.remove('has-content');
-      setUnitsPerPkgSelect('units-per-pkg-select', '1');
-      unitsPerPkgApplyAll.checked = false;
-    }
-    updateUnitsPerPkgVisibility();
     document.getElementById('parcel-edit-save-btn').disabled = true;
     document.getElementById('parcel-edit-overlay').classList.remove('hidden');
   }
@@ -4008,16 +3984,6 @@ body {
     el.querySelector('.custom-select-value').textContent = value;
     el.querySelectorAll('.custom-select-option').forEach(o => {
       const match = (o.dataset.value && o.dataset.value === value) || (!o.dataset.value && o.textContent.trim() === value);
-      o.classList.toggle('active', match);
-    });
-    el.classList.remove('open');
-  }
-
-  function setUnitsPerPkgSelect(selectId, value) {
-    const el = document.getElementById(selectId);
-    el.querySelector('.custom-select-value').textContent = value;
-    el.querySelectorAll('.custom-select-option').forEach(o => {
-      const match = o.textContent.trim() === value;
       o.classList.toggle('active', match);
     });
     el.classList.remove('open');
@@ -4083,22 +4049,6 @@ body {
     } else if (quoteType === 'Free Shipping') {
       document.getElementById(`parcel-g${g}-free-price`).classList.remove('hidden');
     }
-    updateUnitsPerPkgVisibility();
-  }
-
-  function updateUnitsPerPkgVisibility() {
-    const g1QuoteType = document.getElementById('parcel-edit-quote-select').querySelector('.custom-select-value').textContent;
-    const g2Visible = !document.getElementById('parcel-method-group-2').classList.contains('hidden');
-    const g2QuoteType = g2Visible ? document.getElementById('parcel-edit-quote-2-select').querySelector('.custom-select-value').textContent : null;
-
-    const hasCalculatedQuote = g1QuoteType === 'Calculated Quote' || g2QuoteType === 'Calculated Quote';
-    const unitsSection = document.querySelector('.units-per-pkg-section');
-
-    if (hasCalculatedQuote) {
-      unitsSection.style.display = '';
-    } else {
-      unitsSection.style.display = 'none';
-    }
   }
 
   function addParcelMethod() {
@@ -4160,28 +4110,6 @@ body {
 
   function checkParcelEditValid() {
     document.getElementById('parcel-edit-save-btn').disabled = !parcelEditChanged;
-  }
-
-  function toggleUnitsPerPkg() {
-    const checkbox = document.getElementById('units-per-pkg-checkbox');
-    const content = document.getElementById('units-per-pkg-content');
-    const section = content.closest('.units-per-pkg-section');
-    content.classList.toggle('visible', checkbox.checked);
-    section.classList.toggle('has-content', checkbox.checked);
-    parcelEditChanged = true;
-    checkParcelEditValid();
-  }
-
-  function pickUnitsPerPkg(el) {
-    const value = el.textContent;
-    const select = el.closest('.custom-select');
-    select.querySelector('.custom-select-value').textContent = value;
-    select.querySelectorAll('.custom-select-option').forEach(o => {
-      o.classList.toggle('active', o.textContent === value);
-    });
-    select.classList.remove('open');
-    parcelEditChanged = true;
-    checkParcelEditValid();
   }
 
   let toastTimeout = null;
@@ -4256,26 +4184,8 @@ body {
   }
 
   function updateQuoteLabelsWithGlobalUnits() {
-    const regions = ['us', 'eu', 'row'];
-    const unitsText = globalUnitsPerPackage ? ` (${globalUnitsPerPackage}/Pkg)` : '';
-
-    regions.forEach(r => {
-      // Update standard quote label (only show units text for Calculated Quote)
-      const quoteLabel = document.getElementById(`parcel-${r}-quote-label`);
-      if (quoteLabel) {
-        const quoteType = parcelData[r].quoteType || 'Calculated Quote';
-        const labelText = quoteType === 'Calculated Quote' ? quoteType + unitsText : quoteType;
-        quoteLabel.textContent = labelText;
-      }
-
-      // Update express quote label if it exists (only show units text for Calculated Quote)
-      const expressQuoteLabel = document.getElementById(`parcel-${r}-express-quote-label`);
-      if (expressQuoteLabel) {
-        const expQuoteType = parcelData[r].expressQuoteType || 'Calculated Quote';
-        const labelText = expQuoteType === 'Calculated Quote' ? expQuoteType + unitsText : expQuoteType;
-        expressQuoteLabel.textContent = labelText;
-      }
-    });
+    // Global units per package is now a background setting - no display updates needed
+    // The setting applies to all calculated quotes without displaying the value
   }
 
   function updateMultiQtyPills() {
@@ -4309,11 +4219,8 @@ body {
     // Re-render group 1 on card — time comes from the method name
     const displayMethod = parcelData[r].method.replace(/\s*\([^)]*\)$/, '').trim();
     const methodTime = (parcelData[r].method.match(/\(([^)]+)\)/) || [, ''])[1];
-    const unitsPerPkg = parcelData[r].unitsPerPackage;
-    const unitsText = unitsPerPkg ? ` (${unitsPerPkg}/Pkg)` : '';
     document.getElementById(`parcel-${r}-method`).textContent      = displayMethod;
-    const labelText = parcelData[r].quoteType === 'Calculated Quote' ? parcelData[r].quoteType + unitsText : parcelData[r].quoteType;
-    document.getElementById(`parcel-${r}-quote-label`).textContent = labelText;
+    document.getElementById(`parcel-${r}-quote-label`).textContent = parcelData[r].quoteType;
     if (qt1 === 'Flat Rate') {
       document.getElementById(`parcel-${r}-price`).innerHTML  = `<strong>$${parcelData[r].customPrice.toFixed(2)}</strong>`;
       document.getElementById(`parcel-${r}-time`).textContent = methodTime;
@@ -4328,8 +4235,7 @@ body {
       const expDisplayMethod = expMethod.replace(/\s*\([^)]*\)$/, '').trim();
       const expMethodTime    = (expMethod.match(/\(([^)]+)\)/) || [, ''])[1];
       document.getElementById(`parcel-${r}-express-method`).textContent      = expDisplayMethod;
-      const expLabelText = expQuoteType === 'Calculated Quote' ? expQuoteType + unitsText : expQuoteType;
-      document.getElementById(`parcel-${r}-express-quote-label`).textContent = expLabelText;
+      document.getElementById(`parcel-${r}-express-quote-label`).textContent = expQuoteType;
       document.getElementById(`parcel-${r}-express-time`).textContent        = expMethodTime;
       if (expQuoteType === 'Flat Rate') {
         document.getElementById(`parcel-${r}-express-price`).innerHTML = `<strong>$${parcelData[r].expressCustomPrice.toFixed(2)}</strong>`;
