@@ -2463,8 +2463,8 @@ body {
 
   <!-- ── Design Review Toggle (in left margin) ── -->
   <div class="design-review-toggle">
-    <button class="toggle-btn v1-btn" onclick="switchMaxUnitsVersion('v1')">V1</button>
-    <button class="toggle-btn v2-btn active" onclick="switchMaxUnitsVersion('v2')">V2</button>
+    <button class="toggle-btn v1-btn active" onclick="switchMaxUnitsVersion('v1')">V1</button>
+    <button class="toggle-btn v2-btn" onclick="switchMaxUnitsVersion('v2')">V2</button>
   </div>
 
   <!-- ── Two-column layout ── -->
@@ -2574,7 +2574,7 @@ body {
       </button>
 
       <!-- V1: Max units in container with checkbox -->
-      <div id="max-units-v1" class="max-units-v1-wrapper hidden">
+      <div id="max-units-v1" class="max-units-v1-wrapper">
         <div class="max-units-section">
           <div class="max-units-checkbox">
             <input type="checkbox" id="global-units-per-pkg-checkbox" onchange="toggleGlobalUnitsPerPkg()">
@@ -2605,7 +2605,7 @@ body {
       </div>
 
       <!-- V2: STEP 3 with dropdown only -->
-      <div id="max-units-v2" class="max-units-v2-wrapper">
+      <div id="max-units-v2" class="max-units-v2-wrapper hidden">
         <div class="step3-header">
           <div class="step-label">Step 3</div>
           <div class="step-question">Specify max units per package</div>
