@@ -454,6 +454,95 @@ body {
   padding: var(--sp-18) 0;
 }
 
+/* ── Design Review Toggle ────────────────────────────────────────── */
+.design-review-toggle {
+  display: flex;
+  gap: 9px;
+  margin-bottom: 18px;
+}
+
+.toggle-btn {
+  padding: 8px 12px;
+  border: 1px solid var(--color-border);
+  border-radius: 4px;
+  background: #fff;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.toggle-btn:hover {
+  background: #f5f5f5;
+}
+
+.toggle-btn.active {
+  background: #222;
+  color: #fff;
+  border-color: #222;
+}
+
+/* ── Max Units V1 (Container) ────────────────────────────────────── */
+.max-units-v1-wrapper.hidden {
+  display: none;
+}
+
+.max-units-section {
+  padding: 18px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--r-sm);
+  margin-bottom: 18px;
+}
+
+.max-units-checkbox {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  margin-bottom: 9px;
+  cursor: pointer;
+}
+
+.max-units-checkbox input[type="checkbox"] {
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+  accent-color: #222;
+}
+
+.max-units-checkbox label {
+  margin: 0;
+  margin-left: 18px;
+  font-family: var(--font-2);
+  font-size: 14px;
+  font-weight: 600;
+  color: #222;
+  cursor: pointer;
+}
+
+.max-units-content {
+  display: none;
+  margin-left: 38px;
+}
+
+.max-units-content.visible {
+  display: block;
+}
+
+.max-units-helper {
+  font-family: var(--font-2);
+  font-size: 12px;
+  font-weight: 300;
+  color: var(--color-grey-66);
+  margin-top: 5px;
+  margin-bottom: 0;
+  line-height: 1.5;
+}
+
+/* ── Max Units V2 (Step 3) ───────────────────────────────────────── */
+.max-units-v2-wrapper.hidden {
+  display: none;
+}
+
 .step3-header {
   display: flex;
   flex-direction: column;
@@ -2455,38 +2544,77 @@ body {
         </div>
       </div>
 
-      <!-- STEP 3: Max units per package -->
-      <div class="step3-header">
-        <div class="step-label">Step 3</div>
-        <div class="step-question">Specify max units per package</div>
-      </div>
-
-      <div class="custom-select" id="global-units-per-pkg-select">
-        <div class="custom-select-trigger" onclick="toggleCustomSelect('global-units-per-pkg-select')">
-          <span class="custom-select-value">1</span>
-          <img class="custom-select-chevron" src="Down icon.svg" alt="">
-        </div>
-        <div class="custom-select-dropdown">
-          <div class="custom-select-option active" onclick="pickGlobalUnitsPerPkg(this)">1</div>
-          <div class="custom-select-option" onclick="pickGlobalUnitsPerPkg(this)">2</div>
-          <div class="custom-select-option" onclick="pickGlobalUnitsPerPkg(this)">3</div>
-          <div class="custom-select-option" onclick="pickGlobalUnitsPerPkg(this)">4</div>
-          <div class="custom-select-option" onclick="pickGlobalUnitsPerPkg(this)">5</div>
-          <div class="custom-select-option" onclick="pickGlobalUnitsPerPkg(this)">6</div>
-          <div class="custom-select-option" onclick="pickGlobalUnitsPerPkg(this)">7</div>
-          <div class="custom-select-option" onclick="pickGlobalUnitsPerPkg(this)">8</div>
-          <div class="custom-select-option" onclick="pickGlobalUnitsPerPkg(this)">9</div>
-          <div class="custom-select-option" onclick="pickGlobalUnitsPerPkg(this)">10</div>
-        </div>
-      </div>
-
-      <p class="step3-helper">Specify how many units fit in one package. We will calculate amount of packages based on quantity of units ordered. Applies to calculated quotes only.</p>
-
-      <!-- Add Another Package -->
+      <!-- Add Another Package (under STEP 2) -->
       <button class="add-pkg-btn" onclick="addPackage()">
         <img src="PlusCircle.svg" alt="" width="20" height="20">
         Add Another Package
       </button>
+
+      <!-- Design Review Toggle -->
+      <div class="design-review-toggle">
+        <button class="toggle-btn v1-btn" onclick="switchMaxUnitsVersion('v1')">V1: Container</button>
+        <button class="toggle-btn v2-btn active" onclick="switchMaxUnitsVersion('v2')">V2: Step 3</button>
+      </div>
+
+      <!-- V1: Max units in container with checkbox -->
+      <div id="max-units-v1" class="max-units-v1-wrapper hidden">
+        <div class="max-units-section">
+          <div class="max-units-checkbox">
+            <input type="checkbox" id="global-units-per-pkg-checkbox" onchange="toggleGlobalUnitsPerPkg()">
+            <label for="global-units-per-pkg-checkbox">Specify max units per package <span style="font-weight: 400; color: var(--color-grey-66);">(applies to calculated quotes only)</span></label>
+          </div>
+          <div class="max-units-content" id="max-units-content">
+            <div class="custom-select" id="global-units-per-pkg-select-v1">
+              <div class="custom-select-trigger" onclick="toggleCustomSelect('global-units-per-pkg-select-v1')">
+                <span class="custom-select-value">1</span>
+                <img class="custom-select-chevron" src="Down icon.svg" alt="">
+              </div>
+              <div class="custom-select-dropdown">
+                <div class="custom-select-option active" onclick="pickGlobalUnitsPerPkg(this,'global-units-per-pkg-select-v1')">1</div>
+                <div class="custom-select-option" onclick="pickGlobalUnitsPerPkg(this,'global-units-per-pkg-select-v1')">2</div>
+                <div class="custom-select-option" onclick="pickGlobalUnitsPerPkg(this,'global-units-per-pkg-select-v1')">3</div>
+                <div class="custom-select-option" onclick="pickGlobalUnitsPerPkg(this,'global-units-per-pkg-select-v1')">4</div>
+                <div class="custom-select-option" onclick="pickGlobalUnitsPerPkg(this,'global-units-per-pkg-select-v1')">5</div>
+                <div class="custom-select-option" onclick="pickGlobalUnitsPerPkg(this,'global-units-per-pkg-select-v1')">6</div>
+                <div class="custom-select-option" onclick="pickGlobalUnitsPerPkg(this,'global-units-per-pkg-select-v1')">7</div>
+                <div class="custom-select-option" onclick="pickGlobalUnitsPerPkg(this,'global-units-per-pkg-select-v1')">8</div>
+                <div class="custom-select-option" onclick="pickGlobalUnitsPerPkg(this,'global-units-per-pkg-select-v1')">9</div>
+                <div class="custom-select-option" onclick="pickGlobalUnitsPerPkg(this,'global-units-per-pkg-select-v1')">10</div>
+              </div>
+            </div>
+            <p class="max-units-helper">Specify how many units fit in one package. We will calculate amount of packages based on quantity of units ordered.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- V2: STEP 3 with dropdown only -->
+      <div id="max-units-v2" class="max-units-v2-wrapper">
+        <div class="step3-header">
+          <div class="step-label">Step 3</div>
+          <div class="step-question">Specify max units per package</div>
+        </div>
+
+        <div class="custom-select" id="global-units-per-pkg-select">
+          <div class="custom-select-trigger" onclick="toggleCustomSelect('global-units-per-pkg-select')">
+            <span class="custom-select-value">1</span>
+            <img class="custom-select-chevron" src="Down icon.svg" alt="">
+          </div>
+          <div class="custom-select-dropdown">
+            <div class="custom-select-option active" onclick="pickGlobalUnitsPerPkg(this,'global-units-per-pkg-select')">1</div>
+            <div class="custom-select-option" onclick="pickGlobalUnitsPerPkg(this,'global-units-per-pkg-select')">2</div>
+            <div class="custom-select-option" onclick="pickGlobalUnitsPerPkg(this,'global-units-per-pkg-select')">3</div>
+            <div class="custom-select-option" onclick="pickGlobalUnitsPerPkg(this,'global-units-per-pkg-select')">4</div>
+            <div class="custom-select-option" onclick="pickGlobalUnitsPerPkg(this,'global-units-per-pkg-select')">5</div>
+            <div class="custom-select-option" onclick="pickGlobalUnitsPerPkg(this,'global-units-per-pkg-select')">6</div>
+            <div class="custom-select-option" onclick="pickGlobalUnitsPerPkg(this,'global-units-per-pkg-select')">7</div>
+            <div class="custom-select-option" onclick="pickGlobalUnitsPerPkg(this,'global-units-per-pkg-select')">8</div>
+            <div class="custom-select-option" onclick="pickGlobalUnitsPerPkg(this,'global-units-per-pkg-select')">9</div>
+            <div class="custom-select-option" onclick="pickGlobalUnitsPerPkg(this,'global-units-per-pkg-select')">10</div>
+          </div>
+        </div>
+
+        <p class="step3-helper">Specify how many units fit in one package. We will calculate amount of packages based on quantity of units ordered. Applies to calculated quotes only.</p>
+      </div>
 
     </div><!-- /col-left -->
 
@@ -4122,8 +4250,8 @@ body {
     }
   }
 
-  function pickGlobalUnitsPerPkg(optionEl) {
-    const selectEl = document.getElementById('global-units-per-pkg-select');
+  function pickGlobalUnitsPerPkg(optionEl, selectId = 'global-units-per-pkg-select') {
+    const selectEl = document.getElementById(selectId);
     const value = optionEl.textContent.trim();
     selectEl.querySelector('.custom-select-value').textContent = value;
     selectEl.querySelectorAll('.custom-select-option').forEach(o => o.classList.remove('active'));
@@ -4132,6 +4260,38 @@ body {
 
     globalUnitsPerPackage = parseInt(value);
     updateQuoteLabelsWithGlobalUnits();
+  }
+
+  function toggleGlobalUnitsPerPkg() {
+    const checkbox = document.getElementById('global-units-per-pkg-checkbox');
+    const content = document.getElementById('max-units-content');
+    if (checkbox.checked) {
+      content.classList.add('visible');
+      globalUnitsPerPackage = parseInt(document.getElementById('global-units-per-pkg-select-v1').querySelector('.custom-select-value').textContent) || null;
+    } else {
+      content.classList.remove('visible');
+      globalUnitsPerPackage = null;
+    }
+    updateQuoteLabelsWithGlobalUnits();
+  }
+
+  function switchMaxUnitsVersion(version) {
+    const v1Wrapper = document.getElementById('max-units-v1');
+    const v2Wrapper = document.getElementById('max-units-v2');
+    const v1Btn = document.querySelector('.v1-btn');
+    const v2Btn = document.querySelector('.v2-btn');
+
+    if (version === 'v1') {
+      v1Wrapper.classList.remove('hidden');
+      v2Wrapper.classList.add('hidden');
+      v1Btn.classList.add('active');
+      v2Btn.classList.remove('active');
+    } else {
+      v1Wrapper.classList.add('hidden');
+      v2Wrapper.classList.remove('hidden');
+      v1Btn.classList.remove('active');
+      v2Btn.classList.add('active');
+    }
   }
 
   function updateQuoteLabelsWithGlobalUnits() {
