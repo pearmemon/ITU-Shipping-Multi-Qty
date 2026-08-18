@@ -643,12 +643,26 @@ body {
 
 .price-per-qty-checkbox label {
   margin: 0;
-  margin-left: 18px;
   font-family: var(--font-2);
   font-size: 14px;
   font-weight: 600;
   color: #222;
   cursor: pointer;
+}
+
+/* SVG Checkbox styling */
+.checkbox-svg {
+  opacity: 0.5;
+  transition: opacity 0.2s;
+}
+
+input[type="checkbox"]:checked ~ label .checkbox-svg {
+  opacity: 1;
+}
+
+input[type="checkbox"]:not(:checked) ~ label .checkbox-svg {
+  opacity: 0.3;
+  filter: invert(1) brightness(0.5);
 }
 
 .price-per-qty-checkbox:has(input[type="checkbox"]:disabled) label {
@@ -2767,8 +2781,14 @@ body {
       <div id="max-units-v2" class="max-units-v1-wrapper hidden">
         <div class="max-units-section">
           <div class="max-units-checkbox">
-            <input type="checkbox" id="global-units-per-pkg-checkbox-v2" disabled onchange="toggleGlobalUnitsPerPkgV2()">
-            <label for="global-units-per-pkg-checkbox-v2" class="disabled">Specify max units per package <span style="font-weight: 300; color: var(--color-grey-66);">(applies to Calculated Quotes only)</span></label>
+            <input type="checkbox" id="global-units-per-pkg-checkbox-v2" disabled onchange="toggleGlobalUnitsPerPkgV2()" style="display: none;">
+            <label for="global-units-per-pkg-checkbox-v2" class="disabled" style="display: flex; align-items: center; gap: 9px; margin: 0;">
+              <svg class="checkbox-svg" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" style="flex-shrink: 0; opacity: 0.5;">
+                <rect width="20" height="20" fill="#436B93"/>
+                <path fill-rule="evenodd" clip-rule="evenodd" d="M7.76718 15.5372L3.01172 10.9889L4.51941 9.35662L7.76718 12.4644L15.5097 5.05228L16.989 6.64971L7.76718 15.5372Z" fill="white"/>
+              </svg>
+              <span>Specify max units per package <span style="font-weight: 300; color: var(--color-grey-66);">(applies to Calculated Quotes only)</span></span>
+            </label>
           </div>
           <div class="max-units-content" id="max-units-content-v2">
             <div class="custom-select" id="global-units-per-pkg-select-v2">
@@ -3420,8 +3440,14 @@ body {
       <div class="modal-field price-per-qty-container hidden" id="price-per-qty-v2">
         <div class="price-per-qty-section">
           <div class="price-per-qty-checkbox">
-            <input type="checkbox" id="enable-price-per-qty-v2" onchange="togglePricePerQtyV2()">
-            <label for="enable-price-per-qty-v2">Enable price per quantity <span style="font-weight: 300; color: var(--color-grey-66);">(applies to Choose Your Own quotes only)</span></label>
+            <input type="checkbox" id="enable-price-per-qty-v2" onchange="togglePricePerQtyV2()" style="display: none;">
+            <label for="enable-price-per-qty-v2" style="display: flex; align-items: center; gap: 9px; margin: 0; cursor: pointer;">
+              <svg class="checkbox-svg" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" style="flex-shrink: 0;">
+                <rect width="20" height="20" fill="#436B93"/>
+                <path fill-rule="evenodd" clip-rule="evenodd" d="M7.76718 15.5372L3.01172 10.9889L4.51941 9.35662L7.76718 12.4644L15.5097 5.05228L16.989 6.64971L7.76718 15.5372Z" fill="white"/>
+              </svg>
+              <span>Enable price per quantity <span style="font-weight: 300; color: var(--color-grey-66);">(applies to Choose Your Own quotes only)</span></span>
+            </label>
           </div>
           <div class="price-per-qty-content" id="price-per-qty-content-v2">
             <div class="modal-price-input">
