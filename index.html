@@ -505,6 +505,7 @@ body {
   border: 1px solid var(--color-border);
   border-radius: var(--r-sm);
   margin-bottom: 18px;
+  background-color: #F3F3F3;
 }
 
 .max-units-checkbox {
@@ -521,7 +522,126 @@ body {
   accent-color: #222;
 }
 
+.max-units-checkbox input[type="checkbox"]:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
 .max-units-checkbox label {
+  margin: 0;
+  margin-left: 18px;
+  font-family: var(--font-2);
+  font-size: 14px;
+  font-weight: 600;
+  color: #222;
+  cursor: pointer;
+  transition: color 0.2s ease;
+}
+
+.max-units-checkbox label.disabled {
+  color: #888888;
+}
+
+/* ── Toggle Switch ──────────────────────────────────────────── */
+.max-units-toggle-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+}
+
+.max-units-toggle-row label {
+  margin: 0;
+  font-family: var(--font-2);
+  font-size: 14px;
+  font-weight: 600;
+  color: #222;
+  cursor: pointer;
+  transition: color 0.2s ease;
+}
+
+.max-units-toggle-row label.disabled {
+  color: #888888;
+}
+
+
+.toggle-switch-img {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.toggle-switch-img:disabled {
+  cursor: not-allowed;
+}
+
+.toggle-switch-img img {
+  display: none !important;
+}
+
+/* Disabled state: show img 3 (disabled SVG) */
+.toggle-switch-img:disabled img:nth-child(3) {
+  display: block !important;
+}
+
+/* Enabled + off state: show img 1 (off SVG) */
+.toggle-switch-img:not(:disabled) img:nth-child(1) {
+  display: block !important;
+}
+
+/* Enabled + on state: show img 2 (on SVG) */
+.toggle-switch-img:not(:disabled).active img:nth-child(1) {
+  display: none !important;
+}
+
+.toggle-switch-img:not(:disabled).active img:nth-child(2) {
+  display: block !important;
+}
+
+.max-units-content {
+  display: none;
+}
+
+.max-units-content.visible {
+  display: block;
+  margin-top: 18px;
+}
+
+/* ── Price Per Quantity (Modal) ──────────────────────────────── */
+.price-per-qty-container {
+  padding: 0 !important;
+}
+
+.price-per-qty-section {
+  padding: 18px;
+  background-color: #F3F3F3;
+  border-radius: 4px;
+  margin-bottom: 0 !important;
+  position: relative;
+  z-index: 10;
+}
+
+.price-per-qty-checkbox {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  cursor: pointer;
+}
+
+.price-per-qty-checkbox input[type="checkbox"] {
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+  accent-color: #222;
+}
+
+.price-per-qty-checkbox label {
   margin: 0;
   margin-left: 18px;
   font-family: var(--font-2);
@@ -531,14 +651,46 @@ body {
   cursor: pointer;
 }
 
-.max-units-content {
-  display: none;
-  margin-left: 38px;
+.price-per-qty-checkbox:has(input[type="checkbox"]:disabled) label {
+  color: #888888;
+  cursor: not-allowed;
 }
 
-.max-units-content.visible {
+.price-per-qty-toggle-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+}
+
+.price-per-qty-toggle-row label {
+  margin: 0;
+  font-family: var(--font-2);
+  font-size: 14px;
+  font-weight: 600;
+  color: #222;
+  cursor: pointer;
+}
+
+.price-per-qty-toggle-row:has(.toggle-switch-img:disabled) label {
+  color: #888888;
+  cursor: not-allowed;
+}
+
+.price-per-qty-content {
+  display: none;
+  pointer-events: none;
+}
+
+.price-per-qty-content.visible {
   display: block;
-  margin-top: 9px;
+  margin-top: 18px;
+  pointer-events: auto;
+}
+
+.price-per-qty-content .modal-price-input {
+  margin-top: 18px;
+  margin-bottom: 5px;
 }
 
 .max-units-helper {
@@ -577,103 +729,6 @@ body {
   margin-bottom: 0;
 }
 
-/* ── Price Per Quantity V3 (Container) ────────────────────────────── */
-.price-per-qty-v3-wrapper {
-  margin-top: 18px;
-}
-
-.price-per-qty-v3-wrapper.hidden {
-  display: none;
-}
-
-.price-per-qty-section {
-  padding: 18px;
-  border: 1px solid var(--color-border);
-  border-radius: var(--r-sm);
-  margin-bottom: 18px;
-}
-
-.price-per-qty-checkbox {
-  display: flex;
-  align-items: center;
-  gap: 0;
-  cursor: pointer;
-}
-
-.price-per-qty-checkbox input[type="checkbox"] {
-  width: 20px;
-  height: 20px;
-  cursor: pointer;
-  accent-color: #222;
-}
-
-.price-per-qty-checkbox label {
-  margin: 0;
-  margin-left: 18px;
-  font-family: var(--font-2);
-  font-size: 14px;
-  font-weight: 600;
-  color: #222;
-  cursor: pointer;
-}
-
-.price-per-qty-content {
-  display: none;
-  margin-left: 38px;
-}
-
-.price-per-qty-content.visible {
-  display: block;
-  margin-top: 9px;
-}
-
-.price-per-qty-helper {
-  font-family: var(--font-2);
-  font-size: 12px;
-  font-weight: 300;
-  color: var(--color-grey-66);
-  margin-top: 5px;
-  margin-bottom: 0;
-  line-height: 1.5;
-}
-
-/* ── Price Per Quantity V4 (Step 3) ──────────────────────────────── */
-.price-per-qty-v4-wrapper {
-  margin-top: 18px;
-}
-
-.price-per-qty-v4-wrapper.hidden {
-  display: none;
-}
-
-.price-per-qty-input-group {
-  margin-bottom: 9px;
-}
-
-.input-with-unit {
-  display: flex;
-  align-items: center;
-  border: 1px solid var(--color-border);
-  border-radius: var(--r-sm);
-  overflow: hidden;
-  background: #fff;
-}
-
-.input-prefix,
-.input-suffix {
-  padding: 0 9px;
-  color: #999;
-  font-size: 14px;
-  user-select: none;
-}
-
-.input-with-unit input {
-  flex: 1;
-  border: none;
-  padding: 9px 0;
-  font-size: 14px;
-  outline: none;
-}
 
 /* ── Package box ─────────────────────────────────────────────────── */
 .pkg-wrap {
@@ -1305,7 +1360,7 @@ body {
 }
 
 .modal-body {
-  padding: var(--sp-18) var(--sp-36) 0;
+  padding: var(--sp-18) var(--sp-36) var(--sp-18);
   display: flex;
   flex-direction: column;
   gap: var(--sp-18);
@@ -1332,6 +1387,7 @@ body {
   height: 40px;
   padding: 0 var(--sp-14);
   gap: 6px;
+  background-color: white;
 }
 .modal-price-input:focus-within { border-color: var(--color-blue-600); }
 
@@ -1389,6 +1445,7 @@ body {
   height: 40px;
   padding: 0 var(--sp-14);
   gap: 6px;
+  background-color: white;
 }
 .modal-time-input:focus-within { border-color: var(--color-blue-600); }
 
@@ -2563,8 +2620,6 @@ body {
   <div class="design-review-toggle">
     <button class="toggle-btn v1-btn active" onclick="switchMaxUnitsVersion('v1')">V1</button>
     <button class="toggle-btn v2-btn" onclick="switchMaxUnitsVersion('v2')">V2</button>
-    <button class="toggle-btn v3-btn" onclick="switchMaxUnitsVersion('v3')">V3</button>
-    <button class="toggle-btn v4-btn" onclick="switchMaxUnitsVersion('v4')">V4</button>
   </div>
 
   <!-- ── Two-column layout ── -->
@@ -2610,21 +2665,21 @@ body {
                 <div class="dim-field">
                   <div class="field-label-sm">Length</div>
                   <div class="input-with-unit">
-                    <input type="number" id="length-1" placeholder="0" min="0" oninput="checkDimensions(true)">
+                    <input type="number" id="length-1" placeholder="" min="0" oninput="checkDimensions(true)">
                     <span class="unit-label">in</span>
                   </div>
                 </div>
                 <div class="dim-field">
                   <div class="field-label-sm">Width</div>
                   <div class="input-with-unit">
-                    <input type="number" id="width-1" placeholder="0" min="0" oninput="checkDimensions(true)">
+                    <input type="number" id="width-1" placeholder="" min="0" oninput="checkDimensions(true)">
                     <span class="unit-label">in</span>
                   </div>
                 </div>
                 <div class="dim-field">
                   <div class="field-label-sm">Height</div>
                   <div class="input-with-unit">
-                    <input type="number" id="height-1" placeholder="0" min="0" oninput="checkDimensions(true)">
+                    <input type="number" id="height-1" placeholder="" min="0" oninput="checkDimensions(true)">
                     <span class="unit-label">in</span>
                   </div>
                 </div>
@@ -2633,7 +2688,7 @@ body {
               <div class="weight-row">
                 <div class="field-label-sm">Weight</div>
                 <div class="input-with-unit">
-                  <input type="number" id="weight-1" placeholder="0" min="0" oninput="checkDimensions(true)">
+                  <input type="number" id="weight-1" placeholder="" min="0" oninput="checkDimensions(true)">
                   <span class="unit-label">lbs</span>
                 </div>
               </div>
@@ -2676,9 +2731,13 @@ body {
       <!-- V1: Max units in container with checkbox -->
       <div id="max-units-v1" class="max-units-v1-wrapper">
         <div class="max-units-section">
-          <div class="max-units-checkbox">
-            <input type="checkbox" id="global-units-per-pkg-checkbox" onchange="toggleGlobalUnitsPerPkg()">
-            <label for="global-units-per-pkg-checkbox">Specify max units per package <span style="font-weight: 300; color: var(--color-grey-66);">(applies to calculated quotes only)</span></label>
+          <div class="max-units-toggle-row">
+            <label for="global-units-per-pkg-toggle" class="disabled">Specify max units per package <span style="font-weight: 300; color: var(--color-grey-66);">(applies to Calculated Quotes only)</span></label>
+            <button class="toggle-switch-img" id="global-units-per-pkg-toggle" disabled onclick="toggleGlobalUnitsPerPkg()">
+              <img id="toggle-off-img" src="Toggle active off.svg" width="63" height="30" alt="Off">
+              <img id="toggle-on-img" src="Toggle active on.svg" width="63" height="30" alt="On" class="hidden">
+              <img id="toggle-disabled-img" src="Toggle disabled.svg" width="63" height="30" alt="Disabled">
+            </button>
           </div>
           <div class="max-units-content" id="max-units-content">
             <div class="custom-select" id="global-units-per-pkg-select-v1">
@@ -2704,72 +2763,35 @@ body {
         </div>
       </div>
 
-      <!-- V2: STEP 3 with dropdown only -->
-      <div id="max-units-v2" class="max-units-v2-wrapper hidden">
-        <div class="step3-header">
-          <div class="step-label">Step 3</div>
-          <div class="step-question">Specify max units per package</div>
-        </div>
-
-        <div class="custom-select" id="global-units-per-pkg-select">
-          <div class="custom-select-trigger" onclick="toggleCustomSelect('global-units-per-pkg-select')">
-            <span class="custom-select-value">1</span>
-            <img class="custom-select-chevron" src="Down icon.svg" alt="">
+      <!-- V2: Checkbox in container -->
+      <div id="max-units-v2" class="max-units-v1-wrapper hidden">
+        <div class="max-units-section">
+          <div class="max-units-checkbox">
+            <input type="checkbox" id="global-units-per-pkg-checkbox-v2" disabled onchange="toggleGlobalUnitsPerPkgV2()">
+            <label for="global-units-per-pkg-checkbox-v2" class="disabled">Specify max units per package <span style="font-weight: 300; color: var(--color-grey-66);">(applies to Calculated Quotes only)</span></label>
           </div>
-          <div class="custom-select-dropdown">
-            <div class="custom-select-option active" onclick="pickGlobalUnitsPerPkg(this,'global-units-per-pkg-select')">1</div>
-            <div class="custom-select-option" onclick="pickGlobalUnitsPerPkg(this,'global-units-per-pkg-select')">2</div>
-            <div class="custom-select-option" onclick="pickGlobalUnitsPerPkg(this,'global-units-per-pkg-select')">3</div>
-            <div class="custom-select-option" onclick="pickGlobalUnitsPerPkg(this,'global-units-per-pkg-select')">4</div>
-            <div class="custom-select-option" onclick="pickGlobalUnitsPerPkg(this,'global-units-per-pkg-select')">5</div>
-            <div class="custom-select-option" onclick="pickGlobalUnitsPerPkg(this,'global-units-per-pkg-select')">6</div>
-            <div class="custom-select-option" onclick="pickGlobalUnitsPerPkg(this,'global-units-per-pkg-select')">7</div>
-            <div class="custom-select-option" onclick="pickGlobalUnitsPerPkg(this,'global-units-per-pkg-select')">8</div>
-            <div class="custom-select-option" onclick="pickGlobalUnitsPerPkg(this,'global-units-per-pkg-select')">9</div>
-            <div class="custom-select-option" onclick="pickGlobalUnitsPerPkg(this,'global-units-per-pkg-select')">10</div>
-          </div>
-        </div>
-
-        <p class="step3-helper">Specify how many units fit in one package. We will calculate amount of packages based on quantity of units ordered. Applies to calculated quotes only.</p>
-      </div>
-
-      <!-- V3: Price per quantity in container with checkbox -->
-      <div id="price-per-qty-v3" class="price-per-qty-v3-wrapper hidden">
-        <div class="price-per-qty-section">
-          <div class="price-per-qty-checkbox">
-            <input type="checkbox" id="enable-price-per-qty-v3" onchange="togglePricePerQty('v3')">
-            <label for="enable-price-per-qty-v3">Enable price per quantity <span style="font-weight: 300; color: var(--color-grey-66);">(flat rate only)</span></label>
-          </div>
-          <div class="price-per-qty-content" id="price-per-qty-content-v3">
-            <div class="modal-field">
-              <div class="input-with-unit">
-                <span class="input-prefix">$</span>
-                <input type="number" id="price-per-qty-input-v3" placeholder="0" min="0">
-                <span class="input-suffix">USD</span>
+          <div class="max-units-content" id="max-units-content-v2">
+            <div class="custom-select" id="global-units-per-pkg-select-v2">
+              <div class="custom-select-trigger" onclick="toggleCustomSelect('global-units-per-pkg-select-v2')">
+                <span class="custom-select-value">1</span>
+                <img class="custom-select-chevron" src="Down icon.svg" alt="">
+              </div>
+              <div class="custom-select-dropdown">
+                <div class="custom-select-option active" onclick="pickGlobalUnitsPerPkg(this,'global-units-per-pkg-select-v2')">1</div>
+                <div class="custom-select-option" onclick="pickGlobalUnitsPerPkg(this,'global-units-per-pkg-select-v2')">2</div>
+                <div class="custom-select-option" onclick="pickGlobalUnitsPerPkg(this,'global-units-per-pkg-select-v2')">3</div>
+                <div class="custom-select-option" onclick="pickGlobalUnitsPerPkg(this,'global-units-per-pkg-select-v2')">4</div>
+                <div class="custom-select-option" onclick="pickGlobalUnitsPerPkg(this,'global-units-per-pkg-select-v2')">5</div>
+                <div class="custom-select-option" onclick="pickGlobalUnitsPerPkg(this,'global-units-per-pkg-select-v2')">6</div>
+                <div class="custom-select-option" onclick="pickGlobalUnitsPerPkg(this,'global-units-per-pkg-select-v2')">7</div>
+                <div class="custom-select-option" onclick="pickGlobalUnitsPerPkg(this,'global-units-per-pkg-select-v2')">8</div>
+                <div class="custom-select-option" onclick="pickGlobalUnitsPerPkg(this,'global-units-per-pkg-select-v2')">9</div>
+                <div class="custom-select-option" onclick="pickGlobalUnitsPerPkg(this,'global-units-per-pkg-select-v2')">10</div>
               </div>
             </div>
-            <p class="price-per-qty-helper">Specify cost per each additional unit. System will calculate cost based on quantity ordered, adding flat rate and cost per additional units.</p>
+            <p class="max-units-helper">Specify how many units fit in one package. We will calculate amount of packages based on quantity of units ordered.</p>
           </div>
         </div>
-      </div>
-
-      <!-- V4: Price per quantity as STEP 3 with input only -->
-      <div id="price-per-qty-v4" class="price-per-qty-v4-wrapper hidden">
-        <div class="step3-header">
-          <div class="step-label">Step 3</div>
-          <div class="step-question">Enable price per quantity</div>
-        </div>
-
-        <div class="price-per-qty-input-group">
-          <label style="font-size: 12px; color: #666; margin-bottom: 6px; display: block;">Price per unit</label>
-          <div class="input-with-unit">
-            <span class="input-prefix">$</span>
-            <input type="number" id="price-per-qty-input-v4" placeholder="0" min="0">
-            <span class="input-suffix">USD</span>
-          </div>
-        </div>
-
-        <p class="step3-helper">Specify cost per each additional unit. System will calculate cost based on quantity ordered, adding flat rate and cost per additional units.</p>
       </div>
 
     </div><!-- /col-left -->
@@ -3348,18 +3370,8 @@ body {
           </div>
         </div>
       </div>
-      <!-- Buyers Will Pay -->
-      <div class="modal-field">
-        <label class="modal-label">Buyers Will Pay</label>
-        <div class="modal-price-input">
-          <span class="modal-price-prefix">$</span>
-          <input type="number" id="modal-price" placeholder="" min="0" oninput="onQuoteInput()">
-          <span class="modal-price-suffix">USD</span>
-        </div>
-        <p class="modal-helper">Buyers will pay this flat rate that you set.</p>
-      </div>
       <!-- Shipping Time -->
-      <div class="modal-field">
+      <div class="modal-field" id="modal-shipping-time">
         <label class="modal-label">Shipping Time</label>
         <div class="modal-time-row">
           <div class="modal-time-input">
@@ -3370,6 +3382,54 @@ body {
           <div class="modal-time-input">
             <input type="number" id="modal-days-to" placeholder="" min="0" oninput="onQuoteInput()">
             <span class="modal-time-unit">days</span>
+          </div>
+        </div>
+      </div>
+      <!-- Buyers Will Pay -->
+      <div class="modal-field">
+        <label class="modal-label">Buyers Will Pay</label>
+        <div class="modal-price-input">
+          <span class="modal-price-prefix">$</span>
+          <input type="number" id="modal-price" placeholder="" min="0" oninput="onQuoteInput()">
+          <span class="modal-price-suffix">USD</span>
+        </div>
+        <p class="modal-helper">Buyers will pay this flat rate that you set.</p>
+      </div>
+      <!-- Enable Price Per Quantity - V1 (Toggle) -->
+      <div class="modal-field price-per-qty-container" id="price-per-qty-v1">
+        <div class="price-per-qty-section">
+          <div class="price-per-qty-toggle-row">
+            <label for="enable-price-per-qty-v1">Enable price per quantity <span style="font-weight: 300; color: var(--color-grey-66);">(applies to Choose Your Own quotes only)</span></label>
+            <button class="toggle-switch-img" id="enable-price-per-qty-v1" onclick="togglePricePerQtyV1()">
+              <img src="Toggle active off.svg" width="63" height="30" alt="Off" class="toggle-off">
+              <img src="Toggle active on.svg" width="63" height="30" alt="On" class="toggle-on hidden">
+              <img src="Toggle disabled.svg" width="63" height="30" alt="Disabled" class="toggle-disabled">
+            </button>
+          </div>
+          <div class="price-per-qty-content" id="price-per-qty-content-v1">
+            <div class="modal-price-input">
+              <span class="modal-price-prefix">$</span>
+              <input type="number" id="price-per-qty-input-v1" placeholder="0" min="0" oninput="onQuoteInput()">
+              <span class="modal-price-suffix">USD</span>
+            </div>
+            <p class="modal-helper">Specify cost per each additional unit. System will calculate cost based on quantity ordered, adding flat rate and cost per additional units.</p>
+          </div>
+        </div>
+      </div>
+      <!-- Enable Price Per Quantity - V2 (Checkbox) -->
+      <div class="modal-field price-per-qty-container hidden" id="price-per-qty-v2">
+        <div class="price-per-qty-section">
+          <div class="price-per-qty-checkbox">
+            <input type="checkbox" id="enable-price-per-qty-v2" onchange="togglePricePerQtyV2()">
+            <label for="enable-price-per-qty-v2">Enable price per quantity <span style="font-weight: 300; color: var(--color-grey-66);">(applies to Choose Your Own quotes only)</span></label>
+          </div>
+          <div class="price-per-qty-content" id="price-per-qty-content-v2">
+            <div class="modal-price-input">
+              <span class="modal-price-prefix">$</span>
+              <input type="number" id="price-per-qty-input-v2" placeholder="0" min="0" oninput="onQuoteInput()">
+              <span class="modal-price-suffix">USD</span>
+            </div>
+            <p class="modal-helper">Specify cost per each additional unit. System will calculate cost based on quantity ordered, adding flat rate and cost per additional units.</p>
           </div>
         </div>
       </div>
@@ -3397,6 +3457,7 @@ body {
   let currentPrices = { usLo: 0, usHi: 0, euLo: 0, euHi: 0, rowLo: 0, rowHi: 0 };
   let inhomeTimers = { us: null, eu: null, row: null };
   let firstFilledPackageType = null; // 'parcel' | 'freight' — type of the first package to become fully filled
+  let currentVersion = 'v1'; // Track which design version is active
 
   function selectAnswer(answer) {
     currentAnswer = answer;
@@ -3411,6 +3472,18 @@ body {
 
     const pkgWraps = Array.from(document.querySelectorAll('#packages-container .pkg-wrap'));
     const numPkgs  = pkgWraps.length;
+
+    // Packages that have at least one field with a value entered
+    const pkgsWithData = pkgWraps.filter(wrap =>
+      Array.from(wrap.querySelectorAll('input[type="number"]')).some(inp => parseFloat(inp.value) > 0)
+    );
+
+    // Enable/disable max units toggle based on whether packages have dimensions
+    if (pkgsWithData.length > 0) {
+      enableMaxUnitsToggle();
+    } else {
+      disableMaxUnitsToggle();
+    }
 
     // Step 1 must always be answered first
     if (!currentAnswer) { showState('locked'); return; }
@@ -3442,11 +3515,6 @@ body {
       }
       return;
     }
-
-    // Packages that have at least one field with a value entered
-    const pkgsWithData = pkgWraps.filter(wrap =>
-      Array.from(wrap.querySelectorAll('input[type="number"]')).some(inp => parseFloat(inp.value) > 0)
-    );
 
     // Reset first-filled tracker when no packages have any data yet
     if (pkgsWithData.length === 0) firstFilledPackageType = null;
@@ -3564,7 +3632,7 @@ body {
     const euHi  = Math.round(hi * 1.35 / 5) * 5;
     const rowLo = Math.round(lo * 1.6 / 5) * 5;
     const rowHi = Math.round(hi * 1.6 / 5) * 5;
-    const fmt = n => '$' + n.toFixed(2);
+    const fmt = n => '$' + Math.round(n);
     document.getElementById('us-price').innerHTML  = `<strong>${fmt(lo)}-${fmt(hi)}</strong>`;
     document.getElementById('eu-price').innerHTML  = `<strong>${fmt(euLo)}-${fmt(euHi)}</strong>`;
     document.getElementById('row-price').innerHTML = `<strong>${fmt(rowLo)}-${fmt(rowHi)}</strong>`;
@@ -3611,7 +3679,7 @@ body {
     link.classList.add('hidden');
 
     inhomeTimers[region] = setTimeout(() => {
-      const fmt = n => '$' + n.toFixed(2);
+      const fmt = n => '$' + Math.round(n);
       const priceMap = { us: ['usLo','usHi'], eu: ['euLo','euHi'], row: ['rowLo','rowHi'] };
       const [loKey, hiKey] = priceMap[region];
       const lo = Math.round(currentPrices[loKey] * 2 / 5) * 5;
@@ -3702,6 +3770,35 @@ body {
   function onQuoteInput() {
     if (editingCard) quoteModalChanged = true;
     checkModalSave();
+    // Disable/enable price per quantity based on whether price is filled
+    const priceInput = document.getElementById('modal-price');
+    const priceValue = parseFloat(priceInput.value);
+    const toggleV1 = document.getElementById('enable-price-per-qty-v1');
+    const checkboxV2 = document.getElementById('enable-price-per-qty-v2');
+    const ppqContentV1 = document.getElementById('price-per-qty-content-v1');
+    const ppqContentV2 = document.getElementById('price-per-qty-content-v2');
+    const ppqInputV1 = document.getElementById('price-per-qty-input-v1');
+    const ppqInputV2 = document.getElementById('price-per-qty-input-v2');
+
+    if (priceValue && priceValue > 0) {
+      // Price entered, enable ppq controls
+      if (toggleV1) toggleV1.disabled = false;
+      if (checkboxV2) checkboxV2.disabled = false;
+    } else {
+      // Price cleared/invalid, disable ppq controls and reset them
+      if (toggleV1) {
+        toggleV1.disabled = true;
+        toggleV1.classList.remove('active');
+        if (ppqContentV1) ppqContentV1.classList.remove('visible');
+        if (ppqInputV1) ppqInputV1.value = '';
+      }
+      if (checkboxV2) {
+        checkboxV2.disabled = true;
+        checkboxV2.checked = false;
+        if (ppqContentV2) ppqContentV2.classList.remove('visible');
+        if (ppqInputV2) ppqInputV2.value = '';
+      }
+    }
   }
 
   function populateMethodOptions() {
@@ -3729,9 +3826,49 @@ body {
     document.getElementById('modal-days-to').value   = '';
     document.getElementById('modal-save-btn').textContent = 'Save';
     document.getElementById('modal-save-btn').disabled    = true;
+    // Disable price per quantity controls until price is entered
+    const toggleV1 = document.getElementById('enable-price-per-qty-v1');
+    const checkboxV2 = document.getElementById('enable-price-per-qty-v2');
+    if (toggleV1) {
+      toggleV1.disabled = true;
+      toggleV1.classList.remove('active');
+      document.getElementById('price-per-qty-input-v1').value = '';
+      document.getElementById('price-per-qty-content-v1').classList.remove('visible');
+    }
+    if (checkboxV2) {
+      checkboxV2.disabled = true;
+      checkboxV2.checked = false;
+      document.getElementById('price-per-qty-input-v2').value = '';
+      document.getElementById('price-per-qty-content-v2').classList.remove('visible');
+    }
     document.getElementById('modal-title').textContent    = 'Add Your Own Quote';
     document.getElementById('modal-delete-btn').classList.remove('visible');
     document.getElementById('quote-modal-overlay').classList.remove('hidden');
+  }
+
+  function togglePricePerQtyV1() {
+    const toggle = document.getElementById('enable-price-per-qty-v1');
+    const content = document.getElementById('price-per-qty-content-v1');
+    if (!toggle || toggle.disabled) return;
+
+    toggle.classList.toggle('active');
+    if (toggle.classList.contains('active')) {
+      content.classList.add('visible');
+    } else {
+      content.classList.remove('visible');
+    }
+  }
+
+  function togglePricePerQtyV2() {
+    const checkbox = document.getElementById('enable-price-per-qty-v2');
+    const content = document.getElementById('price-per-qty-content-v2');
+    if (!checkbox || checkbox.disabled) return;
+
+    if (checkbox.checked) {
+      content.classList.add('visible');
+    } else {
+      content.classList.remove('visible');
+    }
   }
 
   function closeQuoteModal() {
@@ -3758,8 +3895,26 @@ body {
     const daysFrom = document.getElementById('modal-days-from').value;
     const daysTo   = document.getElementById('modal-days-to').value;
 
-    const quoteType     = price === 0 ? 'Free Shipping' : 'Flat Rate';
-    const priceDisplay  = price === 0 ? '<strong>$0.00</strong>' : `<strong>$${price.toFixed(2)}</strong>`;
+    // Get price per quantity from whichever version has a value
+    let pricePerQty = null;
+    // Check V1 toggle
+    const toggleV1 = document.getElementById('enable-price-per-qty-v1');
+    const ppqInputV1 = document.getElementById('price-per-qty-input-v1');
+    const isV1On = toggleV1 && toggleV1.classList.contains('active');
+    if (isV1On && ppqInputV1 && ppqInputV1.value) {
+      pricePerQty = parseFloat(ppqInputV1.value);
+    }
+    // Check V2 checkbox if V1 didn't have a value
+    if (!pricePerQty) {
+      const checkboxV2 = document.getElementById('enable-price-per-qty-v2');
+      const ppqInputV2 = document.getElementById('price-per-qty-input-v2');
+      if (checkboxV2 && checkboxV2.checked && ppqInputV2 && ppqInputV2.value) {
+        pricePerQty = parseFloat(ppqInputV2.value);
+      }
+    }
+
+    const quoteType     = price === 0 ? 'Free Shipping' : 'Your Quote';
+    const priceDisplay  = price === 0 ? '<strong>$0</strong>' : formatPriceDisplay(price, pricePerQty);
     const displayMethod = method.replace(/\s*\([^)]*\)$/, '').trim();
     const cardHTML = `
       <div class="custom-quote-header">
@@ -3800,6 +3955,7 @@ body {
       editingCard.dataset.price    = price;
       editingCard.dataset.daysFrom = daysFrom;
       editingCard.dataset.daysTo   = daysTo;
+      editingCard.dataset.pricePerQty = pricePerQty || '';
       editingCard = null;
     } else {
       const card = document.createElement('div');
@@ -3809,6 +3965,7 @@ body {
       card.dataset.price    = price;
       card.dataset.daysFrom = daysFrom;
       card.dataset.daysTo   = daysTo;
+      card.dataset.pricePerQty = pricePerQty || '';
       card.innerHTML = cardHTML;
       document.getElementById('custom-quotes-list').appendChild(card);
     }
@@ -3828,7 +3985,9 @@ body {
     editingCard = btn.closest('.custom-quote-card');
     const d = editingCard.dataset;
 
-    populateMethodOptions();
+    // Initialize modal first
+    openQuoteModal();
+
     // Pre-fill modal selects
     ['modal-location-select','modal-method-select'].forEach(id => {
       const el = document.getElementById(id);
@@ -3844,12 +4003,48 @@ body {
     document.getElementById('modal-price').value     = d.price;
     document.getElementById('modal-days-from').value = d.daysFrom;
     document.getElementById('modal-days-to').value   = d.daysTo;
+
+    // Restore price per quantity for both versions
+    const ppqValue = d.pricePerQty ? parseFloat(d.pricePerQty) : 0;
+    const toggleV1 = document.getElementById('enable-price-per-qty-v1');
+    const checkboxV2 = document.getElementById('enable-price-per-qty-v2');
+    const ppqInputV1 = document.getElementById('price-per-qty-input-v1');
+    const ppqInputV2 = document.getElementById('price-per-qty-input-v2');
+
+    if (ppqValue) {
+      // Restore V1 toggle
+      if (toggleV1 && ppqInputV1) {
+        toggleV1.disabled = false;
+        toggleV1.classList.add('active');
+        ppqInputV1.value = ppqValue;
+        document.getElementById('price-per-qty-content-v1').classList.add('visible');
+      }
+      // Restore V2 checkbox
+      if (checkboxV2 && ppqInputV2) {
+        checkboxV2.disabled = false;
+        checkboxV2.checked = true;
+        ppqInputV2.value = ppqValue;
+        document.getElementById('price-per-qty-content-v2').classList.add('visible');
+      }
+    } else {
+      // Reset both versions if no price per quantity
+      if (toggleV1) {
+        toggleV1.classList.remove('active');
+        ppqInputV1.value = '';
+        document.getElementById('price-per-qty-content-v1').classList.remove('visible');
+      }
+      if (checkboxV2) {
+        checkboxV2.checked = false;
+        ppqInputV2.value = '';
+        document.getElementById('price-per-qty-content-v2').classList.remove('visible');
+      }
+    }
+
     quoteModalChanged = false;
     document.getElementById('modal-title').textContent    = 'Edit Your Own Quote';
     document.getElementById('modal-save-btn').textContent = 'Update';
     document.getElementById('modal-save-btn').disabled    = true;
     document.getElementById('modal-delete-btn').classList.add('visible');
-    document.getElementById('quote-modal-overlay').classList.remove('hidden');
   }
 
   function deleteFromModal() {
@@ -4033,8 +4228,8 @@ body {
       card.dataset.daysFrom = timeLo;
       card.dataset.daysTo   = timeHi;
       const priceDisplay = quoteType === 'Free Shipping'
-        ? '<strong>$0.00</strong>'
-        : `<strong>$${parseFloat(price).toFixed(2)}</strong>`;
+        ? '<strong>$0</strong>'
+        : `<strong>$${Math.round(parseFloat(price))}</strong>`;
       const displayMethod = method.replace(/\s*\([^)]*\)$/, '').trim();
       card.innerHTML = `
         <div class="custom-quote-header">
@@ -4191,9 +4386,42 @@ body {
     setParcelEditSelect('parcel-edit-quote-select', d.quoteType);
     document.getElementById('pq-1-price').textContent = d.price;
     document.getElementById('parcel-edit-price-display').textContent = d.price;
-    document.getElementById('parcel-g1-price-input').value = d.quoteType === 'Flat Rate' && d.customPrice != null ? d.customPrice : '';
+    document.getElementById('parcel-g1-price-input').value = d.quoteType === 'Choose Your Own' && d.customPrice != null ? d.customPrice : '';
     document.getElementById('parcel-g1-flatrate-est').textContent = d.price;
     document.getElementById('parcel-g1-free-est').textContent = d.price;
+    // Restore price per quantity data for group 1 (both V1 and V2)
+    const ppqToggle1 = document.getElementById('parcel-g1-enable-price-per-qty-v1');
+    const ppqCheckbox1v2 = document.getElementById('parcel-g1-enable-price-per-qty-v2');
+    const ppqInput1v1 = document.getElementById('parcel-g1-price-per-qty-input-v1');
+    const ppqInput1v2 = document.getElementById('parcel-g1-price-per-qty-input-v2');
+    const isChecked = !!d.pricePerQuantity;
+    const ppqValue = d.pricePerQuantity || '';
+    // V1 toggle
+    if (ppqToggle1 && ppqInput1v1) {
+      ppqInput1v1.value = ppqValue;
+      if (isChecked) {
+        ppqToggle1.querySelector('.toggle-off').classList.add('hidden');
+        ppqToggle1.querySelector('.toggle-on').classList.remove('hidden');
+        document.getElementById('parcel-g1-price-per-qty-content-v1').classList.add('visible');
+      } else {
+        ppqToggle1.querySelector('.toggle-off').classList.remove('hidden');
+        ppqToggle1.querySelector('.toggle-on').classList.add('hidden');
+        document.getElementById('parcel-g1-price-per-qty-content-v1').classList.remove('visible');
+      }
+    }
+    // V2 checkbox
+    if (ppqCheckbox1v2 && ppqInput1v2) {
+      ppqCheckbox1v2.checked = isChecked;
+      ppqInput1v2.value = ppqValue;
+      if (ppqCheckbox1v2.checked) {
+        document.getElementById('parcel-g1-price-per-qty-content-v2').classList.add('visible');
+      } else {
+        document.getElementById('parcel-g1-price-per-qty-content-v2').classList.remove('visible');
+      }
+    }
+    // Restore shipping time for group 1
+    document.getElementById('parcel-g1-days-from').value = d.daysFrom || '';
+    document.getElementById('parcel-g1-days-to').value = d.daysTo || '';
     showParcelGroupFields(1, d.quoteType);
     // Group 2 — restore from parcelData (set regardless, shown/hidden below)
     const expMethod = d.expressMethod || 'DHL Express Parcel (1-3 Days)';
@@ -4203,9 +4431,42 @@ body {
     setParcelEditSelect('parcel-edit-quote-2-select', expQuoteType);
     document.getElementById('pq-2-price').textContent = expPrice;
     document.getElementById('parcel-edit-price-2-display').textContent = expPrice;
-    document.getElementById('parcel-g2-price-input').value = expQuoteType === 'Flat Rate' && d.expressCustomPrice != null ? d.expressCustomPrice : '';
+    document.getElementById('parcel-g2-price-input').value = expQuoteType === 'Choose Your Own' && d.expressCustomPrice != null ? d.expressCustomPrice : '';
     document.getElementById('parcel-g2-flatrate-est').textContent = expPrice;
     document.getElementById('parcel-g2-free-est').textContent = expPrice;
+    // Restore price per quantity data for group 2 (both V1 and V2)
+    const ppqToggle2 = document.getElementById('parcel-g2-enable-price-per-qty-v1');
+    const ppqCheckbox2v2 = document.getElementById('parcel-g2-enable-price-per-qty-v2');
+    const ppqInput2v1 = document.getElementById('parcel-g2-price-per-qty-input-v1');
+    const ppqInput2v2 = document.getElementById('parcel-g2-price-per-qty-input-v2');
+    const isChecked2 = !!d.expressPricePerQuantity;
+    const ppqValue2 = d.expressPricePerQuantity || '';
+    // V1 toggle
+    if (ppqToggle2 && ppqInput2v1) {
+      ppqInput2v1.value = ppqValue2;
+      if (isChecked2) {
+        ppqToggle2.querySelector('.toggle-off').classList.add('hidden');
+        ppqToggle2.querySelector('.toggle-on').classList.remove('hidden');
+        document.getElementById('parcel-g2-price-per-qty-content-v1').classList.add('visible');
+      } else {
+        ppqToggle2.querySelector('.toggle-off').classList.remove('hidden');
+        ppqToggle2.querySelector('.toggle-on').classList.add('hidden');
+        document.getElementById('parcel-g2-price-per-qty-content-v1').classList.remove('visible');
+      }
+    }
+    // V2 checkbox
+    if (ppqCheckbox2v2 && ppqInput2v2) {
+      ppqCheckbox2v2.checked = isChecked2;
+      ppqInput2v2.value = ppqValue2;
+      if (ppqCheckbox2v2.checked) {
+        document.getElementById('parcel-g2-price-per-qty-content-v2').classList.add('visible');
+      } else {
+        document.getElementById('parcel-g2-price-per-qty-content-v2').classList.remove('visible');
+      }
+    }
+    // Restore shipping time for group 2
+    document.getElementById('parcel-g2-days-from').value = d.expressDaysFrom || '';
+    document.getElementById('parcel-g2-days-to').value = d.expressDaysTo || '';
     showParcelGroupFields(2, expQuoteType);
     // If Express method is active on this card, open modal with both methods shown
     const expressActive = !document.getElementById(`parcel-express-resolved-${region}`).classList.contains('hidden');
@@ -4220,12 +4481,31 @@ body {
       document.getElementById('parcel-method-group-2').classList.remove('hidden');
       document.getElementById('parcel-method-divider').classList.remove('hidden');
       document.getElementById('parcel-add-method-btn').classList.add('hidden');
+      document.getElementById('parcel-remove-method-btn').classList.remove('hidden');
     } else {
       document.getElementById('parcel-method-group-2').classList.add('hidden');
       document.getElementById('parcel-method-divider').classList.add('hidden');
       document.getElementById('parcel-add-method-btn').classList.remove('hidden');
+      document.getElementById('parcel-remove-method-btn').classList.add('hidden');
     }
     document.getElementById('parcel-edit-save-btn').disabled = true;
+    // Load PPQ module
+    const ppqToggle = document.getElementById('parcel-enable-ppq');
+    const ppqInput = document.getElementById('parcel-ppq-input');
+    const ppqValueConsolidated = d.pricePerQuantity || d.expressPricePerQuantity || '';
+    if (ppqValueConsolidated) {
+      ppqInput.value = ppqValueConsolidated;
+      ppqToggle.querySelector('.toggle-off').classList.add('hidden');
+      ppqToggle.querySelector('.toggle-on').classList.remove('hidden');
+      document.getElementById('parcel-ppq-content').classList.add('visible');
+    } else {
+      ppqInput.value = '';
+      ppqToggle.querySelector('.toggle-off').classList.remove('hidden');
+      ppqToggle.querySelector('.toggle-on').classList.add('hidden');
+      document.getElementById('parcel-ppq-content').classList.remove('visible');
+    }
+    updateParcelPPQModuleVisibility();
+
     document.getElementById('parcel-edit-overlay').classList.remove('hidden');
   }
 
@@ -4283,21 +4563,40 @@ body {
     optionEl.classList.add('active');
     selectEl.classList.remove('open');
     showParcelGroupFields(groupNum, val);
+    updateParcelPPQModuleVisibility();
     parcelEditChanged = true;
     checkParcelEditValid();
   }
 
+  function formatPriceDisplay(price, pricePerQty = null) {
+    const priceInt = Math.round(parseFloat(price) || 0);
+    let display = `<strong>$${priceInt}</strong>`;
+    if (pricePerQty && parseFloat(pricePerQty) > 0) {
+      const ppqInt = Math.round(parseFloat(pricePerQty));
+      display += ` <span style="font-weight: 300;">(+$${ppqInt})</span>`;
+    }
+    return display;
+  }
+
   function showParcelGroupFields(groupNum, quoteType) {
     const g = groupNum;
-    document.getElementById(`parcel-g${g}-1stdibs-price`).classList.add('hidden');
-    document.getElementById(`parcel-g${g}-flatrate-price`).classList.add('hidden');
-    document.getElementById(`parcel-g${g}-free-price`).classList.add('hidden');
+    const el1stdibs = document.getElementById(`parcel-g${g}-1stdibs-price`);
+    const elFlatrate = document.getElementById(`parcel-g${g}-flatrate-price`);
+    const elFree = document.getElementById(`parcel-g${g}-free-price`);
+    const elTime = document.getElementById(`parcel-g${g}-shipping-time`);
+
+    if (el1stdibs) el1stdibs.classList.add('hidden');
+    if (elFlatrate) elFlatrate.classList.add('hidden');
+    if (elFree) elFree.classList.add('hidden');
+    if (elTime) elTime.classList.add('hidden');
+
     if (quoteType === 'Calculated Quote') {
-      document.getElementById(`parcel-g${g}-1stdibs-price`).classList.remove('hidden');
-    } else if (quoteType === 'Flat Rate') {
-      document.getElementById(`parcel-g${g}-flatrate-price`).classList.remove('hidden');
+      if (el1stdibs) el1stdibs.classList.remove('hidden');
+    } else if (quoteType === 'Choose Your Own') {
+      if (elFlatrate) elFlatrate.classList.remove('hidden');
+      if (elTime) elTime.classList.remove('hidden');
     } else if (quoteType === 'Free Shipping') {
-      document.getElementById(`parcel-g${g}-free-price`).classList.remove('hidden');
+      if (elFree) elFree.classList.remove('hidden');
     }
   }
 
@@ -4320,6 +4619,7 @@ body {
     document.getElementById('parcel-method-group-2').classList.remove('hidden');
     document.getElementById('parcel-method-divider').classList.remove('hidden');
     document.getElementById('parcel-add-method-btn').classList.add('hidden');
+    document.getElementById('parcel-remove-method-btn').classList.remove('hidden');
     parcelEditChanged = true;
     checkParcelEditValid();
   }
@@ -4328,6 +4628,7 @@ body {
     document.getElementById('parcel-method-group-2').classList.add('hidden');
     document.getElementById('parcel-method-divider').classList.add('hidden');
     document.getElementById('parcel-add-method-btn').classList.remove('hidden');
+    document.getElementById('parcel-remove-method-btn').classList.add('hidden');
     // Restore all method options in group 1
     document.getElementById('parcel-edit-method-select').querySelectorAll('.custom-select-option').forEach(o => {
       o.style.display = '';
@@ -4360,6 +4661,105 @@ body {
 
   function checkParcelEditValid() {
     document.getElementById('parcel-edit-save-btn').disabled = !parcelEditChanged;
+  }
+
+  function toggleParcelPricePerQty(groupNum) {
+    const checkbox = document.getElementById(`parcel-g${groupNum}-enable-price-per-qty`);
+    const content = document.getElementById(`parcel-g${groupNum}-price-per-qty-content`);
+    if (!checkbox || !content) return;
+
+    if (checkbox.checked) {
+      content.classList.add('visible');
+    } else {
+      content.classList.remove('visible');
+    }
+    parcelEditChanged = true;
+    checkParcelEditValid();
+  }
+
+  function toggleParcelPPQ() {
+    const toggle = document.getElementById('parcel-enable-ppq');
+    const content = document.getElementById('parcel-ppq-content');
+    if (!toggle || toggle.disabled) return;
+
+    const isOn = toggle.querySelector('.toggle-on').classList.contains('hidden');
+    if (isOn) {
+      toggle.querySelector('.toggle-off').classList.add('hidden');
+      toggle.querySelector('.toggle-on').classList.remove('hidden');
+      content.classList.add('visible');
+    } else {
+      toggle.querySelector('.toggle-off').classList.remove('hidden');
+      toggle.querySelector('.toggle-on').classList.add('hidden');
+      content.classList.remove('visible');
+    }
+    parcelEditChanged = true;
+    checkParcelEditValid();
+  }
+
+  function updateParcelPPQModuleVisibility() {
+    const ppqModule = document.getElementById('parcel-ppq-module');
+    const ppqToggle = document.getElementById('parcel-enable-ppq');
+    if (!ppqModule || !ppqToggle) return;
+
+    // Check if either group has "Choose Your Own" selected
+    const g1QuoteSelect = document.getElementById('parcel-edit-quote-select');
+    const g2QuoteSelect = document.getElementById('parcel-edit-quote-2-select');
+    const g1QuoteType = g1QuoteSelect ? g1QuoteSelect.querySelector('.custom-select-value').textContent : '';
+    const g2QuoteType = g2QuoteSelect ? g2QuoteSelect.querySelector('.custom-select-value').textContent : '';
+    const hasChooseYourOwn = g1QuoteType === 'Choose Your Own' || g2QuoteType === 'Choose Your Own';
+
+    // Show module if either group has "Choose Your Own"
+    if (hasChooseYourOwn) {
+      ppqModule.classList.remove('hidden');
+      // Keep disabled state tied to whether there's a price
+      const g1PriceEl = document.getElementById('parcel-g1-price-input');
+      const g2PriceEl = document.getElementById('parcel-g2-price-input');
+      const g1Price = g1PriceEl ? parseFloat(g1PriceEl.value) || 0 : 0;
+      const g2Price = g2PriceEl ? parseFloat(g2PriceEl.value) || 0 : 0;
+      const hasPrice = (g1Price > 0) || (g2Price > 0);
+      ppqToggle.disabled = !hasPrice;
+    } else {
+      ppqModule.classList.add('hidden');
+      // Reset PPQ when hiding module
+      ppqToggle.disabled = true;
+      ppqToggle.querySelector('.toggle-off').classList.remove('hidden');
+      ppqToggle.querySelector('.toggle-on').classList.add('hidden');
+      document.getElementById('parcel-ppq-content').classList.remove('visible');
+      document.getElementById('parcel-ppq-input').value = '';
+    }
+  }
+
+  function toggleParcelPricePerQtyV1(groupNum) {
+    const toggle = document.getElementById(`parcel-g${groupNum}-enable-price-per-qty-v1`);
+    const content = document.getElementById(`parcel-g${groupNum}-price-per-qty-content-v1`);
+    if (!toggle || !content) return;
+
+    const isOn = toggle.querySelector('.toggle-on').classList.contains('hidden');
+    if (isOn) {
+      toggle.querySelector('.toggle-off').classList.add('hidden');
+      toggle.querySelector('.toggle-on').classList.remove('hidden');
+      content.classList.add('visible');
+    } else {
+      toggle.querySelector('.toggle-off').classList.remove('hidden');
+      toggle.querySelector('.toggle-on').classList.add('hidden');
+      content.classList.remove('visible');
+    }
+    parcelEditChanged = true;
+    checkParcelEditValid();
+  }
+
+  function toggleParcelPricePerQtyV2(groupNum) {
+    const checkbox = document.getElementById(`parcel-g${groupNum}-enable-price-per-qty-v2`);
+    const content = document.getElementById(`parcel-g${groupNum}-price-per-qty-content-v2`);
+    if (!checkbox || !content) return;
+
+    if (checkbox.checked) {
+      content.classList.add('visible');
+    } else {
+      content.classList.remove('visible');
+    }
+    parcelEditChanged = true;
+    checkParcelEditValid();
   }
 
   let toastTimeout = null;
@@ -4414,14 +4814,41 @@ body {
     optionEl.classList.add('active');
     selectEl.classList.remove('open');
 
+    // Sync both V1 and V2 with the same value
+    const otherSelectId = selectId === 'global-units-per-pkg-select-v1' ? 'global-units-per-pkg-select-v2' : 'global-units-per-pkg-select-v1';
+    const otherSelect = document.getElementById(otherSelectId);
+    if (otherSelect) {
+      otherSelect.querySelector('.custom-select-value').textContent = value;
+      otherSelect.querySelectorAll('.custom-select-option').forEach(o => o.classList.toggle('active', o.textContent.trim() === value));
+    }
+
     globalUnitsPerPackage = parseInt(value);
     updateQuoteLabelsWithGlobalUnits();
   }
 
   function toggleGlobalUnitsPerPkg() {
-    const checkbox = document.getElementById('global-units-per-pkg-checkbox');
+    const toggle = document.getElementById('global-units-per-pkg-toggle');
     const content = document.getElementById('max-units-content');
-    if (checkbox.checked) {
+    if (!toggle || toggle.disabled) return;
+
+    toggle.classList.toggle('active');
+    const isActive = toggle.classList.contains('active');
+
+    // Sync V2 checkbox with V1 toggle
+    const checkboxV2 = document.getElementById('global-units-per-pkg-checkbox-v2');
+    if (checkboxV2) {
+      checkboxV2.checked = isActive;
+      const contentV2 = document.getElementById('max-units-content-v2');
+      if (contentV2) {
+        if (isActive) {
+          contentV2.classList.add('visible');
+        } else {
+          contentV2.classList.remove('visible');
+        }
+      }
+    }
+
+    if (isActive) {
       content.classList.add('visible');
       globalUnitsPerPackage = parseInt(document.getElementById('global-units-per-pkg-select-v1').querySelector('.custom-select-value').textContent) || null;
     } else {
@@ -4431,10 +4858,85 @@ body {
     updateQuoteLabelsWithGlobalUnits();
   }
 
+  function toggleGlobalUnitsPerPkgV2() {
+    const checkbox = document.getElementById('global-units-per-pkg-checkbox-v2');
+    const content = document.getElementById('max-units-content-v2');
+    if (!checkbox) return;
+
+    // Sync V1 toggle with V2 checkbox
+    const toggleV1 = document.getElementById('global-units-per-pkg-toggle');
+    if (toggleV1 && !toggleV1.disabled) {
+      toggleV1.classList.toggle('active', checkbox.checked);
+      const contentV1 = document.getElementById('max-units-content');
+      if (contentV1) {
+        if (checkbox.checked) {
+          contentV1.classList.add('visible');
+        } else {
+          contentV1.classList.remove('visible');
+        }
+      }
+    }
+
+    if (checkbox.checked) {
+      content.classList.add('visible');
+      globalUnitsPerPackage = parseInt(document.getElementById('global-units-per-pkg-select-v2').querySelector('.custom-select-value').textContent) || null;
+    } else {
+      content.classList.remove('visible');
+      globalUnitsPerPackage = null;
+    }
+    updateQuoteLabelsWithGlobalUnits();
+  }
+
+  function enableMaxUnitsToggle() {
+    const toggle = document.getElementById('global-units-per-pkg-toggle');
+    const label = document.querySelector('.max-units-toggle-row label');
+    const checkboxV2 = document.getElementById('global-units-per-pkg-checkbox-v2');
+    const labelV2 = document.querySelector('#max-units-v2 .max-units-checkbox label');
+
+    if (toggle) {
+      toggle.disabled = false;
+      if (label) label.classList.remove('disabled');
+    }
+    if (checkboxV2) {
+      checkboxV2.disabled = false;
+      if (labelV2) labelV2.classList.remove('disabled');
+    }
+  }
+
+  function disableMaxUnitsToggle() {
+    const toggle = document.getElementById('global-units-per-pkg-toggle');
+    const label = document.querySelector('.max-units-toggle-row label');
+    const checkboxV2 = document.getElementById('global-units-per-pkg-checkbox-v2');
+    const labelV2 = document.querySelector('#max-units-v2 .max-units-checkbox label');
+
+    if (toggle) {
+      toggle.disabled = true;
+      toggle.classList.remove('active');
+      if (label) label.classList.add('disabled');
+      const content = document.getElementById('max-units-content');
+      if (content) {
+        content.classList.remove('visible');
+      }
+    }
+    if (checkboxV2) {
+      checkboxV2.disabled = true;
+      checkboxV2.checked = false;
+      if (labelV2) labelV2.classList.add('disabled');
+      const contentV2 = document.getElementById('max-units-content-v2');
+      if (contentV2) {
+        contentV2.classList.remove('visible');
+      }
+    }
+    globalUnitsPerPackage = null;
+    updateQuoteLabelsWithGlobalUnits();
+  }
+
   function switchMaxUnitsVersion(version) {
-    const wrappers = ['max-units-v1', 'max-units-v2', 'price-per-qty-v3', 'price-per-qty-v4'];
-    const btns = ['v1-btn', 'v2-btn', 'v3-btn', 'v4-btn'];
-    const versions = ['v1', 'v2', 'v3', 'v4'];
+    currentVersion = version;
+    const wrappers = ['max-units-v1', 'max-units-v2'];
+    const btns = ['v1-btn', 'v2-btn'];
+    const versions = ['v1', 'v2'];
+    const modalWrappers = ['price-per-qty-v1', 'price-per-qty-v2'];
 
     // Hide all wrappers and deactivate all buttons
     wrappers.forEach(id => {
@@ -4445,29 +4947,29 @@ body {
       const el = document.querySelector('.' + cls);
       if (el) el.classList.remove('active');
     });
+    // Hide all modal versions
+    modalWrappers.forEach(id => {
+      const el = document.getElementById(id);
+      if (el) el.classList.add('hidden');
+    });
+
+    // Sync V1 and V2 states before switching
+    const toggle = document.getElementById('global-units-per-pkg-toggle');
+    const checkbox = document.getElementById('global-units-per-pkg-checkbox-v2');
+    if (toggle && checkbox) {
+      const toggleActive = toggle.classList.contains('active');
+      checkbox.checked = toggleActive;
+    }
 
     // Show the selected version
     const versionIndex = versions.indexOf(version);
     if (versionIndex !== -1) {
       const wrapper = document.getElementById(wrappers[versionIndex]);
       const btn = document.querySelector('.' + btns[versionIndex]);
+      const modalWrapper = document.getElementById(modalWrappers[versionIndex]);
       if (wrapper) wrapper.classList.remove('hidden');
       if (btn) btn.classList.add('active');
-    }
-  }
-
-  function togglePricePerQty(version) {
-    const checkboxId = `enable-price-per-qty-${version}`;
-    const contentId = `price-per-qty-content-${version}`;
-    const checkbox = document.getElementById(checkboxId);
-    const content = document.getElementById(contentId);
-
-    if (checkbox && content) {
-      if (checkbox.checked) {
-        content.classList.add('visible');
-      } else {
-        content.classList.remove('visible');
-      }
+      if (modalWrapper) modalWrapper.classList.remove('hidden');
     }
   }
 
@@ -4487,33 +4989,81 @@ body {
   }
 
   function saveParcelEdit() {
-    const r = editingParcelRegion;
-    if (!r) return;
+    try {
+      const r = editingParcelRegion;
+      if (!r) return;
     parcelData[r].method    = document.getElementById('parcel-edit-method-select').querySelector('.custom-select-value').textContent;
     parcelData[r].quoteType = document.getElementById('parcel-edit-quote-select').querySelector('.custom-select-value').textContent;
     const qt1 = parcelData[r].quoteType;
-    if (qt1 === 'Flat Rate') {
+    if (qt1 === 'Choose Your Own') {
       parcelData[r].customPrice = parseFloat(document.getElementById('parcel-g1-price-input').value) || 0;
+      // Read PPQ from single module and save to group 1
+      const ppqToggle = document.getElementById('parcel-enable-ppq');
+      const ppqInput = document.getElementById('parcel-ppq-input');
+      const isOn = ppqToggle && !ppqToggle.querySelector('.toggle-on').classList.contains('hidden');
+      if (isOn && ppqInput && ppqInput.value) {
+        parcelData[r].pricePerQuantity = parseFloat(ppqInput.value) || 0;
+      } else {
+        delete parcelData[r].pricePerQuantity;
+      }
+      // Save shipping time for group 1
+      const daysFrom1 = document.getElementById('parcel-g1-days-from').value;
+      const daysTo1 = document.getElementById('parcel-g1-days-to').value;
+      if (daysFrom1 || daysTo1) {
+        parcelData[r].daysFrom = daysFrom1 || '';
+        parcelData[r].daysTo = daysTo1 || '';
+      }
     }
     const group2Visible = !document.getElementById('parcel-method-group-2').classList.contains('hidden');
     if (group2Visible) {
       parcelData[r].expressMethod    = document.getElementById('parcel-edit-method-2-select').querySelector('.custom-select-value').textContent;
       parcelData[r].expressQuoteType = document.getElementById('parcel-edit-quote-2-select').querySelector('.custom-select-value').textContent;
       const qt2 = parcelData[r].expressQuoteType;
-      if (qt2 === 'Flat Rate') {
+      if (qt2 === 'Choose Your Own') {
         parcelData[r].expressCustomPrice = parseFloat(document.getElementById('parcel-g2-price-input').value) || 0;
+        // Read PPQ from single module and save to group 2
+        const ppqToggle2 = document.getElementById('parcel-enable-ppq');
+        const ppqInput2 = document.getElementById('parcel-ppq-input');
+        const isOn2 = ppqToggle2 && !ppqToggle2.querySelector('.toggle-on').classList.contains('hidden');
+        if (isOn2 && ppqInput2 && ppqInput2.value) {
+          parcelData[r].expressPricePerQuantity = parseFloat(ppqInput2.value) || 0;
+        } else {
+          delete parcelData[r].expressPricePerQuantity;
+        }
+        // Save shipping time for group 2
+        const daysFrom2 = document.getElementById('parcel-g2-days-from').value;
+        const daysTo2 = document.getElementById('parcel-g2-days-to').value;
+        if (daysFrom2 || daysTo2) {
+          parcelData[r].expressDaysFrom = daysFrom2 || '';
+          parcelData[r].expressDaysTo = daysTo2 || '';
+        }
+      } else if (qt2 === 'Calculated Quote') {
+        // Preserve expressPrice for calculated quotes
+        const priceEl = document.getElementById('parcel-edit-price-2-display');
+        if (priceEl && priceEl.textContent) {
+          parcelData[r].expressPrice = priceEl.textContent;
+        }
       }
     }
     // Re-render group 1 on card — time comes from the method name
     const displayMethod = parcelData[r].method.replace(/\s*\([^)]*\)$/, '').trim();
     const methodTime = (parcelData[r].method.match(/\(([^)]+)\)/) || [, ''])[1];
     document.getElementById(`parcel-${r}-method`).textContent      = displayMethod;
-    document.getElementById(`parcel-${r}-quote-label`).textContent = parcelData[r].quoteType;
-    if (qt1 === 'Flat Rate') {
-      document.getElementById(`parcel-${r}-price`).innerHTML  = `<strong>$${parcelData[r].customPrice.toFixed(2)}</strong>`;
+    const qt1Display = qt1 === 'Choose Your Own' ? 'Your Quote' : qt1;
+    document.getElementById(`parcel-${r}-quote-label`).textContent = qt1Display;
+    if (qt1 === 'Choose Your Own') {
+      document.getElementById(`parcel-${r}-price`).innerHTML = formatPriceDisplay(parcelData[r].customPrice, parcelData[r].pricePerQuantity);
       document.getElementById(`parcel-${r}-time`).textContent = methodTime;
     } else if (qt1 === 'Free Shipping') {
-      document.getElementById(`parcel-${r}-price`).innerHTML  = `<strong>$0.00</strong>`;
+      document.getElementById(`parcel-${r}-price`).innerHTML  = '<strong>$0</strong>';
+      document.getElementById(`parcel-${r}-time`).textContent = methodTime;
+    } else if (qt1 === 'Calculated Quote') {
+      const priceDisplay = document.getElementById(`parcel-${r}-price`);
+      const priceEl = document.getElementById('parcel-edit-price-display');
+      if (priceEl && priceEl.textContent) {
+        parcelData[r].price = priceEl.textContent;
+        priceDisplay.innerHTML = `<strong>${priceEl.textContent}</strong>`;
+      }
       document.getElementById(`parcel-${r}-time`).textContent = methodTime;
     }
     // Sync express row on card based on group 2 state
@@ -4523,14 +5073,18 @@ body {
       const expDisplayMethod = expMethod.replace(/\s*\([^)]*\)$/, '').trim();
       const expMethodTime    = (expMethod.match(/\(([^)]+)\)/) || [, ''])[1];
       document.getElementById(`parcel-${r}-express-method`).textContent      = expDisplayMethod;
-      document.getElementById(`parcel-${r}-express-quote-label`).textContent = expQuoteType;
+      const expQuoteDisplay = expQuoteType === 'Choose Your Own' ? 'Your Quote' : expQuoteType;
+      document.getElementById(`parcel-${r}-express-quote-label`).textContent = expQuoteDisplay;
       document.getElementById(`parcel-${r}-express-time`).textContent        = expMethodTime;
-      if (expQuoteType === 'Flat Rate') {
-        document.getElementById(`parcel-${r}-express-price`).innerHTML = `<strong>$${parcelData[r].expressCustomPrice.toFixed(2)}</strong>`;
+      if (expQuoteType === 'Choose Your Own') {
+        document.getElementById(`parcel-${r}-express-price`).innerHTML = formatPriceDisplay(parcelData[r].expressCustomPrice, parcelData[r].expressPricePerQuantity);
       } else if (expQuoteType === 'Free Shipping') {
-        document.getElementById(`parcel-${r}-express-price`).innerHTML = `<strong>$0.00</strong>`;
+        document.getElementById(`parcel-${r}-express-price`).innerHTML = '<strong>$0</strong>';
       } else {
-        document.getElementById(`parcel-${r}-express-price`).innerHTML = `<strong>${parcelData[r].expressPrice || parcelData[r].price}</strong>`;
+        const expPrice = parcelData[r].expressPrice || parcelData[r].price;
+        if (expPrice) {
+          document.getElementById(`parcel-${r}-express-price`).innerHTML = `<strong>${expPrice}</strong>`;
+        }
       }
       document.getElementById(`parcel-divider-${r}`).classList.remove('hidden');
       document.getElementById(`parcel-express-resolved-${r}`).classList.remove('hidden');
@@ -4567,22 +5121,23 @@ body {
       delete parcelData[r].applyUnitsToAll;
     }
 
-    // Show toast if multi-qty was enabled
-    if (unitsPerPkgCheckbox.checked) {
-      const unitsValue = document.getElementById('units-per-pkg-select').querySelector('.custom-select-value').textContent;
+      // Show toast if multi-qty was enabled
+      if (unitsPerPkgCheckbox.checked) {
+        const unitsValue = document.getElementById('units-per-pkg-select').querySelector('.custom-select-value').textContent;
 
-      let toastMessage = `Successfully enabled ${unitsValue} maximum units per package for `;
-      if (applyToAll) {
-        toastMessage += 'United States, Europe, and Rest of the World.';
-      } else {
-        const regionNames = { us: 'United States', eu: 'Europe', row: 'Rest of the World' };
-        toastMessage += regionNames[r] + '.';
+        let toastMessage = `Successfully enabled ${unitsValue} maximum units per package for `;
+        if (applyToAll) {
+          toastMessage += 'United States, Europe, and Rest of the World.';
+        } else {
+          const regionNames = { us: 'United States', eu: 'Europe', row: 'Rest of the World' };
+          toastMessage += regionNames[r] + '.';
+        }
+        showToast(toastMessage);
+        updateMultiQtyPills();
       }
-      showToast(toastMessage);
-      updateMultiQtyPills();
+    } finally {
+      closeParcelEditModal();
     }
-
-    closeParcelEditModal();
   }
 
   document.addEventListener('DOMContentLoaded', function() {
@@ -4678,8 +5233,8 @@ body {
       card.dataset.price    = q.price;
       card.dataset.daysFrom = q.timeLo;
       card.dataset.daysTo   = q.timeHi;
-      const quoteType    = q.price === 0 ? 'Free Shipping' : 'Flat Rate';
-      const priceDisplay = q.price === 0 ? '<strong>$0.00</strong>' : `<strong>$${q.price.toFixed(2)}</strong>`;
+      const quoteType    = q.price === 0 ? 'Free Shipping' : 'Your Quote';
+      const priceDisplay = q.price === 0 ? '<strong>$0</strong>' : `<strong>$${Math.round(q.price)}</strong>`;
       card.innerHTML = `
         <div class="custom-quote-header">
           <div class="region-name" style="margin-bottom:0">
@@ -5059,6 +5614,26 @@ body {
       <!-- Method group 1 -->
       <div id="parcel-method-group-1" class="parcel-method-group">
         <div class="modal-field">
+          <label class="modal-label">Shipping Quote</label>
+          <div class="custom-select" id="parcel-edit-quote-select">
+            <div class="custom-select-trigger" onclick="toggleCustomSelect('parcel-edit-quote-select')">
+              <span class="custom-select-value">Calculated Quote</span>
+              <img class="custom-select-chevron" src="Down icon.svg" alt="">
+            </div>
+            <div class="custom-select-dropdown">
+              <div class="custom-select-option active" data-value="Calculated Quote" onclick="pickParcelQuoteOption(this,'parcel-edit-quote-select',1)">
+                <div class="pq-option"><div class="pq-option-row"><span class="pq-option-title">Calculated Quote</span><span class="pq-option-price" id="pq-1-price">$50-$100</span></div><div class="pq-option-sub">1stDibs calculates the quote for you</div></div>
+              </div>
+              <div class="custom-select-option" data-value="Choose Your Own" onclick="pickParcelQuoteOption(this,'parcel-edit-quote-select',1)">
+                <div class="pq-option"><div class="pq-option-row"><span class="pq-option-title">Choose Your Own</span></div><div class="pq-option-sub">Set your own shipping price</div></div>
+              </div>
+              <div class="custom-select-option" data-value="Free Shipping" onclick="pickParcelQuoteOption(this,'parcel-edit-quote-select',1)">
+                <div class="pq-option"><div class="pq-option-row"><span class="pq-option-title free">Free Shipping</span></div><div class="pq-option-sub">You absorb the shipping cost</div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-field">
           <label class="modal-label">Shipping Method</label>
           <div class="custom-select" id="parcel-edit-method-select">
             <div class="custom-select-trigger" onclick="toggleCustomSelect('parcel-edit-method-select')">
@@ -5071,54 +5646,50 @@ body {
             </div>
           </div>
         </div>
-        <div class="modal-field">
-          <label class="modal-label">Shipping Quote</label>
-          <div class="custom-select" id="parcel-edit-quote-select">
-            <div class="custom-select-trigger" onclick="toggleCustomSelect('parcel-edit-quote-select')">
-              <span class="custom-select-value">Calculated Quote</span>
-              <img class="custom-select-chevron" src="Down icon.svg" alt="">
+        <!-- Shipping Time for group 1 -->
+        <div class="modal-field hidden" id="parcel-g1-shipping-time">
+          <label class="modal-label">Shipping Time</label>
+          <div class="modal-time-row">
+            <div class="modal-time-input">
+              <input type="number" id="parcel-g1-days-from" placeholder="" min="0" oninput="parcelEditChanged=true; checkParcelEditValid()">
+              <span class="modal-time-unit">days</span>
             </div>
-            <div class="custom-select-dropdown">
-              <div class="custom-select-option active" data-value="Calculated Quote" onclick="pickParcelQuoteOption(this,'parcel-edit-quote-select',1)">
-                <div class="pq-option"><div class="pq-option-row"><span class="pq-option-title">Calculated Quote</span><span class="pq-option-price" id="pq-1-price">$50-$100</span></div><div class="pq-option-sub">1stDibs calculates the quote for you</div></div>
-              </div>
-              <div class="custom-select-option" data-value="Flat Rate" onclick="pickParcelQuoteOption(this,'parcel-edit-quote-select',1)">
-                <div class="pq-option"><div class="pq-option-row"><span class="pq-option-title">Flat Rate</span></div><div class="pq-option-sub">Set your own shipping price</div></div>
-              </div>
-              <div class="custom-select-option" data-value="Free Shipping" onclick="pickParcelQuoteOption(this,'parcel-edit-quote-select',1)">
-                <div class="pq-option"><div class="pq-option-row"><span class="pq-option-title free">Free Shipping</span></div><div class="pq-option-sub">You absorb the shipping cost</div></div>
-              </div>
+            <span class="modal-time-to">to</span>
+            <div class="modal-time-input">
+              <input type="number" id="parcel-g1-days-to" placeholder="" min="0" oninput="parcelEditChanged=true; checkParcelEditValid()">
+              <span class="modal-time-unit">days</span>
             </div>
           </div>
         </div>
         <!-- Calculated Quote price (default visible) -->
         <div class="modal-field" id="parcel-g1-1stdibs-price">
-          <label class="modal-label">Shipping Price</label>
+          <label class="modal-label">Buyer Will Pay</label>
           <div>
             <div class="modal-price-display" id="parcel-edit-price-display">$50-$100</div>
             <p class="modal-helper" style="margin-top:2px;margin-bottom:9px">Final shipping cost is based on buyer's location.</p>
           </div>
         </div>
-        <!-- Flat Rate price input (hidden) -->
+        <!-- Choose Your Own price input (hidden) -->
         <div class="modal-field hidden" id="parcel-g1-flatrate-price">
-          <label class="modal-label">Shipping Price</label>
+          <label class="modal-label">Buyer Will Pay</label>
           <div class="modal-price-input">
             <span class="modal-price-prefix">$</span>
-            <input type="number" id="parcel-g1-price-input" placeholder="0" min="0" oninput="parcelEditChanged=true; checkParcelEditValid()">
+            <input type="number" id="parcel-g1-price-input" placeholder="0" min="0" oninput="parcelEditChanged=true; checkParcelEditValid(); updateParcelPPQModuleVisibility()">
             <span class="modal-price-suffix">USD</span>
           </div>
-          <p class="modal-helper" style="margin-top:5px">Buyers will pay this flat rate that you set.</p>
+          <p class="modal-helper" style="margin-top:5px">Buyers will pay this price that you set.</p>
           <div class="modal-est-banner">Estimated Shipping Price: <strong id="parcel-g1-flatrate-est">$50-$100</strong></div>
         </div>
         <!-- Free Shipping price (hidden) -->
         <div class="modal-field hidden" id="parcel-g1-free-price">
-          <label class="modal-label">Shipping Price</label>
+          <label class="modal-label">Buyer Will Pay</label>
           <div>
             <div class="modal-price-display">$0</div>
             <p class="modal-helper" style="margin-top:2px">You absorb the shipping cost.</p>
           </div>
           <div class="modal-est-banner">Estimated Shipping Price: <strong id="parcel-g1-free-est">$50-$100</strong></div>
         </div>
+
       </div>
 
       <!-- Divider -->
@@ -5126,6 +5697,26 @@ body {
 
       <!-- Method group 2 (hidden by default) -->
       <div id="parcel-method-group-2" class="parcel-method-group hidden">
+        <div class="modal-field">
+          <label class="modal-label">Shipping Quote</label>
+          <div class="custom-select" id="parcel-edit-quote-2-select">
+            <div class="custom-select-trigger" onclick="toggleCustomSelect('parcel-edit-quote-2-select')">
+              <span class="custom-select-value">Calculated Quote</span>
+              <img class="custom-select-chevron" src="Down icon.svg" alt="">
+            </div>
+            <div class="custom-select-dropdown">
+              <div class="custom-select-option active" data-value="Calculated Quote" onclick="pickParcelQuoteOption(this,'parcel-edit-quote-2-select',2)">
+                <div class="pq-option"><div class="pq-option-row"><span class="pq-option-title">Calculated Quote</span><span class="pq-option-price" id="pq-2-price">$50-$100</span></div><div class="pq-option-sub">1stDibs calculates the quote for you</div></div>
+              </div>
+              <div class="custom-select-option" data-value="Choose Your Own" onclick="pickParcelQuoteOption(this,'parcel-edit-quote-2-select',2)">
+                <div class="pq-option"><div class="pq-option-row"><span class="pq-option-title">Choose Your Own</span></div><div class="pq-option-sub">Set your own shipping price</div></div>
+              </div>
+              <div class="custom-select-option" data-value="Free Shipping" onclick="pickParcelQuoteOption(this,'parcel-edit-quote-2-select',2)">
+                <div class="pq-option"><div class="pq-option-row"><span class="pq-option-title free">Free Shipping</span></div><div class="pq-option-sub">You absorb the shipping cost</div></div>
+              </div>
+            </div>
+          </div>
+        </div>
         <div class="modal-field">
           <label class="modal-label">Shipping Method</label>
           <div class="custom-select" id="parcel-edit-method-2-select">
@@ -5139,53 +5730,71 @@ body {
             </div>
           </div>
         </div>
-        <div class="modal-field">
-          <label class="modal-label">Shipping Quote</label>
-          <div class="custom-select" id="parcel-edit-quote-2-select">
-            <div class="custom-select-trigger" onclick="toggleCustomSelect('parcel-edit-quote-2-select')">
-              <span class="custom-select-value">Calculated Quote</span>
-              <img class="custom-select-chevron" src="Down icon.svg" alt="">
+        <!-- Shipping Time for group 2 -->
+        <div class="modal-field hidden" id="parcel-g2-shipping-time">
+          <label class="modal-label">Shipping Time</label>
+          <div class="modal-time-row">
+            <div class="modal-time-input">
+              <input type="number" id="parcel-g2-days-from" placeholder="" min="0" oninput="parcelEditChanged=true; checkParcelEditValid()">
+              <span class="modal-time-unit">days</span>
             </div>
-            <div class="custom-select-dropdown">
-              <div class="custom-select-option active" data-value="Calculated Quote" onclick="pickParcelQuoteOption(this,'parcel-edit-quote-2-select',2)">
-                <div class="pq-option"><div class="pq-option-row"><span class="pq-option-title">Calculated Quote</span><span class="pq-option-price" id="pq-2-price">$50-$100</span></div><div class="pq-option-sub">1stDibs calculates the quote for you</div></div>
-              </div>
-              <div class="custom-select-option" data-value="Flat Rate" onclick="pickParcelQuoteOption(this,'parcel-edit-quote-2-select',2)">
-                <div class="pq-option"><div class="pq-option-row"><span class="pq-option-title">Flat Rate</span></div><div class="pq-option-sub">Set your own shipping price</div></div>
-              </div>
-              <div class="custom-select-option" data-value="Free Shipping" onclick="pickParcelQuoteOption(this,'parcel-edit-quote-2-select',2)">
-                <div class="pq-option"><div class="pq-option-row"><span class="pq-option-title free">Free Shipping</span></div><div class="pq-option-sub">You absorb the shipping cost</div></div>
-              </div>
+            <span class="modal-time-to">to</span>
+            <div class="modal-time-input">
+              <input type="number" id="parcel-g2-days-to" placeholder="" min="0" oninput="parcelEditChanged=true; checkParcelEditValid()">
+              <span class="modal-time-unit">days</span>
             </div>
           </div>
         </div>
         <div class="modal-field" id="parcel-g2-1stdibs-price">
-          <label class="modal-label">Shipping Price</label>
+          <label class="modal-label">Buyer Will Pay</label>
           <div>
             <div class="modal-price-display" id="parcel-edit-price-2-display">$50-$100</div>
             <p class="modal-helper" style="margin-top:2px;margin-bottom:9px">Final shipping cost is based on buyer's location.</p>
           </div>
         </div>
         <div class="modal-field hidden" id="parcel-g2-flatrate-price">
-          <label class="modal-label">Shipping Price</label>
+          <label class="modal-label">Buyer Will Pay</label>
           <div class="modal-price-input">
             <span class="modal-price-prefix">$</span>
-            <input type="number" id="parcel-g2-price-input" placeholder="0" min="0" oninput="parcelEditChanged=true; checkParcelEditValid()">
+            <input type="number" id="parcel-g2-price-input" placeholder="0" min="0" oninput="parcelEditChanged=true; checkParcelEditValid(); updateParcelPPQModuleVisibility()">
             <span class="modal-price-suffix">USD</span>
           </div>
-          <p class="modal-helper" style="margin-top:5px">Buyers will pay this flat rate that you set.</p>
+          <p class="modal-helper" style="margin-top:5px">Buyers will pay this price that you set.</p>
           <div class="modal-est-banner">Estimated Shipping Price: <strong id="parcel-g2-flatrate-est">$50-$100</strong></div>
         </div>
         <div class="modal-field hidden" id="parcel-g2-free-price">
-          <label class="modal-label">Shipping Price</label>
+          <label class="modal-label">Buyer Will Pay</label>
           <div>
             <div class="modal-price-display">$0</div>
             <p class="modal-helper" style="margin-top:2px">You absorb the shipping cost.</p>
           </div>
           <div class="modal-est-banner">Estimated Shipping Price: <strong id="parcel-g2-free-est">$50-$100</strong></div>
         </div>
-        <button class="parcel-remove-method-link" onclick="removeParcelMethod()">- Remove Shipping Method</button>
       </div>
+
+      <!-- Price Per Quantity Module - Single for both standard and express -->
+      <div class="modal-field price-per-qty-container hidden" id="parcel-ppq-module">
+        <div class="price-per-qty-section">
+          <div class="price-per-qty-toggle-row">
+            <label for="parcel-enable-ppq">Enable price per quantity <span style="font-weight: 300; color: var(--color-grey-66);">(applies to Choose Your Own quotes only)</span></label>
+            <button class="toggle-switch-img" id="parcel-enable-ppq" onclick="toggleParcelPPQ()" disabled>
+              <img src="Toggle active off.svg" width="63" height="30" alt="Off" class="toggle-off">
+              <img src="Toggle active on.svg" width="63" height="30" alt="On" class="toggle-on hidden">
+              <img src="Toggle disabled.svg" width="63" height="30" alt="Disabled" class="toggle-disabled">
+            </button>
+          </div>
+          <div class="price-per-qty-content" id="parcel-ppq-content">
+            <div class="modal-price-input">
+              <span class="modal-price-prefix">$</span>
+              <input type="number" id="parcel-ppq-input" placeholder="0" min="0" oninput="parcelEditChanged=true; checkParcelEditValid()">
+              <span class="modal-price-suffix">USD</span>
+            </div>
+            <p class="modal-helper">Specify cost per each additional unit. System will calculate cost based on quantity ordered, adding your quotes and cost per additional units.</p>
+          </div>
+        </div>
+      </div>
+
+      <button class="parcel-remove-method-link hidden" id="parcel-remove-method-btn" onclick="removeParcelMethod()">- Remove Shipping Method</button>
 
       <!-- Add shipping method link -->
       <button class="modal-add-method-link" id="parcel-add-method-btn" onclick="addParcelMethod()">+ Add Shipping Method</button>
