@@ -4630,17 +4630,42 @@ input[type="checkbox"]:not(:checked) ~ label .checkbox-svg {
     const methodSelect = document.getElementById(methodSelectId);
     if (!methodSelect) return;
 
+    const currentValue = methodSelect.querySelector('.custom-select-value').textContent;
     const options = methodSelect.querySelectorAll('.custom-select-option');
+    let newSelectedValue = null;
+
     options.forEach(opt => {
       const dataType = opt.dataset.type;
       if (quoteType === 'Choose Your Own') {
-        if (dataType === 'standard') opt.textContent = 'Standard Parcel';
-        else if (dataType === 'express') opt.textContent = 'Express Parcel';
+        if (dataType === 'standard') {
+          opt.textContent = 'Standard Parcel';
+          if (currentValue.includes('Standard') || currentValue === 'DHL Standard Parcel (5-14 Days)') {
+            newSelectedValue = 'Standard Parcel';
+          }
+        } else if (dataType === 'express') {
+          opt.textContent = 'Express Parcel';
+          if (currentValue.includes('Express') || currentValue === 'DHL Express Parcel (1-3 Days)') {
+            newSelectedValue = 'Express Parcel';
+          }
+        }
       } else if (quoteType === 'Calculated Quote') {
-        if (dataType === 'standard') opt.textContent = 'DHL Standard Parcel (5-14 Days)';
-        else if (dataType === 'express') opt.textContent = 'DHL Express Parcel (1-3 Days)';
+        if (dataType === 'standard') {
+          opt.textContent = 'DHL Standard Parcel (5-14 Days)';
+          if (currentValue.includes('Standard') || currentValue === 'Standard Parcel') {
+            newSelectedValue = 'DHL Standard Parcel (5-14 Days)';
+          }
+        } else if (dataType === 'express') {
+          opt.textContent = 'DHL Express Parcel (1-3 Days)';
+          if (currentValue.includes('Express') || currentValue === 'Express Parcel') {
+            newSelectedValue = 'DHL Express Parcel (1-3 Days)';
+          }
+        }
       }
     });
+
+    if (newSelectedValue) {
+      methodSelect.querySelector('.custom-select-value').textContent = newSelectedValue;
+    }
   }
 
   function formatPriceDisplay(price, pricePerQty = null) {
