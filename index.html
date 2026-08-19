@@ -5303,8 +5303,9 @@ input[type="checkbox"]:not(:checked) ~ label .checkbox-svg {
     }
     // Save units per package data
     const unitsPerPkgCheckbox = document.getElementById('units-per-pkg-checkbox');
-    const applyToAll = document.getElementById('units-per-pkg-apply-all').checked;
-    if (unitsPerPkgCheckbox.checked) {
+    const applyToAllElement = document.getElementById('units-per-pkg-apply-all');
+    const applyToAll = applyToAllElement ? applyToAllElement.checked : false;
+    if (unitsPerPkgCheckbox && unitsPerPkgCheckbox.checked) {
       const unitsValue = document.getElementById('units-per-pkg-select').querySelector('.custom-select-value').textContent;
       const unitsPerPkg = parseInt(unitsValue);
       parcelData[r].unitsPerPackage = unitsPerPkg;
