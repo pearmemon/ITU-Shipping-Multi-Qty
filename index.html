@@ -5347,11 +5347,22 @@ input[type="checkbox"]:not(:checked) ~ label .checkbox-svg {
         document.getElementById(`parcel-${r}-quote-label`).textContent = d.quoteType;
         // Update price/time for standard parcel
         if (d.quoteType === 'Calculated Quote') {
-          document.getElementById(`parcel-${r}-time`).textContent   = d.time;
+          // For calculated quotes, recalculate time based on dimensions
+          const rawLo = Math.min(...Object.keys(dimensionData).map(i => dimensionData[i].volume || 0).filter(v => v > 0));
+          const rawHi = Math.max(...Object.keys(dimensionData).map(i => dimensionData[i].volume || 0).filter(v => v > 0));
+          const cfg = {
+            us: { stdTime:'10-12 days', expTime:'2-4 days' },
+            eu: { stdTime:'10-12 days', expTime:'2-4 days' },
+            row: { stdTime:'10-12 days', expTime:'2-4 days' },
+          };
+          document.getElementById(`parcel-${r}-time`).textContent = cfg[r]?.stdTime || d.time;
           document.getElementById(`parcel-${r}-price`).innerHTML    = `<strong>${d.price}</strong>`;
         } else if (d.quoteType === 'Choose Your Own') {
+          // Show custom shipping time for Choose Your Own
           if (d.daysFrom && d.daysTo) {
             document.getElementById(`parcel-${r}-time`).textContent = `${d.daysFrom}-${d.daysTo} days`;
+          } else {
+            document.getElementById(`parcel-${r}-time`).textContent = '';
           }
           document.getElementById(`parcel-${r}-price`).innerHTML    = `<strong>$${d.customPrice || 0}</strong>`;
         }
@@ -5360,10 +5371,12 @@ input[type="checkbox"]:not(:checked) ~ label .checkbox-svg {
         if (expResolved && !expResolved.classList.contains('hidden')) {
           if (d.expressQuoteType === 'Calculated Quote') {
             document.getElementById(`parcel-${r}-express-price`).innerHTML  = `<strong>${d.expressPrice}</strong>`;
-            document.getElementById(`parcel-${r}-express-time`).textContent = d.expressTime;
+            document.getElementById(`parcel-${r}-express-time`).textContent = cfg[r]?.expTime || d.expressTime;
           } else if (d.expressQuoteType === 'Choose Your Own') {
             if (d.expressDaysFrom && d.expressDaysTo) {
               document.getElementById(`parcel-${r}-express-time`).textContent = `${d.expressDaysFrom}-${d.expressDaysTo} days`;
+            } else {
+              document.getElementById(`parcel-${r}-express-time`).textContent = '';
             }
             document.getElementById(`parcel-${r}-express-price`).innerHTML  = `<strong>$${d.expressCustomPrice || 0}</strong>`;
           }
