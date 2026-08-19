@@ -4998,9 +4998,19 @@ input[type="checkbox"]:not(:checked) ~ label .checkbox-svg {
     // Sync V1 and V2 states before switching
     const toggle = document.getElementById('global-units-per-pkg-toggle');
     const checkbox = document.getElementById('global-units-per-pkg-checkbox-v2');
+    const imgOff = document.getElementById('maxunits-v2-checkbox-off');
+    const imgOn = document.getElementById('maxunits-v2-checkbox-on');
     if (toggle && checkbox) {
       const toggleActive = toggle.classList.contains('active');
       checkbox.checked = toggleActive;
+      // Sync checkbox images
+      if (toggleActive) {
+        if (imgOff) imgOff.style.display = 'none';
+        if (imgOn) imgOn.style.display = 'block';
+      } else {
+        if (imgOff) imgOff.style.display = 'block';
+        if (imgOn) imgOn.style.display = 'none';
+      }
     }
 
     // Show the selected version
