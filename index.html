@@ -5195,12 +5195,10 @@ input[type="checkbox"]:not(:checked) ~ label .checkbox-svg {
         delete parcelData[r].pricePerQuantity;
       }
       // Save shipping time for group 1
-      const daysFrom1 = document.getElementById('parcel-g1-days-from').value;
-      const daysTo1 = document.getElementById('parcel-g1-days-to').value;
-      if (daysFrom1 || daysTo1) {
-        parcelData[r].daysFrom = daysFrom1 || '';
-        parcelData[r].daysTo = daysTo1 || '';
-      }
+      const daysFrom1 = document.getElementById('parcel-g1-days-from').value.trim();
+      const daysTo1 = document.getElementById('parcel-g1-days-to').value.trim();
+      parcelData[r].daysFrom = daysFrom1;
+      parcelData[r].daysTo = daysTo1;
     }
     const group2Visible = !document.getElementById('parcel-method-group-2').classList.contains('hidden');
     if (group2Visible) {
@@ -5231,12 +5229,10 @@ input[type="checkbox"]:not(:checked) ~ label .checkbox-svg {
           delete parcelData[r].expressPricePerQuantity;
         }
         // Save shipping time for group 2
-        const daysFrom2 = document.getElementById('parcel-g2-days-from').value;
-        const daysTo2 = document.getElementById('parcel-g2-days-to').value;
-        if (daysFrom2 || daysTo2) {
-          parcelData[r].expressDaysFrom = daysFrom2 || '';
-          parcelData[r].expressDaysTo = daysTo2 || '';
-        }
+        const daysFrom2 = document.getElementById('parcel-g2-days-from').value.trim();
+        const daysTo2 = document.getElementById('parcel-g2-days-to').value.trim();
+        parcelData[r].expressDaysFrom = daysFrom2;
+        parcelData[r].expressDaysTo = daysTo2;
       } else if (qt2 === 'Calculated Quote') {
         // Preserve expressPrice for calculated quotes
         const priceEl = document.getElementById('parcel-edit-price-2-display');
@@ -5359,7 +5355,7 @@ input[type="checkbox"]:not(:checked) ~ label .checkbox-svg {
           document.getElementById(`parcel-${r}-price`).innerHTML    = `<strong>${d.price}</strong>`;
         } else if (d.quoteType === 'Choose Your Own') {
           // Show custom shipping time for Choose Your Own
-          if (d.daysFrom && d.daysTo) {
+          if (d.daysFrom !== undefined && d.daysFrom !== '' && d.daysTo !== undefined && d.daysTo !== '') {
             document.getElementById(`parcel-${r}-time`).textContent = `${d.daysFrom}-${d.daysTo} days`;
           } else {
             document.getElementById(`parcel-${r}-time`).textContent = '';
@@ -5373,7 +5369,7 @@ input[type="checkbox"]:not(:checked) ~ label .checkbox-svg {
             document.getElementById(`parcel-${r}-express-price`).innerHTML  = `<strong>${d.expressPrice}</strong>`;
             document.getElementById(`parcel-${r}-express-time`).textContent = cfg[r]?.expTime || d.expressTime;
           } else if (d.expressQuoteType === 'Choose Your Own') {
-            if (d.expressDaysFrom && d.expressDaysTo) {
+            if (d.expressDaysFrom !== undefined && d.expressDaysFrom !== '' && d.expressDaysTo !== undefined && d.expressDaysTo !== '') {
               document.getElementById(`parcel-${r}-express-time`).textContent = `${d.expressDaysFrom}-${d.expressDaysTo} days`;
             } else {
               document.getElementById(`parcel-${r}-express-time`).textContent = '';
