@@ -4525,20 +4525,41 @@ input[type="checkbox"]:not(:checked) ~ label .checkbox-svg {
       document.getElementById('parcel-remove-method-btn').classList.add('hidden');
     }
     document.getElementById('parcel-edit-save-btn').disabled = true;
-    // Load PPQ module
+    // Load PPQ module - restore same value to both V1 and V2
+    const ppqValue = d.pricePerQuantity || d.expressPricePerQuantity || '';
     const ppqToggle = document.getElementById('parcel-enable-ppq');
-    const ppqInput = document.getElementById('parcel-ppq-input');
-    const ppqValueConsolidated = d.pricePerQuantity || d.expressPricePerQuantity || '';
-    if (ppqValueConsolidated) {
-      ppqInput.value = ppqValueConsolidated;
-      ppqToggle.querySelector('.toggle-off').classList.add('hidden');
-      ppqToggle.querySelector('.toggle-on').classList.remove('hidden');
+    const ppqCheckbox = document.getElementById('parcel-enable-ppq-v2');
+    const ppqInputV1 = document.getElementById('parcel-ppq-input');
+    const ppqInputV2 = document.getElementById('parcel-ppq-input-v2');
+
+    if (ppqValue) {
+      // Set V1 toggle
+      ppqInputV1.value = ppqValue;
+      ppqToggle.classList.add('active');
       document.getElementById('parcel-ppq-content').classList.add('visible');
+
+      // Set V2 checkbox
+      ppqInputV2.value = ppqValue;
+      ppqCheckbox.checked = true;
+      document.getElementById('parcel-ppq-content-v2').classList.add('visible');
+      const imgOff = document.getElementById('parcel-ppq-v2-checkbox-off');
+      const imgOn = document.getElementById('parcel-ppq-v2-checkbox-on');
+      if (imgOff) imgOff.style.display = 'none';
+      if (imgOn) imgOn.style.display = 'block';
     } else {
-      ppqInput.value = '';
-      ppqToggle.querySelector('.toggle-off').classList.remove('hidden');
-      ppqToggle.querySelector('.toggle-on').classList.add('hidden');
+      // Reset V1
+      ppqInputV1.value = '';
+      ppqToggle.classList.remove('active');
       document.getElementById('parcel-ppq-content').classList.remove('visible');
+
+      // Reset V2
+      ppqInputV2.value = '';
+      ppqCheckbox.checked = false;
+      document.getElementById('parcel-ppq-content-v2').classList.remove('visible');
+      const imgOff = document.getElementById('parcel-ppq-v2-checkbox-off');
+      const imgOn = document.getElementById('parcel-ppq-v2-checkbox-on');
+      if (imgOff) imgOff.style.display = 'block';
+      if (imgOn) imgOn.style.display = 'none';
     }
     updateParcelPPQModuleVisibility();
 
@@ -4718,25 +4739,38 @@ input[type="checkbox"]:not(:checked) ~ label .checkbox-svg {
     const content = document.getElementById('parcel-ppq-content');
     if (!toggle || toggle.disabled) return;
 
-    const isOn = toggle.querySelector('.toggle-on').classList.contains('hidden');
-    if (isOn) {
-      toggle.querySelector('.toggle-off').classList.add('hidden');
-      toggle.querySelector('.toggle-on').classList.remove('hidden');
+    toggle.classList.toggle('active');
+    const isActive = toggle.classList.contains('active');
+    if (isActive) {
       content.classList.add('visible');
     } else {
-      toggle.querySelector('.toggle-off').classList.remove('hidden');
-      toggle.querySelector('.toggle-on').classList.add('hidden');
       content.classList.remove('visible');
     }
     parcelEditChanged = true;
     checkParcelEditValid();
   }
 
-  function updateParcelPPQModuleVisibility() {
-    const ppqModule = document.getElementById('parcel-ppq-module');
-    const ppqToggle = document.getElementById('parcel-enable-ppq');
-    if (!ppqModule || !ppqToggle) return;
+  function toggleParcelPPQV2() {
+    const checkbox = document.getElementById('parcel-enable-ppq-v2');
+    const content = document.getElementById('parcel-ppq-content-v2');
+    const imgOff = document.getElementById('parcel-ppq-v2-checkbox-off');
+    const imgOn = document.getElementById('parcel-ppq-v2-checkbox-on');
+    if (!checkbox || checkbox.disabled) return;
 
+    if (checkbox.checked) {
+      content.classList.add('visible');
+      if (imgOff) imgOff.style.display = 'none';
+      if (imgOn) imgOn.style.display = 'block';
+    } else {
+      content.classList.remove('visible');
+      if (imgOff) imgOff.style.display = 'block';
+      if (imgOn) imgOn.style.display = 'none';
+    }
+    parcelEditChanged = true;
+    checkParcelEditValid();
+  }
+
+  function updateParcelPPQModuleVisibility() {
     // Check if either group has "Choose Your Own" selected
     const g1QuoteSelect = document.getElementById('parcel-edit-quote-select');
     const g2QuoteSelect = document.getElementById('parcel-edit-quote-2-select');
@@ -4744,24 +4778,44 @@ input[type="checkbox"]:not(:checked) ~ label .checkbox-svg {
     const g2QuoteType = g2QuoteSelect ? g2QuoteSelect.querySelector('.custom-select-value').textContent : '';
     const hasChooseYourOwn = g1QuoteType === 'Choose Your Own' || g2QuoteType === 'Choose Your Own';
 
-    // Show module if either group has "Choose Your Own"
+    // Get prices for enabled/disabled state
+    const g1PriceEl = document.getElementById('parcel-g1-price-input');
+    const g2PriceEl = document.getElementById('parcel-g2-price-input');
+    const g1Price = g1PriceEl ? parseFloat(g1PriceEl.value) || 0 : 0;
+    const g2Price = g2PriceEl ? parseFloat(g2PriceEl.value) || 0 : 0;
+    const hasPrice = (g1Price > 0) || (g2Price > 0);
+
+    // Show/hide based on design version
+    const ppqModuleV1 = document.getElementById('parcel-ppq-module-v1');
+    const ppqModuleV2 = document.getElementById('parcel-ppq-module-v2');
+    const ppqToggle = document.getElementById('parcel-enable-ppq');
+    const ppqCheckbox = document.getElementById('parcel-enable-ppq-v2');
+
     if (hasChooseYourOwn) {
-      ppqModule.classList.remove('hidden');
-      // Keep disabled state tied to whether there's a price
-      const g1PriceEl = document.getElementById('parcel-g1-price-input');
-      const g2PriceEl = document.getElementById('parcel-g2-price-input');
-      const g1Price = g1PriceEl ? parseFloat(g1PriceEl.value) || 0 : 0;
-      const g2Price = g2PriceEl ? parseFloat(g2PriceEl.value) || 0 : 0;
-      const hasPrice = (g1Price > 0) || (g2Price > 0);
-      ppqToggle.disabled = !hasPrice;
+      if (currentVersion === 'v1') {
+        if (ppqModuleV1) ppqModuleV1.classList.remove('hidden');
+        if (ppqModuleV2) ppqModuleV2.classList.add('hidden');
+        if (ppqToggle) ppqToggle.disabled = !hasPrice;
+      } else {
+        if (ppqModuleV1) ppqModuleV1.classList.add('hidden');
+        if (ppqModuleV2) ppqModuleV2.classList.remove('hidden');
+        if (ppqCheckbox) ppqCheckbox.disabled = !hasPrice;
+      }
     } else {
-      ppqModule.classList.add('hidden');
-      // Reset PPQ when hiding module
-      ppqToggle.disabled = true;
-      ppqToggle.querySelector('.toggle-off').classList.remove('hidden');
-      ppqToggle.querySelector('.toggle-on').classList.add('hidden');
-      document.getElementById('parcel-ppq-content').classList.remove('visible');
-      document.getElementById('parcel-ppq-input').value = '';
+      if (ppqModuleV1) ppqModuleV1.classList.add('hidden');
+      if (ppqModuleV2) ppqModuleV2.classList.add('hidden');
+      if (ppqToggle) {
+        ppqToggle.disabled = true;
+        ppqToggle.classList.remove('active');
+        document.getElementById('parcel-ppq-content').classList.remove('visible');
+        document.getElementById('parcel-ppq-input').value = '';
+      }
+      if (ppqCheckbox) {
+        ppqCheckbox.disabled = true;
+        ppqCheckbox.checked = false;
+        document.getElementById('parcel-ppq-content-v2').classList.remove('visible');
+        document.getElementById('parcel-ppq-input-v2').value = '';
+      }
     }
   }
 
@@ -5049,12 +5103,24 @@ input[type="checkbox"]:not(:checked) ~ label .checkbox-svg {
     const qt1 = parcelData[r].quoteType;
     if (qt1 === 'Choose Your Own') {
       parcelData[r].customPrice = parseFloat(document.getElementById('parcel-g1-price-input').value) || 0;
-      // Read PPQ from single module and save to group 1
-      const ppqToggle = document.getElementById('parcel-enable-ppq');
-      const ppqInput = document.getElementById('parcel-ppq-input');
-      const isOn = ppqToggle && !ppqToggle.querySelector('.toggle-on').classList.contains('hidden');
-      if (isOn && ppqInput && ppqInput.value) {
-        parcelData[r].pricePerQuantity = parseFloat(ppqInput.value) || 0;
+      // Read PPQ from correct module (V1 or V2) and save to group 1
+      let ppqValue = null;
+      if (currentVersion === 'v1') {
+        const ppqToggle = document.getElementById('parcel-enable-ppq');
+        const ppqInput = document.getElementById('parcel-ppq-input');
+        const isOn = ppqToggle && ppqToggle.classList.contains('active');
+        if (isOn && ppqInput && ppqInput.value) {
+          ppqValue = parseFloat(ppqInput.value) || 0;
+        }
+      } else {
+        const ppqCheckbox = document.getElementById('parcel-enable-ppq-v2');
+        const ppqInput = document.getElementById('parcel-ppq-input-v2');
+        if (ppqCheckbox && ppqCheckbox.checked && ppqInput && ppqInput.value) {
+          ppqValue = parseFloat(ppqInput.value) || 0;
+        }
+      }
+      if (ppqValue) {
+        parcelData[r].pricePerQuantity = ppqValue;
       } else {
         delete parcelData[r].pricePerQuantity;
       }
@@ -5073,12 +5139,24 @@ input[type="checkbox"]:not(:checked) ~ label .checkbox-svg {
       const qt2 = parcelData[r].expressQuoteType;
       if (qt2 === 'Choose Your Own') {
         parcelData[r].expressCustomPrice = parseFloat(document.getElementById('parcel-g2-price-input').value) || 0;
-        // Read PPQ from single module and save to group 2
-        const ppqToggle2 = document.getElementById('parcel-enable-ppq');
-        const ppqInput2 = document.getElementById('parcel-ppq-input');
-        const isOn2 = ppqToggle2 && !ppqToggle2.querySelector('.toggle-on').classList.contains('hidden');
-        if (isOn2 && ppqInput2 && ppqInput2.value) {
-          parcelData[r].expressPricePerQuantity = parseFloat(ppqInput2.value) || 0;
+        // Read PPQ from correct module (V1 or V2) and save to group 2
+        let ppqValue2 = null;
+        if (currentVersion === 'v1') {
+          const ppqToggle = document.getElementById('parcel-enable-ppq');
+          const ppqInput = document.getElementById('parcel-ppq-input');
+          const isOn = ppqToggle && ppqToggle.classList.contains('active');
+          if (isOn && ppqInput && ppqInput.value) {
+            ppqValue2 = parseFloat(ppqInput.value) || 0;
+          }
+        } else {
+          const ppqCheckbox = document.getElementById('parcel-enable-ppq-v2');
+          const ppqInput = document.getElementById('parcel-ppq-input-v2');
+          if (ppqCheckbox && ppqCheckbox.checked && ppqInput && ppqInput.value) {
+            ppqValue2 = parseFloat(ppqInput.value) || 0;
+          }
+        }
+        if (ppqValue2) {
+          parcelData[r].expressPricePerQuantity = ppqValue2;
         } else {
           delete parcelData[r].expressPricePerQuantity;
         }
@@ -5824,8 +5902,8 @@ input[type="checkbox"]:not(:checked) ~ label .checkbox-svg {
         </div>
       </div>
 
-      <!-- Price Per Quantity Module - Single for both standard and express -->
-      <div class="modal-field price-per-qty-container hidden" id="parcel-ppq-module">
+      <!-- Price Per Quantity Module - V1 (Toggle) -->
+      <div class="modal-field price-per-qty-container hidden" id="parcel-ppq-module-v1">
         <div class="price-per-qty-section">
           <div class="price-per-qty-toggle-row">
             <label for="parcel-enable-ppq">Enable price per quantity <span style="font-weight: 300; color: var(--color-grey-66);">(applies to Choose Your Own quotes only)</span></label>
@@ -5839,6 +5917,28 @@ input[type="checkbox"]:not(:checked) ~ label .checkbox-svg {
             <div class="modal-price-input">
               <span class="modal-price-prefix">$</span>
               <input type="number" id="parcel-ppq-input" placeholder="0" min="0" oninput="parcelEditChanged=true; checkParcelEditValid()">
+              <span class="modal-price-suffix">USD</span>
+            </div>
+            <p class="modal-helper">Specify cost per each additional unit. System will calculate cost based on quantity ordered, adding your quotes and cost per additional units.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Price Per Quantity Module - V2 (Checkbox) -->
+      <div class="modal-field price-per-qty-container hidden" id="parcel-ppq-module-v2">
+        <div class="price-per-qty-section">
+          <div class="price-per-qty-checkbox">
+            <input type="checkbox" id="parcel-enable-ppq-v2" onchange="toggleParcelPPQV2()" disabled style="display: none;">
+            <label for="parcel-enable-ppq-v2" class="disabled" style="display: flex; align-items: center; gap: 9px; margin: 0;">
+              <img class="checkbox-img-off" id="parcel-ppq-v2-checkbox-off" src="Checkbox-Active-Off.svg" width="20" height="20" alt="Unchecked" style="flex-shrink: 0;">
+              <img class="checkbox-img-on" id="parcel-ppq-v2-checkbox-on" src="Checkbox-Active-On.svg" width="20" height="20" alt="Checked" style="flex-shrink: 0; display: none;">
+              <span>Enable price per quantity <span style="font-weight: 300; color: var(--color-grey-66);">(applies to Choose Your Own quotes only)</span></span>
+            </label>
+          </div>
+          <div class="price-per-qty-content" id="parcel-ppq-content-v2">
+            <div class="modal-price-input">
+              <span class="modal-price-prefix">$</span>
+              <input type="number" id="parcel-ppq-input-v2" placeholder="0" min="0" oninput="parcelEditChanged=true; checkParcelEditValid()">
               <span class="modal-price-suffix">USD</span>
             </div>
             <p class="modal-helper">Specify cost per each additional unit. System will calculate cost based on quantity ordered, adding your quotes and cost per additional units.</p>
