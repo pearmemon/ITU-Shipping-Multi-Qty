@@ -4526,20 +4526,20 @@ input[type="checkbox"]:not(:checked) ~ label .checkbox-svg {
     }
     document.getElementById('parcel-edit-save-btn').disabled = true;
     // Load PPQ module - restore same value to both V1 and V2
-    const ppqValue = d.pricePerQuantity || d.expressPricePerQuantity || '';
+    const ppqValueConsolidated = d.pricePerQuantity || d.expressPricePerQuantity || '';
     const ppqToggle = document.getElementById('parcel-enable-ppq');
     const ppqCheckbox = document.getElementById('parcel-enable-ppq-v2');
     const ppqInputV1 = document.getElementById('parcel-ppq-input');
     const ppqInputV2 = document.getElementById('parcel-ppq-input-v2');
 
-    if (ppqValue) {
+    if (ppqValueConsolidated) {
       // Set V1 toggle
-      ppqInputV1.value = ppqValue;
+      ppqInputV1.value = ppqValueConsolidated;
       ppqToggle.classList.add('active');
       document.getElementById('parcel-ppq-content').classList.add('visible');
 
       // Set V2 checkbox
-      ppqInputV2.value = ppqValue;
+      ppqInputV2.value = ppqValueConsolidated;
       ppqCheckbox.checked = true;
       document.getElementById('parcel-ppq-content-v2').classList.add('visible');
       const imgOff = document.getElementById('parcel-ppq-v2-checkbox-off');
