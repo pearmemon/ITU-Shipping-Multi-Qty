@@ -4782,12 +4782,25 @@ input[type="checkbox"]:not(:checked) ~ label .checkbox-svg {
     const g2DaysTo = document.getElementById('parcel-g2-days-to').value.trim();
     const g2Visible = !document.getElementById('parcel-method-group-2').classList.contains('hidden');
 
+    // Get quote types
+    const g1QuoteType = document.getElementById('parcel-edit-quote-select')?.querySelector('.custom-select-value').textContent;
+    const g2QuoteType = document.getElementById('parcel-edit-quote-2-select')?.querySelector('.custom-select-value').textContent;
+
+    // Get prices for Choose Your Own quotes
+    const g1Price = parseFloat(document.getElementById('parcel-g1-price-input').value) || 0;
+    const g2Price = parseFloat(document.getElementById('parcel-g2-price-input').value) || 0;
+
     // At least Group 1 must have time filled, OR Group 2 must be visible and have time filled
     const g1HasTime = g1DaysFrom && g1DaysTo;
     const g2HasTime = g2DaysFrom && g2DaysTo;
     const hasRequiredTime = g1HasTime || (g2Visible && g2HasTime);
 
-    document.getElementById('parcel-edit-save-btn').disabled = !parcelEditChanged || !hasRequiredTime;
+    // For Choose Your Own quotes, also require price to be filled
+    const g1HasPrice = g1QuoteType === 'Choose Your Own' ? g1Price > 0 : true;
+    const g2HasPrice = g2Visible && g2QuoteType === 'Choose Your Own' ? g2Price > 0 : true;
+    const hasRequiredPrice = g1HasPrice && g2HasPrice;
+
+    document.getElementById('parcel-edit-save-btn').disabled = !parcelEditChanged || !hasRequiredTime || !hasRequiredPrice;
   }
 
   function toggleParcelPricePerQty(groupNum) {
