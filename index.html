@@ -2783,10 +2783,8 @@ input[type="checkbox"]:not(:checked) ~ label .checkbox-svg {
           <div class="max-units-checkbox">
             <input type="checkbox" id="global-units-per-pkg-checkbox-v2" disabled onchange="toggleGlobalUnitsPerPkgV2()" style="display: none;">
             <label for="global-units-per-pkg-checkbox-v2" class="disabled" style="display: flex; align-items: center; gap: 9px; margin: 0;">
-              <svg class="checkbox-svg" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" style="flex-shrink: 0; opacity: 0.5;">
-                <rect width="20" height="20" fill="#436B93"/>
-                <path fill-rule="evenodd" clip-rule="evenodd" d="M7.76718 15.5372L3.01172 10.9889L4.51941 9.35662L7.76718 12.4644L15.5097 5.05228L16.989 6.64971L7.76718 15.5372Z" fill="white"/>
-              </svg>
+              <img class="checkbox-img-off" id="maxunits-v2-checkbox-off" src="Checkbox-Disabled.svg" width="20" height="20" alt="Disabled" style="flex-shrink: 0;">
+              <img class="checkbox-img-on" id="maxunits-v2-checkbox-on" src="Checkbox-Active-On.svg" width="20" height="20" alt="Checked" style="flex-shrink: 0; display: none;">
               <span>Specify max units per package <span style="font-weight: 300; color: var(--color-grey-66);">(applies to Calculated Quotes only)</span></span>
             </label>
           </div>
@@ -3442,10 +3440,8 @@ input[type="checkbox"]:not(:checked) ~ label .checkbox-svg {
           <div class="price-per-qty-checkbox">
             <input type="checkbox" id="enable-price-per-qty-v2" onchange="togglePricePerQtyV2()" style="display: none;">
             <label for="enable-price-per-qty-v2" style="display: flex; align-items: center; gap: 9px; margin: 0; cursor: pointer;">
-              <svg class="checkbox-svg" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" style="flex-shrink: 0;">
-                <rect width="20" height="20" fill="#436B93"/>
-                <path fill-rule="evenodd" clip-rule="evenodd" d="M7.76718 15.5372L3.01172 10.9889L4.51941 9.35662L7.76718 12.4644L15.5097 5.05228L16.989 6.64971L7.76718 15.5372Z" fill="white"/>
-              </svg>
+              <img class="checkbox-img-off" id="ppq-v2-checkbox-off" src="Checkbox-Active-Off.svg" width="20" height="20" alt="Unchecked" style="flex-shrink: 0;">
+              <img class="checkbox-img-on" id="ppq-v2-checkbox-on" src="Checkbox-Active-On.svg" width="20" height="20" alt="Checked" style="flex-shrink: 0; display: none;">
               <span>Enable price per quantity <span style="font-weight: 300; color: var(--color-grey-66);">(applies to Choose Your Own quotes only)</span></span>
             </label>
           </div>
@@ -3888,12 +3884,18 @@ input[type="checkbox"]:not(:checked) ~ label .checkbox-svg {
   function togglePricePerQtyV2() {
     const checkbox = document.getElementById('enable-price-per-qty-v2');
     const content = document.getElementById('price-per-qty-content-v2');
+    const imgOff = document.getElementById('ppq-v2-checkbox-off');
+    const imgOn = document.getElementById('ppq-v2-checkbox-on');
     if (!checkbox || checkbox.disabled) return;
 
     if (checkbox.checked) {
       content.classList.add('visible');
+      if (imgOff) imgOff.style.display = 'none';
+      if (imgOn) imgOn.style.display = 'block';
     } else {
       content.classList.remove('visible');
+      if (imgOff) imgOff.style.display = 'block';
+      if (imgOn) imgOn.style.display = 'none';
     }
   }
 
@@ -4051,6 +4053,10 @@ input[type="checkbox"]:not(:checked) ~ label .checkbox-svg {
         checkboxV2.checked = true;
         ppqInputV2.value = ppqValue;
         document.getElementById('price-per-qty-content-v2').classList.add('visible');
+        const imgOff = document.getElementById('ppq-v2-checkbox-off');
+        const imgOn = document.getElementById('ppq-v2-checkbox-on');
+        if (imgOff) imgOff.style.display = 'none';
+        if (imgOn) imgOn.style.display = 'block';
       }
     } else {
       // Reset both versions if no price per quantity
@@ -4063,6 +4069,10 @@ input[type="checkbox"]:not(:checked) ~ label .checkbox-svg {
         checkboxV2.checked = false;
         ppqInputV2.value = '';
         document.getElementById('price-per-qty-content-v2').classList.remove('visible');
+        const imgOff = document.getElementById('ppq-v2-checkbox-off');
+        const imgOn = document.getElementById('ppq-v2-checkbox-on');
+        if (imgOff) imgOff.style.display = 'block';
+        if (imgOn) imgOn.style.display = 'none';
       }
     }
 
@@ -4887,6 +4897,8 @@ input[type="checkbox"]:not(:checked) ~ label .checkbox-svg {
   function toggleGlobalUnitsPerPkgV2() {
     const checkbox = document.getElementById('global-units-per-pkg-checkbox-v2');
     const content = document.getElementById('max-units-content-v2');
+    const imgOff = document.getElementById('maxunits-v2-checkbox-off');
+    const imgOn = document.getElementById('maxunits-v2-checkbox-on');
     if (!checkbox) return;
 
     // Sync V1 toggle with V2 checkbox
@@ -4905,9 +4917,13 @@ input[type="checkbox"]:not(:checked) ~ label .checkbox-svg {
 
     if (checkbox.checked) {
       content.classList.add('visible');
+      if (imgOff) imgOff.style.display = 'none';
+      if (imgOn) imgOn.style.display = 'block';
       globalUnitsPerPackage = parseInt(document.getElementById('global-units-per-pkg-select-v2').querySelector('.custom-select-value').textContent) || null;
     } else {
       content.classList.remove('visible');
+      if (imgOff) imgOff.style.display = 'block';
+      if (imgOn) imgOn.style.display = 'none';
       globalUnitsPerPackage = null;
     }
     updateQuoteLabelsWithGlobalUnits();
