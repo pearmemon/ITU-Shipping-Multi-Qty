@@ -4218,9 +4218,9 @@ input[type="checkbox"]:not(:checked) ~ label .checkbox-svg {
 
   // ── Parcel logic ───────────────────────────────────────────────────
   let parcelData = {
-    us:  { name: 'United States',     method: 'DHL Standard Parcel (10-12 days)', expressMethod: 'DHL Express Parcel (2-4 days)', time: '10-12 days', quoteType: 'Calculated Quote', expressQuoteType: 'Calculated Quote', price: '$50-$100' },
-    eu:  { name: 'Europe',            method: 'DHL Standard Parcel (10-12 days)', expressMethod: 'DHL Express Parcel (2-4 days)', time: '10-12 days', quoteType: 'Calculated Quote', expressQuoteType: 'Calculated Quote', price: '$50-$100' },
-    row: { name: 'Rest of the World', method: 'DHL Standard Parcel (10-12 days)', expressMethod: 'DHL Express Parcel (2-4 days)', time: '10-12 days', quoteType: 'Calculated Quote', expressQuoteType: 'Calculated Quote', price: '$50-$100' },
+    us:  { name: 'United States',     method: 'DHL Standard Parcel (10-12 days)', expressMethod: 'DHL Express Parcel (2-4 days)', time: '10-12 days', quoteType: 'Calculated Quote', expressQuoteType: 'Calculated Quote', price: '$50-$100', daysFrom: '', daysTo: '', expressDaysFrom: '', expressDaysTo: '' },
+    eu:  { name: 'Europe',            method: 'DHL Standard Parcel (10-12 days)', expressMethod: 'DHL Express Parcel (2-4 days)', time: '10-12 days', quoteType: 'Calculated Quote', expressQuoteType: 'Calculated Quote', price: '$50-$100', daysFrom: '', daysTo: '', expressDaysFrom: '', expressDaysTo: '' },
+    row: { name: 'Rest of the World', method: 'DHL Standard Parcel (10-12 days)', expressMethod: 'DHL Express Parcel (2-4 days)', time: '10-12 days', quoteType: 'Calculated Quote', expressQuoteType: 'Calculated Quote', price: '$50-$100', daysFrom: '', daysTo: '', expressDaysFrom: '', expressDaysTo: '' },
   };
   let editingParcelRegion = null;
   let parcelEditChanged = false;
@@ -4381,16 +4381,30 @@ input[type="checkbox"]:not(:checked) ~ label .checkbox-svg {
       const displayMethod = d.method.replace(/\s*\([^)]*\)$/, '').trim();
       document.getElementById(`parcel-${r}-method`).textContent      = displayMethod;
       document.getElementById(`parcel-${r}-quote-label`).textContent = d.quoteType;
-      // Only update price/time DOM for Calculated Quote regions — seller-set values stay untouched
+      // Update price/time DOM
       if (d.quoteType === 'Calculated Quote') {
         document.getElementById(`parcel-${r}-time`).textContent   = d.time;
         document.getElementById(`parcel-${r}-price`).innerHTML    = `<strong>${d.price}</strong>`;
+      } else if (d.quoteType === 'Choose Your Own') {
+        // Show custom shipping time for Choose Your Own
+        if (d.daysFrom && d.daysTo) {
+          document.getElementById(`parcel-${r}-time`).textContent = `${d.daysFrom}-${d.daysTo} days`;
+        }
+        document.getElementById(`parcel-${r}-price`).innerHTML    = `<strong>$${d.customPrice || 0}</strong>`;
       }
-      // Refresh express row if already visible and still 1stDibs
+      // Refresh express row if already visible
       const expResolved = document.getElementById(`parcel-express-resolved-${r}`);
-      if (expResolved && !expResolved.classList.contains('hidden') && d.expressQuoteType === 'Calculated Quote') {
-        document.getElementById(`parcel-${r}-express-price`).innerHTML  = `<strong>${d.expressPrice}</strong>`;
-        document.getElementById(`parcel-${r}-express-time`).textContent = d.expressTime;
+      if (expResolved && !expResolved.classList.contains('hidden')) {
+        if (d.expressQuoteType === 'Calculated Quote') {
+          document.getElementById(`parcel-${r}-express-price`).innerHTML  = `<strong>${d.expressPrice}</strong>`;
+          document.getElementById(`parcel-${r}-express-time`).textContent = d.expressTime;
+        } else if (d.expressQuoteType === 'Choose Your Own') {
+          // Show custom shipping time for Choose Your Own express
+          if (d.expressDaysFrom && d.expressDaysTo) {
+            document.getElementById(`parcel-${r}-express-time`).textContent = `${d.expressDaysFrom}-${d.expressDaysTo} days`;
+          }
+          document.getElementById(`parcel-${r}-express-price`).innerHTML  = `<strong>$${d.expressCustomPrice || 0}</strong>`;
+        }
       }
     });
     showState('parcel');
