@@ -3941,6 +3941,7 @@ input[type="checkbox"]:not(:checked) ~ label .checkbox-svg {
     const quoteType     = price === 0 ? 'Free Shipping' : 'Your Quote';
     const priceDisplay  = price === 0 ? '<strong>$0</strong>' : formatPriceDisplay(price, pricePerQty);
     const displayMethod = method.replace(/\s*\([^)]*\)$/, '').trim();
+    const shippingTimeDisplay = daysFrom && daysTo ? `${daysFrom}-${daysTo} days` : '';
     const cardHTML = `
       <div class="custom-quote-header">
         <div class="region-name" style="margin-bottom:0">
@@ -3964,7 +3965,7 @@ input[type="checkbox"]:not(:checked) ~ label .checkbox-svg {
         </div>
         <div>
           <div class="region-col-label">Shipping Time</div>
-          <div class="region-col-value">${daysFrom}-${daysTo} days</div>
+          <div class="region-col-value">${shippingTimeDisplay}</div>
         </div>
         <div>
           <div class="region-col-label">Buyer Will Pay</div>
