@@ -4218,9 +4218,9 @@ input[type="checkbox"]:not(:checked) ~ label .checkbox-svg {
 
   // ── Parcel logic ───────────────────────────────────────────────────
   let parcelData = {
-    us:  { name: 'United States',     method: 'DHL Standard Parcel (5-14 Days)', expressMethod: 'DHL Express Parcel (1-3 Days)', time: '5-14 days', quoteType: 'Calculated Quote', expressQuoteType: 'Calculated Quote', price: '$50-$100' },
-    eu:  { name: 'Europe',            method: 'DHL Standard Parcel (5-14 Days)', expressMethod: 'DHL Express Parcel (1-3 Days)', time: '5-14 days', quoteType: 'Calculated Quote', expressQuoteType: 'Calculated Quote', price: '$50-$100' },
-    row: { name: 'Rest of the World', method: 'DHL Standard Parcel (5-14 Days)', expressMethod: 'DHL Express Parcel (1-3 Days)', time: '5-14 days', quoteType: 'Calculated Quote', expressQuoteType: 'Calculated Quote', price: '$50-$100' },
+    us:  { name: 'United States',     method: 'DHL Standard Parcel (10-12 days)', expressMethod: 'DHL Express Parcel (2-4 days)', time: '10-12 days', quoteType: 'Calculated Quote', expressQuoteType: 'Calculated Quote', price: '$50-$100' },
+    eu:  { name: 'Europe',            method: 'DHL Standard Parcel (10-12 days)', expressMethod: 'DHL Express Parcel (2-4 days)', time: '10-12 days', quoteType: 'Calculated Quote', expressQuoteType: 'Calculated Quote', price: '$50-$100' },
+    row: { name: 'Rest of the World', method: 'DHL Standard Parcel (10-12 days)', expressMethod: 'DHL Express Parcel (2-4 days)', time: '10-12 days', quoteType: 'Calculated Quote', expressQuoteType: 'Calculated Quote', price: '$50-$100' },
   };
   let editingParcelRegion = null;
   let parcelEditChanged = false;
@@ -4351,12 +4351,12 @@ input[type="checkbox"]:not(:checked) ~ label .checkbox-svg {
     // Chosen so: Small EU $15-$25, Small ROW $20-$30, Large ROW max ~$95
     const cfg = {
       us: originIsUS
-        ? { loM:1.0,  hiM:1.0,  stdTime:'5-14 days',  expTime:'1-3 days'  }
-        : { loM:1.5,  hiM:1.25, stdTime:'7-14 days',  expTime:'2-5 days'  },
+        ? { loM:1.0,  hiM:1.0,  stdTime:'10-12 days',  expTime:'2-4 days'  }
+        : { loM:1.5,  hiM:1.25, stdTime:'10-12 days',  expTime:'2-4 days'  },
       eu: originIsEU
-        ? { loM:1.0,  hiM:1.0,  stdTime:'5-14 days',  expTime:'1-3 days'  }
-        : { loM:1.5,  hiM:1.25, stdTime:'7-14 days',  expTime:'2-5 days'  },
-      row: { loM:2.0, hiM:1.5,  stdTime:'14-30 days', expTime:'5-10 days' },
+        ? { loM:1.0,  hiM:1.0,  stdTime:'10-12 days',  expTime:'2-4 days'  }
+        : { loM:1.5,  hiM:1.25, stdTime:'10-12 days',  expTime:'2-4 days'  },
+      row: { loM:2.0, hiM:1.5,  stdTime:'10-12 days', expTime:'2-4 days' },
     };
 
     ['us','eu','row'].forEach(r => {
@@ -4459,7 +4459,7 @@ input[type="checkbox"]:not(:checked) ~ label .checkbox-svg {
     showParcelGroupFields(1, d.quoteType);
     updateParcelMethodLabels(1, d.quoteType);
     // Group 2 — restore from parcelData (set regardless, shown/hidden below)
-    const expMethod = d.expressMethod || 'DHL Express Parcel (1-3 Days)';
+    const expMethod = d.expressMethod || 'DHL Express Parcel (2-4 days)';
     const expQuoteType = d.expressQuoteType || 'Calculated Quote';
     const expPrice = d.expressPrice || d.price;
     setParcelEditSelect('parcel-edit-method-2-select', expMethod);
@@ -4640,25 +4640,25 @@ input[type="checkbox"]:not(:checked) ~ label .checkbox-svg {
       if (quoteType === 'Choose Your Own') {
         if (dataType === 'standard') {
           opt.textContent = 'Standard Parcel';
-          if (currentValue.includes('Standard') || currentValue === 'DHL Standard Parcel (5-14 Days)') {
+          if (currentValue.includes('Standard') || currentValue === 'DHL Standard Parcel (10-12 days)' || currentValue === 'DHL Standard Parcel (5-14 Days)') {
             newSelectedValue = 'Standard Parcel';
           }
         } else if (dataType === 'express') {
           opt.textContent = 'Express Parcel';
-          if (currentValue.includes('Express') || currentValue === 'DHL Express Parcel (1-3 Days)') {
+          if (currentValue.includes('Express') || currentValue === 'DHL Express Parcel (2-4 days)' || currentValue === 'DHL Express Parcel (1-3 Days)') {
             newSelectedValue = 'Express Parcel';
           }
         }
       } else if (quoteType === 'Calculated Quote') {
         if (dataType === 'standard') {
-          opt.textContent = 'DHL Standard Parcel (5-14 Days)';
+          opt.textContent = 'DHL Standard Parcel (10-12 days)';
           if (currentValue.includes('Standard') || currentValue === 'Standard Parcel') {
-            newSelectedValue = 'DHL Standard Parcel (5-14 Days)';
+            newSelectedValue = 'DHL Standard Parcel (10-12 days)';
           }
         } else if (dataType === 'express') {
-          opt.textContent = 'DHL Express Parcel (1-3 Days)';
+          opt.textContent = 'DHL Express Parcel (2-4 days)';
           if (currentValue.includes('Express') || currentValue === 'Express Parcel') {
-            newSelectedValue = 'DHL Express Parcel (1-3 Days)';
+            newSelectedValue = 'DHL Express Parcel (2-4 days)';
           }
         }
       }
@@ -5823,12 +5823,12 @@ input[type="checkbox"]:not(:checked) ~ label .checkbox-svg {
           <label class="modal-label">Shipping Method</label>
           <div class="custom-select" id="parcel-edit-method-select">
             <div class="custom-select-trigger" onclick="toggleCustomSelect('parcel-edit-method-select')">
-              <span class="custom-select-value">DHL Standard Parcel (5-14 Days)</span>
+              <span class="custom-select-value">DHL Standard Parcel (10-12 days)</span>
               <img class="custom-select-chevron" src="Down icon.svg" alt="">
             </div>
             <div class="custom-select-dropdown">
-              <div class="custom-select-option active" data-type="standard" onclick="pickParcelMethodOption(this,'parcel-edit-method-select',1)">DHL Standard Parcel (5-14 Days)</div>
-              <div class="custom-select-option" data-type="express" onclick="pickParcelMethodOption(this,'parcel-edit-method-select',1)">DHL Express Parcel (1-3 Days)</div>
+              <div class="custom-select-option active" data-type="standard" onclick="pickParcelMethodOption(this,'parcel-edit-method-select',1)">DHL Standard Parcel (10-12 days)</div>
+              <div class="custom-select-option" data-type="express" onclick="pickParcelMethodOption(this,'parcel-edit-method-select',1)">DHL Express Parcel (2-4 days)</div>
             </div>
           </div>
         </div>
@@ -5907,12 +5907,12 @@ input[type="checkbox"]:not(:checked) ~ label .checkbox-svg {
           <label class="modal-label">Shipping Method</label>
           <div class="custom-select" id="parcel-edit-method-2-select">
             <div class="custom-select-trigger" onclick="toggleCustomSelect('parcel-edit-method-2-select')">
-              <span class="custom-select-value">DHL Express Parcel (1-3 Days)</span>
+              <span class="custom-select-value">DHL Express Parcel (2-4 days)</span>
               <img class="custom-select-chevron" src="Down icon.svg" alt="">
             </div>
             <div class="custom-select-dropdown">
-              <div class="custom-select-option" data-type="standard" onclick="pickParcelMethodOption(this,'parcel-edit-method-2-select',2)">DHL Standard Parcel (5-14 Days)</div>
-              <div class="custom-select-option active" data-type="express" onclick="pickParcelMethodOption(this,'parcel-edit-method-2-select',2)">DHL Express Parcel (1-3 Days)</div>
+              <div class="custom-select-option" data-type="standard" onclick="pickParcelMethodOption(this,'parcel-edit-method-2-select',2)">DHL Standard Parcel (10-12 days)</div>
+              <div class="custom-select-option active" data-type="express" onclick="pickParcelMethodOption(this,'parcel-edit-method-2-select',2)">DHL Express Parcel (2-4 days)</div>
             </div>
           </div>
         </div>
