@@ -4775,7 +4775,6 @@ input[type="checkbox"]:not(:checked) ~ label .checkbox-svg {
   }
 
   function checkParcelEditValid() {
-    // Require shipping time to be filled in at least one group
     const g1DaysFrom = document.getElementById('parcel-g1-days-from').value.trim();
     const g1DaysTo = document.getElementById('parcel-g1-days-to').value.trim();
     const g2DaysFrom = document.getElementById('parcel-g2-days-from').value.trim();
@@ -4786,21 +4785,25 @@ input[type="checkbox"]:not(:checked) ~ label .checkbox-svg {
     const g1QuoteType = document.getElementById('parcel-edit-quote-select')?.querySelector('.custom-select-value').textContent;
     const g2QuoteType = document.getElementById('parcel-edit-quote-2-select')?.querySelector('.custom-select-value').textContent;
 
-    // Get prices for Choose Your Own quotes
+    // Get prices
     const g1Price = parseFloat(document.getElementById('parcel-g1-price-input').value) || 0;
     const g2Price = parseFloat(document.getElementById('parcel-g2-price-input').value) || 0;
 
-    // At least Group 1 must have time filled, OR Group 2 must be visible and have time filled
+    // Check Group 1 requirements (always required if visible)
     const g1HasTime = g1DaysFrom && g1DaysTo;
-    const g2HasTime = g2DaysFrom && g2DaysTo;
-    const hasRequiredTime = g1HasTime || (g2Visible && g2HasTime);
-
-    // For Choose Your Own quotes, also require price to be filled
     const g1HasPrice = g1QuoteType === 'Choose Your Own' ? g1Price > 0 : true;
-    const g2HasPrice = g2Visible && g2QuoteType === 'Choose Your Own' ? g2Price > 0 : true;
-    const hasRequiredPrice = g1HasPrice && g2HasPrice;
+    const g1Valid = g1HasTime && g1HasPrice;
 
-    document.getElementById('parcel-edit-save-btn').disabled = !parcelEditChanged || !hasRequiredTime || !hasRequiredPrice;
+    // Check Group 2 requirements (only if visible and Choose Your Own)
+    const g2HasTime = g2DaysFrom && g2DaysTo;
+    const g2HasPrice = g2Price > 0;
+    const g2NeedsValidation = g2Visible && g2QuoteType === 'Choose Your Own';
+    const g2Valid = !g2NeedsValidation || (g2HasTime && g2HasPrice);
+
+    // Save is valid if Group 1 is valid AND Group 2 is valid (if applicable)
+    const isValid = g1Valid && g2Valid;
+
+    document.getElementById('parcel-edit-save-btn').disabled = !parcelEditChanged || !isValid;
   }
 
   function toggleParcelPricePerQty(groupNum) {
