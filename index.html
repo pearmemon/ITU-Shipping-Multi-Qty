@@ -3922,8 +3922,21 @@ input[type="checkbox"]:not(:checked) ~ label .checkbox-svg {
     // Validate: daysFrom >= 1 and daysTo > daysFrom
     const validShippingTime = daysFromNum >= 1 && daysToNum > daysFromNum;
 
+    // Check PPQ validation: if enabled, must have price > 0
+    const toggleV1 = document.getElementById('enable-price-per-qty-v1');
+    const checkboxV2 = document.getElementById('enable-price-per-qty-v2');
+    const ppqInputV1 = document.getElementById('price-per-qty-input-v1');
+    const ppqInputV2 = document.getElementById('price-per-qty-input-v2');
+
+    const isV1Enabled = toggleV1 && toggleV1.classList.contains('active');
+    const isV2Enabled = checkboxV2 && checkboxV2.checked;
+    const ppqInputV1Value = ppqInputV1 ? parseFloat(ppqInputV1.value) || 0 : 0;
+    const ppqInputV2Value = ppqInputV2 ? parseFloat(ppqInputV2.value) || 0 : 0;
+
+    const ppqValid = (!isV1Enabled && !isV2Enabled) || (isV1Enabled && ppqInputV1Value > 0) || (isV2Enabled && ppqInputV2Value > 0);
+
     const allFilled = location && method && price !== '' && parseFloat(price) >= 0
-                      && daysFrom !== '' && daysTo !== '' && validShippingTime;
+                      && daysFrom !== '' && daysTo !== '' && validShippingTime && ppqValid;
     const ready = allFilled && (!editingCard || quoteModalChanged);
     document.getElementById('modal-save-btn').disabled = !ready;
   }
