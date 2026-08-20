@@ -3876,6 +3876,10 @@ input[type="checkbox"]:not(:checked) ~ label .checkbox-svg {
     } else {
       content.classList.remove('visible');
     }
+    if (editingCard) {
+      quoteModalChanged = true;
+      checkModalSave();
+    }
   }
 
   function togglePricePerQtyV2() {
@@ -3894,6 +3898,10 @@ input[type="checkbox"]:not(:checked) ~ label .checkbox-svg {
       if (imgOff) imgOff.style.display = 'block';
       if (imgOn) imgOn.style.display = 'none';
     }
+    if (editingCard) {
+      quoteModalChanged = true;
+      checkModalSave();
+    }
   }
 
   function closeQuoteModal() {
@@ -3907,8 +3915,15 @@ input[type="checkbox"]:not(:checked) ~ label .checkbox-svg {
     const price    = document.getElementById('modal-price').value;
     const daysFrom = document.getElementById('modal-days-from').value;
     const daysTo   = document.getElementById('modal-days-to').value;
+
+    const daysFromNum = parseInt(daysFrom) || 0;
+    const daysToNum = parseInt(daysTo) || 0;
+
+    // Validate: daysFrom >= 1 and daysTo > daysFrom
+    const validShippingTime = daysFromNum >= 1 && daysToNum > daysFromNum;
+
     const allFilled = location && method && price !== '' && parseFloat(price) >= 0
-                      && daysFrom !== '' && daysTo !== '';
+                      && daysFrom !== '' && daysTo !== '' && validShippingTime;
     const ready = allFilled && (!editingCard || quoteModalChanged);
     document.getElementById('modal-save-btn').disabled = !ready;
   }
