@@ -3824,7 +3824,7 @@ input[type="checkbox"]:not(:checked) ~ label .checkbox-svg {
   }
 
   function populateMethodOptions() {
-    const methods = ['Standard Parcel', 'Express Parcel', 'Front Door Delivery', 'In-Home Shipping'];
+    const methods = ['Standard Parcel', 'Express Parcel', 'Front Door Delivery', 'In-Home Delivery'];
     const dropdown = document.querySelector('#modal-method-select .custom-select-dropdown');
     dropdown.innerHTML = methods.map(m =>
       `<div class="custom-select-option" onclick="pickModalOption(this,'modal-method-select')">${m}</div>`
