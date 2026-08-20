@@ -3914,9 +3914,14 @@ input[type="checkbox"]:not(:checked) ~ label .checkbox-svg {
     const ppqInputV1Value = ppqInputV1 ? parseFloat(ppqInputV1.value) || 0 : 0;
     const ppqInputV2Value = ppqInputV2 ? parseFloat(ppqInputV2.value) || 0 : 0;
 
+    // PPQ validation: if PPQ is selected, must have PPQ price > 0
     const ppqValid = (!isV1Enabled && !isV2Enabled) || (isV1Enabled && ppqInputV1Value > 0) || (isV2Enabled && ppqInputV2Value > 0);
 
-    const allFilled = location && method && price !== '' && parseFloat(price) >= 0
+    // Price validation: if PPQ is selected, main price must also be > 0
+    const priceValue = parseFloat(price) || 0;
+    const priceValid = !((isV1Enabled || isV2Enabled) && priceValue <= 0);
+
+    const allFilled = location && method && price !== '' && priceValid
                       && daysFrom !== '' && daysTo !== '' && validShippingTime && ppqValid;
     const ready = allFilled && (!editingCard || quoteModalChanged);
     document.getElementById('modal-save-btn').disabled = !ready;
@@ -4798,12 +4803,24 @@ input[type="checkbox"]:not(:checked) ~ label .checkbox-svg {
     const g1Price = parseFloat(document.getElementById('parcel-g1-price-input').value) || 0;
     const g2Price = parseFloat(document.getElementById('parcel-g2-price-input').value) || 0;
 
+    // Get PPQ values
+    const g1PPQToggle = document.getElementById('parcel-enable-ppq');
+    const g1PPQCheckbox = document.getElementById('parcel-enable-ppq-v2');
+    const g1PPQInputV1 = document.getElementById('parcel-ppq-input');
+    const g1PPQInputV2 = document.getElementById('parcel-ppq-input-v2');
+
+    const g1PPQEnabledV1 = g1PPQToggle && g1PPQToggle.classList.contains('active');
+    const g1PPQEnabledV2 = g1PPQCheckbox && g1PPQCheckbox.checked;
+    const g1PPQValueV1 = g1PPQInputV1 ? parseFloat(g1PPQInputV1.value) || 0 : 0;
+    const g1PPQValueV2 = g1PPQInputV2 ? parseFloat(g1PPQInputV2.value) || 0 : 0;
+    const g1PPQValid = (!g1PPQEnabledV1 && !g1PPQEnabledV2) || (g1PPQEnabledV1 && g1PPQValueV1 > 0) || (g1PPQEnabledV2 && g1PPQValueV2 > 0);
+
     // Check Group 1 requirements (always required if visible)
     const g1DaysFromNum = parseInt(g1DaysFrom) || 0;
     const g1DaysToNum = parseInt(g1DaysTo) || 0;
     const g1HasTime = g1DaysFromNum > 0 && g1DaysToNum > 0 && g1DaysToNum > g1DaysFromNum;
     const g1HasPrice = g1QuoteType === 'Choose Your Own' ? g1Price > 0 : true;
-    const g1Valid = g1HasTime && g1HasPrice;
+    const g1Valid = g1HasTime && g1HasPrice && g1PPQValid;
 
     // Check Group 2 requirements (only if visible and Choose Your Own)
     const g2DaysFromNum = parseInt(g2DaysFrom) || 0;
