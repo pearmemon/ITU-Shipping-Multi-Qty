@@ -4790,12 +4790,16 @@ input[type="checkbox"]:not(:checked) ~ label .checkbox-svg {
     const g2Price = parseFloat(document.getElementById('parcel-g2-price-input').value) || 0;
 
     // Check Group 1 requirements (always required if visible)
-    const g1HasTime = g1DaysFrom && g1DaysTo;
+    const g1DaysFromNum = parseInt(g1DaysFrom) || 0;
+    const g1DaysToNum = parseInt(g1DaysTo) || 0;
+    const g1HasTime = g1DaysFromNum > 0 && g1DaysToNum > 0 && g1DaysToNum > g1DaysFromNum;
     const g1HasPrice = g1QuoteType === 'Choose Your Own' ? g1Price > 0 : true;
     const g1Valid = g1HasTime && g1HasPrice;
 
     // Check Group 2 requirements (only if visible and Choose Your Own)
-    const g2HasTime = g2DaysFrom && g2DaysTo;
+    const g2DaysFromNum = parseInt(g2DaysFrom) || 0;
+    const g2DaysToNum = parseInt(g2DaysTo) || 0;
+    const g2HasTime = g2DaysFromNum > 0 && g2DaysToNum > 0 && g2DaysToNum > g2DaysFromNum;
     const g2HasPrice = g2Price > 0;
     const g2NeedsValidation = g2Visible && g2QuoteType === 'Choose Your Own';
     const g2Valid = !g2NeedsValidation || (g2HasTime && g2HasPrice);
