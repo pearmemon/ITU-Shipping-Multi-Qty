@@ -4894,13 +4894,6 @@ input[type="checkbox"]:not(:checked) ~ label .checkbox-svg {
     const g2QuoteType = g2QuoteSelect ? g2QuoteSelect.querySelector('.custom-select-value').textContent : '';
     const hasChooseYourOwn = g1QuoteType === 'Choose Your Own' || g2QuoteType === 'Choose Your Own';
 
-    // Get prices for enabled/disabled state
-    const g1PriceEl = document.getElementById('parcel-g1-price-input');
-    const g2PriceEl = document.getElementById('parcel-g2-price-input');
-    const g1Price = g1PriceEl ? parseFloat(g1PriceEl.value) || 0 : 0;
-    const g2Price = g2PriceEl ? parseFloat(g2PriceEl.value) || 0 : 0;
-    const hasPrice = (g1Price > 0) || (g2Price > 0);
-
     // Show/hide based on design version
     const ppqModuleV1 = document.getElementById('parcel-ppq-module-v1');
     const ppqModuleV2 = document.getElementById('parcel-ppq-module-v2');
@@ -4911,23 +4904,19 @@ input[type="checkbox"]:not(:checked) ~ label .checkbox-svg {
       if (currentVersion === 'v1') {
         if (ppqModuleV1) ppqModuleV1.classList.remove('hidden');
         if (ppqModuleV2) ppqModuleV2.classList.add('hidden');
-        if (ppqToggle) ppqToggle.disabled = !hasPrice;
       } else {
         if (ppqModuleV1) ppqModuleV1.classList.add('hidden');
         if (ppqModuleV2) ppqModuleV2.classList.remove('hidden');
-        if (ppqCheckbox) ppqCheckbox.disabled = !hasPrice;
       }
     } else {
       if (ppqModuleV1) ppqModuleV1.classList.add('hidden');
       if (ppqModuleV2) ppqModuleV2.classList.add('hidden');
       if (ppqToggle) {
-        ppqToggle.disabled = true;
         ppqToggle.classList.remove('active');
         document.getElementById('parcel-ppq-content').classList.remove('visible');
         document.getElementById('parcel-ppq-input').value = '';
       }
       if (ppqCheckbox) {
-        ppqCheckbox.disabled = true;
         ppqCheckbox.checked = false;
         document.getElementById('parcel-ppq-content-v2').classList.remove('visible');
         document.getElementById('parcel-ppq-input-v2').value = '';
