@@ -3804,35 +3804,6 @@ input[type="checkbox"]:not(:checked) ~ label .checkbox-svg {
   function onQuoteInput() {
     if (editingCard) quoteModalChanged = true;
     checkModalSave();
-    // Disable/enable price per quantity based on whether price is filled
-    const priceInput = document.getElementById('modal-price');
-    const priceValue = parseFloat(priceInput.value);
-    const toggleV1 = document.getElementById('enable-price-per-qty-v1');
-    const checkboxV2 = document.getElementById('enable-price-per-qty-v2');
-    const ppqContentV1 = document.getElementById('price-per-qty-content-v1');
-    const ppqContentV2 = document.getElementById('price-per-qty-content-v2');
-    const ppqInputV1 = document.getElementById('price-per-qty-input-v1');
-    const ppqInputV2 = document.getElementById('price-per-qty-input-v2');
-
-    if (priceValue && priceValue > 0) {
-      // Price entered, enable ppq controls
-      if (toggleV1) toggleV1.disabled = false;
-      if (checkboxV2) checkboxV2.disabled = false;
-    } else {
-      // Price cleared/invalid, disable ppq controls and reset them
-      if (toggleV1) {
-        toggleV1.disabled = true;
-        toggleV1.classList.remove('active');
-        if (ppqContentV1) ppqContentV1.classList.remove('visible');
-        if (ppqInputV1) ppqInputV1.value = '';
-      }
-      if (checkboxV2) {
-        checkboxV2.disabled = true;
-        checkboxV2.checked = false;
-        if (ppqContentV2) ppqContentV2.classList.remove('visible');
-        if (ppqInputV2) ppqInputV2.value = '';
-      }
-    }
   }
 
   function populateMethodOptions() {
@@ -3857,17 +3828,15 @@ input[type="checkbox"]:not(:checked) ~ label .checkbox-svg {
     document.getElementById('modal-days-to').value   = '';
     document.getElementById('modal-save-btn').textContent = 'Save';
     document.getElementById('modal-save-btn').disabled    = true;
-    // Disable price per quantity controls until price is entered
+    // Reset price per quantity controls (but keep them enabled for interaction)
     const toggleV1 = document.getElementById('enable-price-per-qty-v1');
     const checkboxV2 = document.getElementById('enable-price-per-qty-v2');
     if (toggleV1) {
-      toggleV1.disabled = true;
       toggleV1.classList.remove('active');
       document.getElementById('price-per-qty-input-v1').value = '';
       document.getElementById('price-per-qty-content-v1').classList.remove('visible');
     }
     if (checkboxV2) {
-      checkboxV2.disabled = true;
       checkboxV2.checked = false;
       document.getElementById('price-per-qty-input-v2').value = '';
       document.getElementById('price-per-qty-content-v2').classList.remove('visible');
@@ -3880,7 +3849,7 @@ input[type="checkbox"]:not(:checked) ~ label .checkbox-svg {
   function togglePricePerQtyV1() {
     const toggle = document.getElementById('enable-price-per-qty-v1');
     const content = document.getElementById('price-per-qty-content-v1');
-    if (!toggle || toggle.disabled) return;
+    if (!toggle) return;
 
     toggle.classList.toggle('active');
     if (toggle.classList.contains('active')) {
@@ -3899,7 +3868,7 @@ input[type="checkbox"]:not(:checked) ~ label .checkbox-svg {
     const content = document.getElementById('price-per-qty-content-v2');
     const imgOff = document.getElementById('ppq-v2-checkbox-off');
     const imgOn = document.getElementById('ppq-v2-checkbox-on');
-    if (!checkbox || checkbox.disabled) return;
+    if (!checkbox) return;
 
     if (checkbox.checked) {
       content.classList.add('visible');
