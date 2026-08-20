@@ -5182,6 +5182,7 @@ input[type="checkbox"]:not(:checked) ~ label .checkbox-svg {
     // Sync V1 and V2 states before switching
     const toggle = document.getElementById('global-units-per-pkg-toggle');
     const checkbox = document.getElementById('global-units-per-pkg-checkbox-v2');
+    const checkboxLabel = document.querySelector('#max-units-v2 .max-units-checkbox label');
     const imgOff = document.getElementById('maxunits-v2-checkbox-off');
     const imgOn = document.getElementById('maxunits-v2-checkbox-on');
     if (toggle && checkbox) {
@@ -5194,6 +5195,15 @@ input[type="checkbox"]:not(:checked) ~ label .checkbox-svg {
       } else {
         if (imgOff) imgOff.style.display = 'block';
         if (imgOn) imgOn.style.display = 'none';
+      }
+      // Sync disabled state
+      checkbox.disabled = toggle.disabled;
+      if (checkboxLabel) {
+        if (toggle.disabled) {
+          checkboxLabel.classList.add('disabled');
+        } else {
+          checkboxLabel.classList.remove('disabled');
+        }
       }
     }
 
