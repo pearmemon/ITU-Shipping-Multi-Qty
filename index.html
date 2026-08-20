@@ -4853,7 +4853,7 @@ input[type="checkbox"]:not(:checked) ~ label .checkbox-svg {
   function toggleParcelPPQ() {
     const toggle = document.getElementById('parcel-enable-ppq');
     const content = document.getElementById('parcel-ppq-content');
-    if (!toggle || toggle.disabled) return;
+    if (!toggle) return;
 
     toggle.classList.toggle('active');
     const isActive = toggle.classList.contains('active');
@@ -4871,7 +4871,7 @@ input[type="checkbox"]:not(:checked) ~ label .checkbox-svg {
     const content = document.getElementById('parcel-ppq-content-v2');
     const imgOff = document.getElementById('parcel-ppq-v2-checkbox-off');
     const imgOn = document.getElementById('parcel-ppq-v2-checkbox-on');
-    if (!checkbox || checkbox.disabled) return;
+    if (!checkbox) return;
 
     if (checkbox.checked) {
       content.classList.add('visible');
@@ -6037,7 +6037,7 @@ input[type="checkbox"]:not(:checked) ~ label .checkbox-svg {
         <div class="price-per-qty-section">
           <div class="price-per-qty-toggle-row">
             <label for="parcel-enable-ppq">Enable price per quantity <span style="font-weight: 300; color: var(--color-grey-66);">(applies to Choose Your Own quotes only)</span></label>
-            <button class="toggle-switch-img" id="parcel-enable-ppq" onclick="toggleParcelPPQ()" disabled>
+            <button class="toggle-switch-img" id="parcel-enable-ppq" onclick="toggleParcelPPQ()">
               <img src="Toggle active off.svg" width="63" height="30" alt="Off" class="toggle-off">
               <img src="Toggle active on.svg" width="63" height="30" alt="On" class="toggle-on hidden">
               <img src="Toggle disabled.svg" width="63" height="30" alt="Disabled" class="toggle-disabled">
@@ -6058,8 +6058,8 @@ input[type="checkbox"]:not(:checked) ~ label .checkbox-svg {
       <div class="modal-field price-per-qty-container hidden" id="parcel-ppq-module-v2">
         <div class="price-per-qty-section">
           <div class="price-per-qty-checkbox">
-            <input type="checkbox" id="parcel-enable-ppq-v2" onchange="toggleParcelPPQV2()" disabled style="display: none;">
-            <label for="parcel-enable-ppq-v2" class="disabled" style="display: flex; align-items: center; gap: 9px; margin: 0;">
+            <input type="checkbox" id="parcel-enable-ppq-v2" onchange="toggleParcelPPQV2()" style="display: none;">
+            <label for="parcel-enable-ppq-v2" style="display: flex; align-items: center; gap: 9px; margin: 0;">
               <img class="checkbox-img-off" id="parcel-ppq-v2-checkbox-off" src="Checkbox-Active-Off.svg" width="20" height="20" alt="Unchecked" style="flex-shrink: 0;">
               <img class="checkbox-img-on" id="parcel-ppq-v2-checkbox-on" src="Checkbox-Active-On.svg" width="20" height="20" alt="Checked" style="flex-shrink: 0; display: none;">
               <span>Enable price per quantity <span style="font-weight: 300; color: var(--color-grey-66);">(applies to Choose Your Own quotes only)</span></span>
