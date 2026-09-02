@@ -1121,6 +1121,8 @@ input[type="checkbox"]:not(:checked) ~ label .checkbox-svg {
   font-weight: 300;
   color: var(--color-grey-13);
   line-height: 1.5;
+  display: flex;
+  align-items: center;
 }
 
 .region-col-value.dots {
@@ -2170,7 +2172,7 @@ input[type="checkbox"]:not(:checked) ~ label .checkbox-svg {
   font-family: var(--font-2);
   font-size: 14px;
   font-weight: 300;
-  color: #2A7140;
+  color: #436B93;
   line-height: 1.428;
   z-index: 1010;
   width: 450px;
@@ -2194,9 +2196,9 @@ input[type="checkbox"]:not(:checked) ~ label .checkbox-svg {
 
 .toast-progress-bar {
   height: 100%;
-  background: #2A7140;
+  background: #436B93;
   width: 0%;
-  animation: toastTimer 3s linear forwards;
+  animation: toastTimer 2s linear forwards;
 }
 
 @keyframes toastTimer {
@@ -3849,6 +3851,7 @@ input[type="checkbox"]:not(:checked) ~ label .checkbox-svg {
   function togglePricePerQtyV1() {
     const toggle = document.getElementById('enable-price-per-qty-v1');
     const content = document.getElementById('price-per-qty-content-v1');
+    const input = document.getElementById('price-per-qty-input-v1');
     if (!toggle) return;
 
     toggle.classList.toggle('active');
@@ -3856,6 +3859,7 @@ input[type="checkbox"]:not(:checked) ~ label .checkbox-svg {
       content.classList.add('visible');
     } else {
       content.classList.remove('visible');
+      if (input) input.value = '';
     }
     if (editingCard) {
       quoteModalChanged = true;
@@ -3868,6 +3872,7 @@ input[type="checkbox"]:not(:checked) ~ label .checkbox-svg {
     const content = document.getElementById('price-per-qty-content-v2');
     const imgOff = document.getElementById('ppq-v2-checkbox-off');
     const imgOn = document.getElementById('ppq-v2-checkbox-on');
+    const input = document.getElementById('price-per-qty-input-v2');
     if (!checkbox) return;
 
     if (checkbox.checked) {
@@ -3878,6 +3883,7 @@ input[type="checkbox"]:not(:checked) ~ label .checkbox-svg {
       content.classList.remove('visible');
       if (imgOff) imgOff.style.display = 'block';
       if (imgOn) imgOn.style.display = 'none';
+      if (input) input.value = '';
     }
     if (editingCard) {
       quoteModalChanged = true;
@@ -3988,7 +3994,9 @@ input[type="checkbox"]:not(:checked) ~ label .checkbox-svg {
         </div>
       </div>`;
 
+    let ppqToast = null;
     if (editingCard) {
+      const wasPPQEnabled = !!editingCard.dataset.pricePerQty;
       editingCard.innerHTML = cardHTML;
       editingCard.dataset.location = location;
       editingCard.dataset.method   = method;
@@ -3996,6 +4004,9 @@ input[type="checkbox"]:not(:checked) ~ label .checkbox-svg {
       editingCard.dataset.daysFrom = daysFrom;
       editingCard.dataset.daysTo   = daysTo;
       editingCard.dataset.pricePerQty = pricePerQty || '';
+      if (pricePerQty && !wasPPQEnabled) {
+        ppqToast = `Successfully enabled $${Math.round(pricePerQty)} price per quantity for ${displayMethod} to ${location}.`;
+      }
       editingCard = null;
     } else {
       const card = document.createElement('div');
@@ -4007,9 +4018,16 @@ input[type="checkbox"]:not(:checked) ~ label .checkbox-svg {
       card.dataset.daysTo   = daysTo;
       card.dataset.pricePerQty = pricePerQty || '';
       card.innerHTML = cardHTML;
+      if (pricePerQty) {
+        ppqToast = `Successfully enabled $${Math.round(pricePerQty)} price per quantity for ${displayMethod} to ${location}.`;
+      }
       document.getElementById('custom-quotes-list').appendChild(card);
     }
     closeQuoteModal();
+    if (ppqToast) {
+      // Show toast after modal is closed so it's visible
+      setTimeout(() => showToast(ppqToast), 100);
+    }
   }
 
   function toggleMeatball(btn) {
@@ -4044,47 +4062,51 @@ input[type="checkbox"]:not(:checked) ~ label .checkbox-svg {
     document.getElementById('modal-days-from').value = d.daysFrom;
     document.getElementById('modal-days-to').value   = d.daysTo;
 
-    // Restore price per quantity for both versions
+    // Restore price per quantity for current version only
     const ppqValue = d.pricePerQty ? parseFloat(d.pricePerQty) : 0;
     const toggleV1 = document.getElementById('enable-price-per-qty-v1');
     const checkboxV2 = document.getElementById('enable-price-per-qty-v2');
     const ppqInputV1 = document.getElementById('price-per-qty-input-v1');
     const ppqInputV2 = document.getElementById('price-per-qty-input-v2');
 
+    // Reset both versions first
+    if (toggleV1) {
+      toggleV1.classList.remove('active');
+      if (ppqInputV1) ppqInputV1.value = '';
+      document.getElementById('price-per-qty-content-v1').classList.remove('visible');
+    }
+    if (checkboxV2) {
+      checkboxV2.checked = false;
+      if (ppqInputV2) ppqInputV2.value = '';
+      document.getElementById('price-per-qty-content-v2').classList.remove('visible');
+      const imgOff = document.getElementById('ppq-v2-checkbox-off');
+      const imgOn = document.getElementById('ppq-v2-checkbox-on');
+      if (imgOff) imgOff.style.display = 'block';
+      if (imgOn) imgOn.style.display = 'none';
+    }
+
+    // Restore only the current version
     if (ppqValue) {
-      // Restore V1 toggle
-      if (toggleV1 && ppqInputV1) {
-        toggleV1.disabled = false;
-        toggleV1.classList.add('active');
-        ppqInputV1.value = ppqValue;
-        document.getElementById('price-per-qty-content-v1').classList.add('visible');
-      }
-      // Restore V2 checkbox
-      if (checkboxV2 && ppqInputV2) {
-        checkboxV2.disabled = false;
-        checkboxV2.checked = true;
-        ppqInputV2.value = ppqValue;
-        document.getElementById('price-per-qty-content-v2').classList.add('visible');
-        const imgOff = document.getElementById('ppq-v2-checkbox-off');
-        const imgOn = document.getElementById('ppq-v2-checkbox-on');
-        if (imgOff) imgOff.style.display = 'none';
-        if (imgOn) imgOn.style.display = 'block';
-      }
-    } else {
-      // Reset both versions if no price per quantity
-      if (toggleV1) {
-        toggleV1.classList.remove('active');
-        ppqInputV1.value = '';
-        document.getElementById('price-per-qty-content-v1').classList.remove('visible');
-      }
-      if (checkboxV2) {
-        checkboxV2.checked = false;
-        ppqInputV2.value = '';
-        document.getElementById('price-per-qty-content-v2').classList.remove('visible');
-        const imgOff = document.getElementById('ppq-v2-checkbox-off');
-        const imgOn = document.getElementById('ppq-v2-checkbox-on');
-        if (imgOff) imgOff.style.display = 'block';
-        if (imgOn) imgOn.style.display = 'none';
+      if (currentVersion === 'v1') {
+        // Restore V1 toggle only
+        if (toggleV1 && ppqInputV1) {
+          toggleV1.disabled = false;
+          toggleV1.classList.add('active');
+          ppqInputV1.value = ppqValue;
+          document.getElementById('price-per-qty-content-v1').classList.add('visible');
+        }
+      } else {
+        // Restore V2 checkbox only
+        if (checkboxV2 && ppqInputV2) {
+          checkboxV2.disabled = false;
+          checkboxV2.checked = true;
+          ppqInputV2.value = ppqValue;
+          document.getElementById('price-per-qty-content-v2').classList.add('visible');
+          const imgOff = document.getElementById('ppq-v2-checkbox-off');
+          const imgOn = document.getElementById('ppq-v2-checkbox-on');
+          if (imgOff) imgOff.style.display = 'none';
+          if (imgOn) imgOn.style.display = 'block';
+        }
       }
     }
 
@@ -4701,8 +4723,7 @@ input[type="checkbox"]:not(:checked) ~ label .checkbox-svg {
     const priceInt = Math.round(parseFloat(price) || 0);
     let display = `<strong>$${priceInt}</strong>`;
     if (pricePerQty && parseFloat(pricePerQty) > 0) {
-      const ppqInt = Math.round(parseFloat(pricePerQty));
-      display += ` <span style="font-weight: 300;">(+$${ppqInt})</span>`;
+      display += ` <span style="display: inline-flex; align-items: center; vertical-align: middle; padding: 0.5px 9px; background-color: #EEF1F7; border-radius: 16px; font-size: 12px; font-family: Proxima Nova, sans-serif; font-weight: 600; line-height: 1.5; color: #436B93; margin-left: 5px;">Multi-qty set</span>`;
     }
     return display;
   }
@@ -4853,6 +4874,7 @@ input[type="checkbox"]:not(:checked) ~ label .checkbox-svg {
   function toggleParcelPPQ() {
     const toggle = document.getElementById('parcel-enable-ppq');
     const content = document.getElementById('parcel-ppq-content');
+    const input = document.getElementById('parcel-ppq-input');
     if (!toggle) return;
 
     toggle.classList.toggle('active');
@@ -4861,6 +4883,7 @@ input[type="checkbox"]:not(:checked) ~ label .checkbox-svg {
       content.classList.add('visible');
     } else {
       content.classList.remove('visible');
+      if (input) input.value = '';
     }
     parcelEditChanged = true;
     checkParcelEditValid();
@@ -4871,6 +4894,7 @@ input[type="checkbox"]:not(:checked) ~ label .checkbox-svg {
     const content = document.getElementById('parcel-ppq-content-v2');
     const imgOff = document.getElementById('parcel-ppq-v2-checkbox-off');
     const imgOn = document.getElementById('parcel-ppq-v2-checkbox-on');
+    const input = document.getElementById('parcel-ppq-input-v2');
     if (!checkbox) return;
 
     if (checkbox.checked) {
@@ -4881,6 +4905,7 @@ input[type="checkbox"]:not(:checked) ~ label .checkbox-svg {
       content.classList.remove('visible');
       if (imgOff) imgOff.style.display = 'block';
       if (imgOn) imgOn.style.display = 'none';
+      if (input) input.value = '';
     }
     parcelEditChanged = true;
     checkParcelEditValid();
@@ -4978,7 +5003,7 @@ input[type="checkbox"]:not(:checked) ~ label .checkbox-svg {
 
     toastTimeout = setTimeout(() => {
       toast.classList.add('hidden');
-    }, 3000);
+    }, 2000);
 
     // Close toast on click outside
     toastClickHandler = (e) => {
@@ -5018,6 +5043,15 @@ input[type="checkbox"]:not(:checked) ~ label .checkbox-svg {
     }
 
     globalUnitsPerPackage = parseInt(value);
+
+    // Show toast if global multi-qty is currently enabled
+    const toggleV1 = document.getElementById('global-units-per-pkg-toggle');
+    const checkboxV2 = document.getElementById('global-units-per-pkg-checkbox-v2');
+    const isEnabled = (toggleV1 && toggleV1.classList.contains('active')) || (checkboxV2 && checkboxV2.checked);
+    if (isEnabled) {
+      showToast(`Successfully enabled ${value} maximum units per package for United States, Europe, and Rest of the World.`);
+    }
+
     updateQuoteLabelsWithGlobalUnits();
   }
 
@@ -5046,6 +5080,8 @@ input[type="checkbox"]:not(:checked) ~ label .checkbox-svg {
     if (isActive) {
       content.classList.add('visible');
       globalUnitsPerPackage = parseInt(document.getElementById('global-units-per-pkg-select-v1').querySelector('.custom-select-value').textContent) || null;
+      const unitsValue = document.getElementById('global-units-per-pkg-select-v1').querySelector('.custom-select-value').textContent;
+      showToast(`Successfully enabled ${unitsValue} maximum units per package for United States, Europe, and Rest of the World.`);
     } else {
       content.classList.remove('visible');
       globalUnitsPerPackage = null;
@@ -5079,6 +5115,8 @@ input[type="checkbox"]:not(:checked) ~ label .checkbox-svg {
       if (imgOff) imgOff.style.display = 'none';
       if (imgOn) imgOn.style.display = 'block';
       globalUnitsPerPackage = parseInt(document.getElementById('global-units-per-pkg-select-v2').querySelector('.custom-select-value').textContent) || null;
+      const unitsValue = document.getElementById('global-units-per-pkg-select-v2').querySelector('.custom-select-value').textContent;
+      showToast(`Successfully enabled ${unitsValue} maximum units per package for United States, Europe, and Rest of the World.`);
     } else {
       content.classList.remove('visible');
       if (imgOff) imgOff.style.display = 'block';
@@ -5213,32 +5251,39 @@ input[type="checkbox"]:not(:checked) ~ label .checkbox-svg {
     try {
       const r = editingParcelRegion;
       if (!r) return;
-    parcelData[r].method    = document.getElementById('parcel-edit-method-select').querySelector('.custom-select-value').textContent;
-    parcelData[r].quoteType = document.getElementById('parcel-edit-quote-select').querySelector('.custom-select-value').textContent;
-    const qt1 = parcelData[r].quoteType;
-    if (qt1 === 'Choose Your Own') {
-      parcelData[r].customPrice = parseFloat(document.getElementById('parcel-g1-price-input').value) || 0;
-      // Read PPQ from correct module (V1 or V2) and save to group 1
-      let ppqValue = null;
-      if (currentVersion === 'v1') {
-        const ppqToggle = document.getElementById('parcel-enable-ppq');
-        const ppqInput = document.getElementById('parcel-ppq-input');
-        const isOn = ppqToggle && ppqToggle.classList.contains('active');
-        if (isOn && ppqInput && ppqInput.value) {
-          ppqValue = parseFloat(ppqInput.value) || 0;
+
+      // Capture previous PPQ state BEFORE updating
+      const wasPPQEnabled1 = !!parcelData[r].pricePerQuantity;
+      const wasPPQEnabled2 = !!parcelData[r].expressPricePerQuantity;
+      const prevPPQValue1 = parcelData[r].pricePerQuantity || 0;
+      const prevPPQValue2 = parcelData[r].expressPricePerQuantity || 0;
+
+      parcelData[r].method    = document.getElementById('parcel-edit-method-select').querySelector('.custom-select-value').textContent;
+      parcelData[r].quoteType = document.getElementById('parcel-edit-quote-select').querySelector('.custom-select-value').textContent;
+      const qt1 = parcelData[r].quoteType;
+      if (qt1 === 'Choose Your Own') {
+        parcelData[r].customPrice = parseFloat(document.getElementById('parcel-g1-price-input').value) || 0;
+        // Read PPQ from correct module (V1 or V2) and save to group 1
+        let ppqValue = null;
+        if (currentVersion === 'v1') {
+          const ppqToggle = document.getElementById('parcel-enable-ppq');
+          const ppqInput = document.getElementById('parcel-ppq-input');
+          const isOn = ppqToggle && ppqToggle.classList.contains('active');
+          if (isOn && ppqInput && ppqInput.value) {
+            ppqValue = parseFloat(ppqInput.value) || 0;
+          }
+        } else {
+          const ppqCheckbox = document.getElementById('parcel-enable-ppq-v2');
+          const ppqInput = document.getElementById('parcel-ppq-input-v2');
+          if (ppqCheckbox && ppqCheckbox.checked && ppqInput && ppqInput.value) {
+            ppqValue = parseFloat(ppqInput.value) || 0;
+          }
         }
-      } else {
-        const ppqCheckbox = document.getElementById('parcel-enable-ppq-v2');
-        const ppqInput = document.getElementById('parcel-ppq-input-v2');
-        if (ppqCheckbox && ppqCheckbox.checked && ppqInput && ppqInput.value) {
-          ppqValue = parseFloat(ppqInput.value) || 0;
+        if (ppqValue) {
+          parcelData[r].pricePerQuantity = ppqValue;
+        } else {
+          delete parcelData[r].pricePerQuantity;
         }
-      }
-      if (ppqValue) {
-        parcelData[r].pricePerQuantity = ppqValue;
-      } else {
-        delete parcelData[r].pricePerQuantity;
-      }
       // Save shipping time for group 1
       const daysFrom1 = document.getElementById('parcel-g1-days-from').value.trim();
       const daysTo1 = document.getElementById('parcel-g1-days-to').value.trim();
@@ -5349,42 +5394,41 @@ input[type="checkbox"]:not(:checked) ~ label .checkbox-svg {
       parcelData[r].expressQuoteType = 'Calculated Quote';
       delete parcelData[r].expressCustomPrice;
     }
-    // Save units per package data
-    const unitsPerPkgCheckbox = document.getElementById('units-per-pkg-checkbox');
-    const applyToAllElement = document.getElementById('units-per-pkg-apply-all');
-    const applyToAll = applyToAllElement ? applyToAllElement.checked : false;
-    if (unitsPerPkgCheckbox && unitsPerPkgCheckbox.checked) {
-      const unitsValue = document.getElementById('units-per-pkg-select').querySelector('.custom-select-value').textContent;
-      const unitsPerPkg = parseInt(unitsValue);
-      parcelData[r].unitsPerPackage = unitsPerPkg;
-      parcelData[r].applyUnitsToAll = applyToAll;
-      // If "Apply to all calculated quotes" is checked, apply to all regions
-      if (applyToAll) {
-        ['us', 'eu', 'row'].forEach(region => {
-          parcelData[region].unitsPerPackage = unitsPerPkg;
-          parcelData[region].applyUnitsToAll = true;
-        });
-      }
-    } else {
-      delete parcelData[r].unitsPerPackage;
-      delete parcelData[r].applyUnitsToAll;
+
+    // Check for PPQ enablement changes and show toast
+    const regionNames = { us: 'United States', eu: 'Europe', row: 'Rest of the World', ca: 'Canada' };
+    const regionName = regionNames[r];
+    let ppqToastMessage = null;
+
+    // Check if PPQ is newly enabled OR value changed for group 1
+    const group1PPQStatusChanged = qt1 === 'Choose Your Own' && parcelData[r].pricePerQuantity && (!wasPPQEnabled1 || parcelData[r].pricePerQuantity !== prevPPQValue1);
+
+    // Check if PPQ is newly enabled OR value changed for group 2
+    const qt2 = group2Visible ? parcelData[r].expressQuoteType : null;
+    const group2PPQStatusChanged = group2Visible && qt2 === 'Choose Your Own' && parcelData[r].expressPricePerQuantity && (!wasPPQEnabled2 || parcelData[r].expressPricePerQuantity !== prevPPQValue2);
+
+    // Build toast message
+    if (group1PPQStatusChanged && group2PPQStatusChanged) {
+      // Both enabled/changed - show both methods
+      const expMethod = parcelData[r].expressMethod.replace(/\s*\([^)]*\)$/, '').trim();
+      ppqToastMessage = `Successfully enabled $${Math.round(parcelData[r].pricePerQuantity)} price per quantity for ${displayMethod} and ${expMethod} to ${regionName}.`;
+    } else if (group1PPQStatusChanged) {
+      // Only group 1 enabled/changed
+      ppqToastMessage = `Successfully enabled $${Math.round(parcelData[r].pricePerQuantity)} price per quantity for ${displayMethod} to ${regionName}.`;
+    } else if (group2PPQStatusChanged) {
+      // Only group 2 enabled/changed
+      const expMethod = parcelData[r].expressMethod.replace(/\s*\([^)]*\)$/, '').trim();
+      ppqToastMessage = `Successfully enabled $${Math.round(parcelData[r].expressPricePerQuantity)} price per quantity for ${expMethod} to ${regionName}.`;
     }
 
-      // Show toast if multi-qty was enabled
-      if (unitsPerPkgCheckbox.checked) {
-        const unitsValue = document.getElementById('units-per-pkg-select').querySelector('.custom-select-value').textContent;
-
-        let toastMessage = `Successfully enabled ${unitsValue} maximum units per package for `;
-        if (applyToAll) {
-          toastMessage += 'United States, Europe, and Rest of the World.';
-        } else {
-          const regionNames = { us: 'United States', eu: 'Europe', row: 'Rest of the World' };
-          toastMessage += regionNames[r] + '.';
-        }
-        showToast(toastMessage);
-        updateMultiQtyPills();
-      }
-    } finally {
+    updateMultiQtyPills();
+    closeParcelEditModal();
+    if (ppqToastMessage) {
+      // Show toast after modal is closed so it's visible
+      setTimeout(() => showToast(ppqToastMessage), 100);
+    }
+    } catch (error) {
+      console.error('Error in saveParcelEdit:', error);
       closeParcelEditModal();
     }
   }
