@@ -2162,105 +2162,6 @@ input[type="checkbox"]:not(:checked) ~ label .checkbox-svg {
 }
 
 /* ── Toast notification ──────────────────────────────────────────── */
-.toast {
-  position: fixed;
-  bottom: 36px;
-  right: 36px;
-  background: #fff;
-  border-radius: 4px;
-  padding: 12px 9px 9px 9px;
-  font-family: var(--font-2);
-  font-size: 14px;
-  font-weight: 300;
-  color: #436B93;
-  line-height: 1.428;
-  z-index: 1010;
-  width: 450px;
-  display: flex;
-  flex-direction: column;
-  gap: 0;
-  overflow: hidden;
-  box-shadow: 1px 2px 8px rgba(34, 34, 34, 0.25);
-}
-
-.toast-progress {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 3px;
-  background: #f0f0f0;
-  border-radius: 0;
-  overflow: hidden;
-}
-
-.toast-progress-bar {
-  height: 100%;
-  background: #436B93;
-  width: 0%;
-  animation: toastTimer 2s linear forwards;
-}
-
-@keyframes toastTimer {
-  from {
-    width: 0%;
-  }
-  to {
-    width: 100%;
-  }
-}
-
-.toast-content {
-  display: flex;
-  align-items: flex-start;
-  gap: 0;
-  padding-right: 32px;
-}
-
-.toast-text {
-  flex: 1;
-}
-
-.toast-close {
-  position: absolute;
-  top: 9px;
-  right: 9px;
-  width: 20px;
-  height: 20px;
-  background: none;
-  border: none;
-  cursor: pointer;
-  padding: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.toast-close img,
-.toast-close svg {
-  width: 20px;
-  height: 20px;
-}
-
-.toast.hidden {
-  display: none;
-  pointer-events: none;
-}
-
-/* ── Multi-qty pill ──────────────────────────────────────────────── */
-.multi-qty-pill {
-  background-color: #EFF9EA;
-  color: #2A7140;
-  font-family: var(--font-2);
-  font-size: 14px;
-  font-weight: 600;
-  line-height: 1.5;
-  padding: 0.5px 9px;
-  border-radius: 12px;
-  display: inline-block;
-  white-space: nowrap;
-}
-
 /* Rich Shipping Quote dropdown options */
 .pq-option {
   display: flex;
@@ -2572,20 +2473,6 @@ input[type="checkbox"]:not(:checked) ~ label .checkbox-svg {
 <body>
 
 <!-- Toast notification -->
-<div id="toast" class="toast hidden">
-  <div class="toast-progress">
-    <div class="toast-progress-bar"></div>
-  </div>
-  <div class="toast-content">
-    <div class="toast-text" id="toast-message"></div>
-    <button class="toast-close" id="toast-close-btn" onclick="closeToast()">
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M6.4 19L5 17.6L10.6 12L5 6.4L6.4 5L12 10.6L17.6 5L19 6.4L13.4 12L19 17.6L17.6 19L12 13.4L6.4 19Z" fill="#2A7140"/>
-      </svg>
-    </button>
-  </div>
-</div>
-
 <div class="page">
 
   <!-- ── Heading ── -->
@@ -2760,7 +2647,7 @@ input[type="checkbox"]:not(:checked) ~ label .checkbox-svg {
       <div id="max-units-v1" class="max-units-v1-wrapper">
         <div class="max-units-section">
           <div class="max-units-toggle-row">
-            <label for="global-units-per-pkg-toggle" class="disabled">Can you fit more than one item in a box? <span style="font-weight: 300; color: var(--color-grey-66);">(Applies to 1stDibs Quotes)</span></label>
+            <label for="global-units-per-pkg-toggle" class="disabled">Can you fit more than one item in a box? <span style="font-weight: 300; color: var(--color-grey-66);">(Applies to <i>1stDibs Quotes</i>)</span></label>
             <button class="toggle-switch-img" id="global-units-per-pkg-toggle" disabled onclick="toggleGlobalUnitsPerPkg()">
               <img id="toggle-off-img" src="Toggle active off.svg" width="63" height="30" alt="Off">
               <img id="toggle-on-img" src="Toggle active on.svg" width="63" height="30" alt="On" class="hidden">
@@ -2799,7 +2686,7 @@ input[type="checkbox"]:not(:checked) ~ label .checkbox-svg {
             <label for="global-units-per-pkg-checkbox-v2" class="disabled" style="display: flex; align-items: center; gap: 9px; margin: 0;">
               <img class="checkbox-img-off" id="maxunits-v2-checkbox-off" src="Checkbox-Active-Off.svg" width="20" height="20" alt="Unchecked" style="flex-shrink: 0;">
               <img class="checkbox-img-on" id="maxunits-v2-checkbox-on" src="Checkbox-Active-On.svg" width="20" height="20" alt="Checked" style="flex-shrink: 0; display: none;">
-              <span>Can you fit more than one item in a box? <span style="font-weight: 300; color: var(--color-grey-66);">(Applies to 1stDibs Quotes)</span></span>
+              <span>Can you fit more than one item in a box? <span style="font-weight: 300; color: var(--color-grey-66);">(Applies to <i>1stDibs Quotes</i>)</span></span>
             </label>
           </div>
           <div class="max-units-content" id="max-units-content-v2">
@@ -3145,7 +3032,6 @@ input[type="checkbox"]:not(:checked) ~ label .checkbox-svg {
                 <img src="globe.svg" alt="" width="18" height="18">
                 United States
               </div>
-              <div class="multi-qty-pill hidden" id="parcel-us-multi-qty-pill">Multi-qty Set</div>
             </div>
             <div class="meatball-menu-wrap">
               <button class="three-dot-btn" onclick="toggleMeatball(this)" title="Options">
@@ -3167,7 +3053,7 @@ input[type="checkbox"]:not(:checked) ~ label .checkbox-svg {
             </div>
             <div>
               <div class="region-col-label">Buyer Will Pay</div>
-              <div class="region-col-value" id="parcel-us-price"><strong>$50-$100</strong></div>
+              <div class="region-col-value" id="parcel-us-price"><strong>$50 (+15)</strong></div>
               <div class="region-col-sub" id="parcel-us-quote-label">1stDibs Quote</div>
             </div>
           </div>
@@ -3199,7 +3085,7 @@ input[type="checkbox"]:not(:checked) ~ label .checkbox-svg {
             </div>
             <div>
               <div class="region-col-label">Buyer Will Pay</div>
-              <div class="region-col-value" id="parcel-us-express-price"><strong>$50-$100</strong></div>
+              <div class="region-col-value" id="parcel-us-express-price"><strong>$50 (+15)</strong></div>
               <div class="region-col-sub" id="parcel-us-express-quote-label">1stDibs Quote</div>
             </div>
           </div>
@@ -3214,7 +3100,6 @@ input[type="checkbox"]:not(:checked) ~ label .checkbox-svg {
                 <img src="globe.svg" alt="" width="18" height="18">
                 Europe
               </div>
-              <div class="multi-qty-pill hidden" id="parcel-eu-multi-qty-pill">Multi-qty Set</div>
             </div>
             <div class="meatball-menu-wrap">
               <button class="three-dot-btn" onclick="toggleMeatball(this)" title="Options">
@@ -3236,7 +3121,7 @@ input[type="checkbox"]:not(:checked) ~ label .checkbox-svg {
             </div>
             <div>
               <div class="region-col-label">Buyer Will Pay</div>
-              <div class="region-col-value" id="parcel-eu-price"><strong>$50-$100</strong></div>
+              <div class="region-col-value" id="parcel-eu-price"><strong>$50 (+15)</strong></div>
               <div class="region-col-sub" id="parcel-eu-quote-label">1stDibs Quote</div>
             </div>
           </div>
@@ -3268,7 +3153,7 @@ input[type="checkbox"]:not(:checked) ~ label .checkbox-svg {
             </div>
             <div>
               <div class="region-col-label">Buyer Will Pay</div>
-              <div class="region-col-value" id="parcel-eu-express-price"><strong>$50-$100</strong></div>
+              <div class="region-col-value" id="parcel-eu-express-price"><strong>$50 (+15)</strong></div>
               <div class="region-col-sub" id="parcel-eu-express-quote-label">1stDibs Quote</div>
             </div>
           </div>
@@ -3283,7 +3168,6 @@ input[type="checkbox"]:not(:checked) ~ label .checkbox-svg {
                 <img src="globe.svg" alt="" width="18" height="18">
                 Rest of the World
               </div>
-              <div class="multi-qty-pill hidden" id="parcel-row-multi-qty-pill">Multi-qty Set</div>
             </div>
             <div class="meatball-menu-wrap">
               <button class="three-dot-btn" onclick="toggleMeatball(this)" title="Options">
@@ -3305,7 +3189,7 @@ input[type="checkbox"]:not(:checked) ~ label .checkbox-svg {
             </div>
             <div>
               <div class="region-col-label">Buyer Will Pay</div>
-              <div class="region-col-value" id="parcel-row-price"><strong>$50-$100</strong></div>
+              <div class="region-col-value" id="parcel-row-price"><strong>$50 (+15)</strong></div>
               <div class="region-col-sub" id="parcel-row-quote-label">1stDibs Quote</div>
             </div>
           </div>
@@ -3337,7 +3221,7 @@ input[type="checkbox"]:not(:checked) ~ label .checkbox-svg {
             </div>
             <div>
               <div class="region-col-label">Buyer Will Pay</div>
-              <div class="region-col-value" id="parcel-row-express-price"><strong>$50-$100</strong></div>
+              <div class="region-col-value" id="parcel-row-express-price"><strong>$50 (+15)</strong></div>
               <div class="region-col-sub" id="parcel-row-express-quote-label">1stDibs Quote</div>
             </div>
           </div>
@@ -3431,7 +3315,7 @@ input[type="checkbox"]:not(:checked) ~ label .checkbox-svg {
       <div class="modal-field price-per-qty-container" id="price-per-qty-v1">
         <div class="price-per-qty-section">
           <div class="price-per-qty-toggle-row">
-            <label for="enable-price-per-qty-v1">Want to offer a lower shipping rate for additional items? <span style="font-weight: 300; color: var(--color-grey-66);">(Applies to Your Quote)</span></label>
+            <label for="enable-price-per-qty-v1">Want to offer a lower shipping rate if a user buys more than one item? <span style="font-weight: 300; color: var(--color-grey-66);">(applies only to <i>Your Quotes</i>)</span></label>
             <button class="toggle-switch-img" id="enable-price-per-qty-v1" onclick="togglePricePerQtyV1()">
               <img src="Toggle active off.svg" width="63" height="30" alt="Off" class="toggle-off">
               <img src="Toggle active on.svg" width="63" height="30" alt="On" class="toggle-on hidden">
@@ -3456,7 +3340,7 @@ input[type="checkbox"]:not(:checked) ~ label .checkbox-svg {
             <label for="enable-price-per-qty-v2" style="display: flex; align-items: center; gap: 9px; margin: 0; cursor: pointer;">
               <img class="checkbox-img-off" id="ppq-v2-checkbox-off" src="Checkbox-Active-Off.svg" width="20" height="20" alt="Unchecked" style="flex-shrink: 0;">
               <img class="checkbox-img-on" id="ppq-v2-checkbox-on" src="Checkbox-Active-On.svg" width="20" height="20" alt="Checked" style="flex-shrink: 0; display: none;">
-              <span>Want to offer a lower shipping rate for additional items? <span style="font-weight: 300; color: var(--color-grey-66);">(Applies to Your Quote)</span></span>
+              <span>Want to offer a lower shipping rate if a user buys more than one item? <span style="font-weight: 300; color: var(--color-grey-66);">(applies only to <i>Your Quotes</i>)</span></span>
             </label>
           </div>
           <div class="price-per-qty-content" id="price-per-qty-content-v2">
@@ -4025,8 +3909,8 @@ input[type="checkbox"]:not(:checked) ~ label .checkbox-svg {
     }
     closeQuoteModal();
     if (ppqToast) {
-      // Show toast after modal is closed so it's visible
-      setTimeout(() => showToast(ppqToast), 100);
+      // Show toast after modal is closed so it's visible - TOASTS REMOVED IN V2
+      // setTimeout(() => showToast(ppqToast), 100);
     }
   }
 
@@ -4416,7 +4300,7 @@ input[type="checkbox"]:not(:checked) ~ label .checkbox-svg {
       const d = parcelData[r];
       const displayMethod = d.method.replace(/\s*\([^)]*\)$/, '').trim();
       document.getElementById(`parcel-${r}-method`).textContent      = displayMethod;
-      document.getElementById(`parcel-${r}-quote-label`).textContent = d.quoteType;
+      document.getElementById(`parcel-${r}-quote-label`).innerHTML = formatQuoteLabel(d.quoteType);
       // Update price/time DOM
       if (d.quoteType === '1stDibs Quote') {
         document.getElementById(`parcel-${r}-time`).textContent   = d.time;
@@ -4426,7 +4310,7 @@ input[type="checkbox"]:not(:checked) ~ label .checkbox-svg {
         if (d.daysFrom && d.daysTo) {
           document.getElementById(`parcel-${r}-time`).textContent = `${d.daysFrom}-${d.daysTo} days`;
         }
-        document.getElementById(`parcel-${r}-price`).innerHTML    = `<strong>$${d.customPrice || 0}</strong>`;
+        document.getElementById(`parcel-${r}-price`).innerHTML = formatPriceDisplay(d.customPrice || 0, d.pricePerQuantity);
       }
       // Refresh express row if already visible
       const expResolved = document.getElementById(`parcel-express-resolved-${r}`);
@@ -4439,7 +4323,7 @@ input[type="checkbox"]:not(:checked) ~ label .checkbox-svg {
           if (d.expressDaysFrom && d.expressDaysTo) {
             document.getElementById(`parcel-${r}-express-time`).textContent = `${d.expressDaysFrom}-${d.expressDaysTo} days`;
           }
-          document.getElementById(`parcel-${r}-express-price`).innerHTML  = `<strong>$${d.expressCustomPrice || 0}</strong>`;
+          document.getElementById(`parcel-${r}-express-price`).innerHTML = formatPriceDisplay(d.expressCustomPrice || 0, d.expressPricePerQuantity);
         }
       }
     });
@@ -4723,9 +4607,20 @@ input[type="checkbox"]:not(:checked) ~ label .checkbox-svg {
     const priceInt = Math.round(parseFloat(price) || 0);
     let display = `<strong>$${priceInt}</strong>`;
     if (pricePerQty && parseFloat(pricePerQty) > 0) {
-      display += ` <span style="display: inline-flex; align-items: center; vertical-align: middle; padding: 0.5px 9px; background-color: #EEF1F7; border-radius: 16px; font-size: 12px; font-family: Proxima Nova, sans-serif; font-weight: 600; line-height: 1.5; color: #436B93; margin-left: 5px;">Multi-qty set</span>`;
+      const ppqInt = Math.round(parseFloat(pricePerQty));
+      display += "&nbsp;(+" + ppqInt + ")";
     }
     return display;
+  }
+
+  function formatQuoteLabel(quoteType, isLoading = false) {
+    if (quoteType === '1stDibs Quote' && globalUnitsPerPackage && globalUnitsPerPackage >= 2) {
+      if (isLoading) {
+        return `1stDibs Quote <span class="calculating-dots">•••</span>`;
+      }
+      return `1stDibs Quote (${globalUnitsPerPackage}/pkg)`;
+    }
+    return quoteType;
   }
 
   function showParcelGroupFields(groupNum, quoteType) {
@@ -5049,10 +4944,15 @@ input[type="checkbox"]:not(:checked) ~ label .checkbox-svg {
     const checkboxV2 = document.getElementById('global-units-per-pkg-checkbox-v2');
     const isEnabled = (toggleV1 && toggleV1.classList.contains('active')) || (checkboxV2 && checkboxV2.checked);
     if (isEnabled) {
-      showToast(`Successfully enabled ${value} maximum units per package for United States, Europe, and Rest of the World.`);
+      // TOASTS REMOVED IN V2
+      // showToast(`Successfully enabled ${value} maximum units per package for United States, Europe, and Rest of the World.`);
     }
 
-    updateQuoteLabelsWithGlobalUnits();
+    // Show loading state briefly, then populate with the selected value
+    updateQuoteLabelsWithGlobalUnits(true);
+    setTimeout(() => {
+      updateQuoteLabelsWithGlobalUnits(false);
+    }, 300);
   }
 
   function toggleGlobalUnitsPerPkg() {
@@ -5081,7 +4981,8 @@ input[type="checkbox"]:not(:checked) ~ label .checkbox-svg {
       content.classList.add('visible');
       globalUnitsPerPackage = parseInt(document.getElementById('global-units-per-pkg-select-v1').querySelector('.custom-select-value').textContent) || null;
       const unitsValue = document.getElementById('global-units-per-pkg-select-v1').querySelector('.custom-select-value').textContent;
-      showToast(`Successfully enabled ${unitsValue} maximum units per package for United States, Europe, and Rest of the World.`);
+      // TOASTS REMOVED IN V2
+      // showToast(`Successfully enabled ${unitsValue} maximum units per package for United States, Europe, and Rest of the World.`);
     } else {
       content.classList.remove('visible');
       globalUnitsPerPackage = null;
@@ -5116,7 +5017,8 @@ input[type="checkbox"]:not(:checked) ~ label .checkbox-svg {
       if (imgOn) imgOn.style.display = 'block';
       globalUnitsPerPackage = parseInt(document.getElementById('global-units-per-pkg-select-v2').querySelector('.custom-select-value').textContent) || null;
       const unitsValue = document.getElementById('global-units-per-pkg-select-v2').querySelector('.custom-select-value').textContent;
-      showToast(`Successfully enabled ${unitsValue} maximum units per package for United States, Europe, and Rest of the World.`);
+      // TOASTS REMOVED IN V2
+      // showToast(`Successfully enabled ${unitsValue} maximum units per package for United States, Europe, and Rest of the World.`);
     } else {
       content.classList.remove('visible');
       if (imgOff) imgOff.style.display = 'block';
@@ -5232,9 +5134,30 @@ input[type="checkbox"]:not(:checked) ~ label .checkbox-svg {
     }
   }
 
-  function updateQuoteLabelsWithGlobalUnits() {
-    // Global units per package is now a background setting - no display updates needed
-    // The setting applies to all calculated quotes without displaying the value
+  function updateQuoteLabelsWithGlobalUnits(isLoading = false) {
+    // Update all visible quote labels to reflect current global units per package
+    ['us', 'eu', 'row'].forEach(r => {
+      const quoteLabel = document.getElementById(`parcel-${r}-quote-label`);
+      const expressQuoteLabel = document.getElementById(`parcel-${r}-express-quote-label`);
+      const data = parcelData[r];
+
+      if (quoteLabel && data) {
+        quoteLabel.innerHTML = formatQuoteLabel(data.quoteType, isLoading);
+      }
+      if (expressQuoteLabel && data) {
+        expressQuoteLabel.innerHTML = formatQuoteLabel(data.expressQuoteType, isLoading);
+      }
+    });
+
+    // Also update the front door delivery cards if they exist
+    const rowQuoteLabel = document.getElementById('parcel-row-quote-label');
+    const rowExpressQuoteLabel = document.getElementById('parcel-row-express-quote-label');
+    if (rowQuoteLabel && parcelData['row']) {
+      rowQuoteLabel.innerHTML = formatQuoteLabel(parcelData['row'].quoteType, isLoading);
+    }
+    if (rowExpressQuoteLabel && parcelData['row']) {
+      rowExpressQuoteLabel.innerHTML = formatQuoteLabel(parcelData['row'].expressQuoteType, isLoading);
+    }
   }
 
   function updateMultiQtyPills() {
@@ -5335,8 +5258,8 @@ input[type="checkbox"]:not(:checked) ~ label .checkbox-svg {
     const displayMethod = parcelData[r].method.replace(/\s*\([^)]*\)$/, '').trim();
     const methodTime = (parcelData[r].method.match(/\(([^)]+)\)/) || [, ''])[1];
     document.getElementById(`parcel-${r}-method`).textContent      = displayMethod;
-    const qt1Display = qt1 === 'Your Quote' ? 'Your Quote' : qt1;
-    document.getElementById(`parcel-${r}-quote-label`).textContent = qt1Display;
+    const qt1Display = qt1 === 'Your Quote' ? 'Your Quote' : formatQuoteLabel(qt1);
+    document.getElementById(`parcel-${r}-quote-label`).innerHTML = qt1Display;
     if (qt1 === 'Your Quote') {
       document.getElementById(`parcel-${r}-price`).innerHTML = formatPriceDisplay(parcelData[r].customPrice, parcelData[r].pricePerQuantity);
       // Use custom shipping time for Choose Your Own
@@ -5361,8 +5284,8 @@ input[type="checkbox"]:not(:checked) ~ label .checkbox-svg {
       const expDisplayMethod = expMethod.replace(/\s*\([^)]*\)$/, '').trim();
       const expMethodTime    = (expMethod.match(/\(([^)]+)\)/) || [, ''])[1];
       document.getElementById(`parcel-${r}-express-method`).textContent      = expDisplayMethod;
-      const expQuoteDisplay = expQuoteType === 'Your Quote' ? 'Your Quote' : expQuoteType;
-      document.getElementById(`parcel-${r}-express-quote-label`).textContent = expQuoteDisplay;
+      const expQuoteDisplay = expQuoteType === 'Your Quote' ? 'Your Quote' : formatQuoteLabel(expQuoteType);
+      document.getElementById(`parcel-${r}-express-quote-label`).innerHTML = expQuoteDisplay;
       // Use custom shipping time for Choose Your Own, otherwise use extracted time from method name
       if (expQuoteType === 'Your Quote') {
         const customExpTime = (parcelData[r].expressDaysFrom && parcelData[r].expressDaysTo) ? `${parcelData[r].expressDaysFrom}-${parcelData[r].expressDaysTo} days` : '';
@@ -5424,8 +5347,8 @@ input[type="checkbox"]:not(:checked) ~ label .checkbox-svg {
     updateMultiQtyPills();
     closeParcelEditModal();
     if (ppqToastMessage) {
-      // Show toast after modal is closed so it's visible
-      setTimeout(() => showToast(ppqToastMessage), 100);
+      // Show toast after modal is closed so it's visible - TOASTS REMOVED IN V2
+      // setTimeout(() => showToast(ppqToastMessage), 100);
     }
     } catch (error) {
       console.error('Error in saveParcelEdit:', error);
@@ -6069,7 +5992,7 @@ input[type="checkbox"]:not(:checked) ~ label .checkbox-svg {
       <div class="modal-field price-per-qty-container hidden" id="parcel-ppq-module-v1">
         <div class="price-per-qty-section">
           <div class="price-per-qty-toggle-row">
-            <label for="parcel-enable-ppq">Want to offer a lower shipping rate for additional items? <span style="font-weight: 300; color: var(--color-grey-66);">(Applies to Your Quote)</span></label>
+            <label for="parcel-enable-ppq">Want to offer a lower shipping rate if a user buys more than one item? <span style="font-weight: 300; color: var(--color-grey-66);">(applies only to <i>Your Quotes</i>)</span></label>
             <button class="toggle-switch-img" id="parcel-enable-ppq" onclick="toggleParcelPPQ()">
               <img src="Toggle active off.svg" width="63" height="30" alt="Off" class="toggle-off">
               <img src="Toggle active on.svg" width="63" height="30" alt="On" class="toggle-on hidden">
@@ -6095,7 +6018,7 @@ input[type="checkbox"]:not(:checked) ~ label .checkbox-svg {
             <label for="parcel-enable-ppq-v2" style="display: flex; align-items: center; gap: 9px; margin: 0;">
               <img class="checkbox-img-off" id="parcel-ppq-v2-checkbox-off" src="Checkbox-Active-Off.svg" width="20" height="20" alt="Unchecked" style="flex-shrink: 0;">
               <img class="checkbox-img-on" id="parcel-ppq-v2-checkbox-on" src="Checkbox-Active-On.svg" width="20" height="20" alt="Checked" style="flex-shrink: 0; display: none;">
-              <span>Want to offer a lower shipping rate for additional items? <span style="font-weight: 300; color: var(--color-grey-66);">(Applies to Your Quote)</span></span>
+              <span>Want to offer a lower shipping rate if a user buys more than one item? <span style="font-weight: 300; color: var(--color-grey-66);">(applies only to <i>Your Quotes</i>)</span></span>
             </label>
           </div>
           <div class="price-per-qty-content" id="parcel-ppq-content-v2">
