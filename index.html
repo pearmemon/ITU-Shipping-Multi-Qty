@@ -2531,12 +2531,6 @@ input[type="checkbox"]:not(:checked) ~ label .checkbox-svg {
     </div>
   </div>
 
-  <!-- ── Design Review Toggle (in left margin) ── -->
-  <div class="design-review-toggle">
-    <button class="toggle-btn v1-btn active" onclick="switchMaxUnitsVersion('v1')">V1</button>
-    <button class="toggle-btn v2-btn" onclick="switchMaxUnitsVersion('v2')">V2</button>
-  </div>
-
   <!-- ── Two-column layout ── -->
   <div class="two-col">
 
@@ -2643,69 +2637,34 @@ input[type="checkbox"]:not(:checked) ~ label .checkbox-svg {
         Add Another Package
       </button>
 
-      <!-- V1: Max units in container with checkbox -->
-      <div id="max-units-v1" class="max-units-v1-wrapper">
-        <div class="max-units-section">
-          <div class="max-units-toggle-row">
-            <label for="global-units-per-pkg-toggle" class="disabled">Can you fit more than one item in a box? <span style="font-weight: 300; color: var(--color-grey-66);">(Applies to <i>1stDibs Quotes</i>)</span></label>
-            <button class="toggle-switch-img" id="global-units-per-pkg-toggle" disabled onclick="toggleGlobalUnitsPerPkg()">
-              <img id="toggle-off-img" src="Toggle active off.svg" width="63" height="30" alt="Off">
-              <img id="toggle-on-img" src="Toggle active on.svg" width="63" height="30" alt="On" class="hidden">
-              <img id="toggle-disabled-img" src="Toggle disabled.svg" width="63" height="30" alt="Disabled">
-            </button>
-          </div>
-          <div class="max-units-content" id="max-units-content">
-            <div class="custom-select" id="global-units-per-pkg-select-v1">
-              <div class="custom-select-trigger" onclick="toggleCustomSelect('global-units-per-pkg-select-v1')">
-                <span class="custom-select-value">1</span>
-                <img class="custom-select-chevron" src="Down icon.svg" alt="">
-              </div>
-              <div class="custom-select-dropdown">
-                <div class="custom-select-option active" onclick="pickGlobalUnitsPerPkg(this,'global-units-per-pkg-select-v1')">1</div>
-                <div class="custom-select-option" onclick="pickGlobalUnitsPerPkg(this,'global-units-per-pkg-select-v1')">2</div>
-                <div class="custom-select-option" onclick="pickGlobalUnitsPerPkg(this,'global-units-per-pkg-select-v1')">3</div>
-                <div class="custom-select-option" onclick="pickGlobalUnitsPerPkg(this,'global-units-per-pkg-select-v1')">4</div>
-                <div class="custom-select-option" onclick="pickGlobalUnitsPerPkg(this,'global-units-per-pkg-select-v1')">5</div>
-                <div class="custom-select-option" onclick="pickGlobalUnitsPerPkg(this,'global-units-per-pkg-select-v1')">6</div>
-                <div class="custom-select-option" onclick="pickGlobalUnitsPerPkg(this,'global-units-per-pkg-select-v1')">7</div>
-                <div class="custom-select-option" onclick="pickGlobalUnitsPerPkg(this,'global-units-per-pkg-select-v1')">8</div>
-                <div class="custom-select-option" onclick="pickGlobalUnitsPerPkg(this,'global-units-per-pkg-select-v1')">9</div>
-                <div class="custom-select-option" onclick="pickGlobalUnitsPerPkg(this,'global-units-per-pkg-select-v1')">10</div>
-              </div>
-            </div>
-            <p class="max-units-helper">Tell us how many items fit in one package, so we can calculate the amount of packages needed based on a buyer's order.</p>
-          </div>
-        </div>
-      </div>
-
-      <!-- V2: Checkbox in container -->
-      <div id="max-units-v2" class="max-units-v1-wrapper hidden">
+      <!-- Max units: Checkbox -->
+      <div id="max-units" class="max-units-v1-wrapper hidden">
         <div class="max-units-section">
           <div class="max-units-checkbox">
-            <input type="checkbox" id="global-units-per-pkg-checkbox-v2" disabled onchange="toggleGlobalUnitsPerPkgV2()" style="display: none;">
-            <label for="global-units-per-pkg-checkbox-v2" class="disabled" style="display: flex; align-items: center; gap: 9px; margin: 0;">
-              <img class="checkbox-img-off" id="maxunits-v2-checkbox-off" src="Checkbox-Active-Off.svg" width="20" height="20" alt="Unchecked" style="flex-shrink: 0;">
-              <img class="checkbox-img-on" id="maxunits-v2-checkbox-on" src="Checkbox-Active-On.svg" width="20" height="20" alt="Checked" style="flex-shrink: 0; display: none;">
-              <span>Can you fit more than one item in a box? <span style="font-weight: 300; color: var(--color-grey-66);">(Applies to <i>1stDibs Quotes</i>)</span></span>
+            <input type="checkbox" id="global-units-per-pkg-checkbox" disabled onchange="toggleGlobalUnitsPerPkg()" style="display: none;">
+            <label for="global-units-per-pkg-checkbox" class="disabled" style="display: flex; align-items: center; gap: 9px; margin: 0;">
+              <img class="checkbox-img-off" id="maxunits-checkbox-off" src="Checkbox-Active-Off.svg" width="20" height="20" alt="Unchecked" style="flex-shrink: 0;">
+              <img class="checkbox-img-on" id="maxunits-checkbox-on" src="Checkbox-Active-On.svg" width="20" height="20" alt="Checked" style="flex-shrink: 0; display: none;">
+              <span>Specify max units per package <span style="font-weight: 300; color: var(--color-grey-66);">(applies only to Calculated Quotes)</span></span>
             </label>
           </div>
-          <div class="max-units-content" id="max-units-content-v2">
-            <div class="custom-select" id="global-units-per-pkg-select-v2">
-              <div class="custom-select-trigger" onclick="toggleCustomSelect('global-units-per-pkg-select-v2')">
+          <div class="max-units-content" id="max-units-content">
+            <div class="custom-select" id="global-units-per-pkg-select">
+              <div class="custom-select-trigger" onclick="toggleCustomSelect('global-units-per-pkg-select')">
                 <span class="custom-select-value">1</span>
                 <img class="custom-select-chevron" src="Down icon.svg" alt="">
               </div>
               <div class="custom-select-dropdown">
-                <div class="custom-select-option active" onclick="pickGlobalUnitsPerPkg(this,'global-units-per-pkg-select-v2')">1</div>
-                <div class="custom-select-option" onclick="pickGlobalUnitsPerPkg(this,'global-units-per-pkg-select-v2')">2</div>
-                <div class="custom-select-option" onclick="pickGlobalUnitsPerPkg(this,'global-units-per-pkg-select-v2')">3</div>
-                <div class="custom-select-option" onclick="pickGlobalUnitsPerPkg(this,'global-units-per-pkg-select-v2')">4</div>
-                <div class="custom-select-option" onclick="pickGlobalUnitsPerPkg(this,'global-units-per-pkg-select-v2')">5</div>
-                <div class="custom-select-option" onclick="pickGlobalUnitsPerPkg(this,'global-units-per-pkg-select-v2')">6</div>
-                <div class="custom-select-option" onclick="pickGlobalUnitsPerPkg(this,'global-units-per-pkg-select-v2')">7</div>
-                <div class="custom-select-option" onclick="pickGlobalUnitsPerPkg(this,'global-units-per-pkg-select-v2')">8</div>
-                <div class="custom-select-option" onclick="pickGlobalUnitsPerPkg(this,'global-units-per-pkg-select-v2')">9</div>
-                <div class="custom-select-option" onclick="pickGlobalUnitsPerPkg(this,'global-units-per-pkg-select-v2')">10</div>
+                <div class="custom-select-option active" onclick="pickGlobalUnitsPerPkg(this,'global-units-per-pkg-select')">1</div>
+                <div class="custom-select-option" onclick="pickGlobalUnitsPerPkg(this,'global-units-per-pkg-select')">2</div>
+                <div class="custom-select-option" onclick="pickGlobalUnitsPerPkg(this,'global-units-per-pkg-select')">3</div>
+                <div class="custom-select-option" onclick="pickGlobalUnitsPerPkg(this,'global-units-per-pkg-select')">4</div>
+                <div class="custom-select-option" onclick="pickGlobalUnitsPerPkg(this,'global-units-per-pkg-select')">5</div>
+                <div class="custom-select-option" onclick="pickGlobalUnitsPerPkg(this,'global-units-per-pkg-select')">6</div>
+                <div class="custom-select-option" onclick="pickGlobalUnitsPerPkg(this,'global-units-per-pkg-select')">7</div>
+                <div class="custom-select-option" onclick="pickGlobalUnitsPerPkg(this,'global-units-per-pkg-select')">8</div>
+                <div class="custom-select-option" onclick="pickGlobalUnitsPerPkg(this,'global-units-per-pkg-select')">9</div>
+                <div class="custom-select-option" onclick="pickGlobalUnitsPerPkg(this,'global-units-per-pkg-select')">10</div>
               </div>
             </div>
             <p class="max-units-helper">Tell us how many items fit in one package, so we can calculate the amount of packages needed based on a buyer's order.</p>
@@ -2832,7 +2791,7 @@ input[type="checkbox"]:not(:checked) ~ label .checkbox-svg {
             <div>
               <div class="region-col-label">Buyer Will Pay</div>
               <div class="region-col-value dots calculating-dots">•••</div>
-              <div class="region-col-sub">1stDibs Quote</div>
+              <div class="region-col-sub">Calculated Quote</div>
             </div>
           </div>
         </div>
@@ -2855,7 +2814,7 @@ input[type="checkbox"]:not(:checked) ~ label .checkbox-svg {
             <div>
               <div class="region-col-label">Buyer Will Pay</div>
               <div class="region-col-value dots calculating-dots">•••</div>
-              <div class="region-col-sub">1stDibs Quote</div>
+              <div class="region-col-sub">Calculated Quote</div>
             </div>
           </div>
         </div>
@@ -2878,7 +2837,7 @@ input[type="checkbox"]:not(:checked) ~ label .checkbox-svg {
             <div>
               <div class="region-col-label">Buyer Will Pay</div>
               <div class="region-col-value dots calculating-dots">•••</div>
-              <div class="region-col-sub">1stDibs Quote</div>
+              <div class="region-col-sub">Calculated Quote</div>
             </div>
           </div>
         </div>
@@ -3054,7 +3013,7 @@ input[type="checkbox"]:not(:checked) ~ label .checkbox-svg {
             <div>
               <div class="region-col-label">Buyer Will Pay</div>
               <div class="region-col-value" id="parcel-us-price"><strong>$50 (+15)</strong></div>
-              <div class="region-col-sub" id="parcel-us-quote-label">1stDibs Quote</div>
+              <div class="region-col-sub" id="parcel-us-quote-label">Calculated Quote</div>
             </div>
           </div>
           <!-- Inline Express method (added via + Add Shipping Method) -->
@@ -3071,7 +3030,7 @@ input[type="checkbox"]:not(:checked) ~ label .checkbox-svg {
             <div>
               <div class="region-col-label">Buyer Will Pay</div>
               <div class="region-col-value dots calculating-dots">•••</div>
-              <div class="region-col-sub">1stDibs Quote</div>
+              <div class="region-col-sub">Calculated Quote</div>
             </div>
           </div>
           <div class="parcel-card-cols hidden" id="parcel-express-resolved-us">
@@ -3086,7 +3045,7 @@ input[type="checkbox"]:not(:checked) ~ label .checkbox-svg {
             <div>
               <div class="region-col-label">Buyer Will Pay</div>
               <div class="region-col-value" id="parcel-us-express-price"><strong>$50 (+15)</strong></div>
-              <div class="region-col-sub" id="parcel-us-express-quote-label">1stDibs Quote</div>
+              <div class="region-col-sub" id="parcel-us-express-quote-label">Calculated Quote</div>
             </div>
           </div>
           <button class="add-method-link hidden" id="parcel-remove-us" onclick="removeParcelCardMethod('us')">- Remove Shipping Method</button>
@@ -3122,7 +3081,7 @@ input[type="checkbox"]:not(:checked) ~ label .checkbox-svg {
             <div>
               <div class="region-col-label">Buyer Will Pay</div>
               <div class="region-col-value" id="parcel-eu-price"><strong>$50 (+15)</strong></div>
-              <div class="region-col-sub" id="parcel-eu-quote-label">1stDibs Quote</div>
+              <div class="region-col-sub" id="parcel-eu-quote-label">Calculated Quote</div>
             </div>
           </div>
           <!-- Inline Express method -->
@@ -3139,7 +3098,7 @@ input[type="checkbox"]:not(:checked) ~ label .checkbox-svg {
             <div>
               <div class="region-col-label">Buyer Will Pay</div>
               <div class="region-col-value dots calculating-dots">•••</div>
-              <div class="region-col-sub">1stDibs Quote</div>
+              <div class="region-col-sub">Calculated Quote</div>
             </div>
           </div>
           <div class="parcel-card-cols hidden" id="parcel-express-resolved-eu">
@@ -3154,7 +3113,7 @@ input[type="checkbox"]:not(:checked) ~ label .checkbox-svg {
             <div>
               <div class="region-col-label">Buyer Will Pay</div>
               <div class="region-col-value" id="parcel-eu-express-price"><strong>$50 (+15)</strong></div>
-              <div class="region-col-sub" id="parcel-eu-express-quote-label">1stDibs Quote</div>
+              <div class="region-col-sub" id="parcel-eu-express-quote-label">Calculated Quote</div>
             </div>
           </div>
           <button class="add-method-link hidden" id="parcel-remove-eu" onclick="removeParcelCardMethod('eu')">- Remove Shipping Method</button>
@@ -3190,7 +3149,7 @@ input[type="checkbox"]:not(:checked) ~ label .checkbox-svg {
             <div>
               <div class="region-col-label">Buyer Will Pay</div>
               <div class="region-col-value" id="parcel-row-price"><strong>$50 (+15)</strong></div>
-              <div class="region-col-sub" id="parcel-row-quote-label">1stDibs Quote</div>
+              <div class="region-col-sub" id="parcel-row-quote-label">Calculated Quote</div>
             </div>
           </div>
           <!-- Inline Express method -->
@@ -3207,7 +3166,7 @@ input[type="checkbox"]:not(:checked) ~ label .checkbox-svg {
             <div>
               <div class="region-col-label">Buyer Will Pay</div>
               <div class="region-col-value dots calculating-dots">•••</div>
-              <div class="region-col-sub">1stDibs Quote</div>
+              <div class="region-col-sub">Calculated Quote</div>
             </div>
           </div>
           <div class="parcel-card-cols hidden" id="parcel-express-resolved-row">
@@ -3222,7 +3181,7 @@ input[type="checkbox"]:not(:checked) ~ label .checkbox-svg {
             <div>
               <div class="region-col-label">Buyer Will Pay</div>
               <div class="region-col-value" id="parcel-row-express-price"><strong>$50 (+15)</strong></div>
-              <div class="region-col-sub" id="parcel-row-express-quote-label">1stDibs Quote</div>
+              <div class="region-col-sub" id="parcel-row-express-quote-label">Calculated Quote</div>
             </div>
           </div>
           <button class="add-method-link hidden" id="parcel-remove-row" onclick="removeParcelCardMethod('row')">- Remove Shipping Method</button>
@@ -3312,41 +3271,21 @@ input[type="checkbox"]:not(:checked) ~ label .checkbox-svg {
         <p class="modal-helper">Buyers will pay this flat rate that you set.</p>
       </div>
       <!-- Enable Price Per Quantity - V1 (Toggle) -->
-      <div class="modal-field price-per-qty-container" id="price-per-qty-v1">
-        <div class="price-per-qty-section">
-          <div class="price-per-qty-toggle-row">
-            <label for="enable-price-per-qty-v1">Want to offer a lower shipping rate if a user buys more than one item? <span style="font-weight: 300; color: var(--color-grey-66);">(applies only to <i>Your Quotes</i>)</span></label>
-            <button class="toggle-switch-img" id="enable-price-per-qty-v1" onclick="togglePricePerQtyV1()">
-              <img src="Toggle active off.svg" width="63" height="30" alt="Off" class="toggle-off">
-              <img src="Toggle active on.svg" width="63" height="30" alt="On" class="toggle-on hidden">
-              <img src="Toggle disabled.svg" width="63" height="30" alt="Disabled" class="toggle-disabled">
-            </button>
-          </div>
-          <div class="price-per-qty-content" id="price-per-qty-content-v1">
-            <div class="modal-price-input">
-              <span class="modal-price-prefix">$</span>
-              <input type="number" id="price-per-qty-input-v1" placeholder="0" min="0" oninput="onQuoteInput()">
-              <span class="modal-price-suffix">USD</span>
-            </div>
-            <p class="modal-helper">Tell us the price you'd like to set for each additional item ordered, so we can calculate total cost based on a buyer's order.</p>
-          </div>
-        </div>
-      </div>
-      <!-- Enable Price Per Quantity - V2 (Checkbox) -->
-      <div class="modal-field price-per-qty-container hidden" id="price-per-qty-v2">
+      <!-- Enable Price Per Quantity (Checkbox) -->
+      <div class="modal-field price-per-qty-container" id="price-per-qty">
         <div class="price-per-qty-section">
           <div class="price-per-qty-checkbox">
-            <input type="checkbox" id="enable-price-per-qty-v2" onchange="togglePricePerQtyV2()" style="display: none;">
-            <label for="enable-price-per-qty-v2" style="display: flex; align-items: center; gap: 9px; margin: 0; cursor: pointer;">
-              <img class="checkbox-img-off" id="ppq-v2-checkbox-off" src="Checkbox-Active-Off.svg" width="20" height="20" alt="Unchecked" style="flex-shrink: 0;">
-              <img class="checkbox-img-on" id="ppq-v2-checkbox-on" src="Checkbox-Active-On.svg" width="20" height="20" alt="Checked" style="flex-shrink: 0; display: none;">
-              <span>Want to offer a lower shipping rate if a user buys more than one item? <span style="font-weight: 300; color: var(--color-grey-66);">(applies only to <i>Your Quotes</i>)</span></span>
+            <input type="checkbox" id="enable-price-per-qty" onchange="togglePricePerQty()" style="display: none;">
+            <label for="enable-price-per-qty" style="display: flex; align-items: center; gap: 9px; margin: 0; cursor: pointer;">
+              <img class="checkbox-img-off" id="ppq-checkbox-off" src="Checkbox-Active-Off.svg" width="20" height="20" alt="Unchecked" style="flex-shrink: 0;">
+              <img class="checkbox-img-on" id="ppq-checkbox-on" src="Checkbox-Active-On.svg" width="20" height="20" alt="Checked" style="flex-shrink: 0; display: none;">
+              <span>Enable price per quantity <span style="font-weight: 300; color: var(--color-grey-66);">(applies only to Flat Rate quotes)</span></span>
             </label>
           </div>
-          <div class="price-per-qty-content" id="price-per-qty-content-v2">
+          <div class="price-per-qty-content" id="price-per-qty-content">
             <div class="modal-price-input">
               <span class="modal-price-prefix">$</span>
-              <input type="number" id="price-per-qty-input-v2" placeholder="0" min="0" oninput="onQuoteInput()">
+              <input type="number" id="price-per-qty-input" placeholder="0" min="0" oninput="onQuoteInput()">
               <span class="modal-price-suffix">USD</span>
             </div>
             <p class="modal-helper">Tell us the price you'd like to set for each additional item ordered, so we can calculate total cost based on a buyer's order.</p>
@@ -3377,13 +3316,13 @@ input[type="checkbox"]:not(:checked) ~ label .checkbox-svg {
   let currentPrices = { usLo: 0, usHi: 0, euLo: 0, euHi: 0, rowLo: 0, rowHi: 0 };
   let inhomeTimers = { us: null, eu: null, row: null };
   let firstFilledPackageType = null; // 'parcel' | 'freight' — type of the first package to become fully filled
-  let currentVersion = 'v1'; // Track which design version is active
 
   function selectAnswer(answer) {
     currentAnswer = answer;
     document.getElementById('radio-yes').classList.toggle('selected', answer === 'yes');
     document.getElementById('radio-no').classList.toggle('selected', answer === 'no');
     document.getElementById('step2-question').textContent = 'Enter the dimensions of your packed item(s).';
+    updateMaxUnitsVisibility();
     checkDimensions(true);
   }
 
@@ -3404,6 +3343,9 @@ input[type="checkbox"]:not(:checked) ~ label .checkbox-svg {
     } else {
       disableMaxUnitsToggle();
     }
+
+    // Update max units visibility (only show for parcel-eligible shipments)
+    updateMaxUnitsVisibility();
 
     // Step 1 must always be answered first
     if (!currentAnswer) { showState('locked'); return; }
@@ -3715,48 +3657,23 @@ input[type="checkbox"]:not(:checked) ~ label .checkbox-svg {
     document.getElementById('modal-save-btn').textContent = 'Save';
     document.getElementById('modal-save-btn').disabled    = true;
     // Reset price per quantity controls (but keep them enabled for interaction)
-    const toggleV1 = document.getElementById('enable-price-per-qty-v1');
-    const checkboxV2 = document.getElementById('enable-price-per-qty-v2');
-    if (toggleV1) {
-      toggleV1.classList.remove('active');
-      document.getElementById('price-per-qty-input-v1').value = '';
-      document.getElementById('price-per-qty-content-v1').classList.remove('visible');
-    }
-    if (checkboxV2) {
-      checkboxV2.checked = false;
-      document.getElementById('price-per-qty-input-v2').value = '';
-      document.getElementById('price-per-qty-content-v2').classList.remove('visible');
+    const checkbox = document.getElementById('enable-price-per-qty');
+    if (checkbox) {
+      checkbox.checked = false;
+      document.getElementById('price-per-qty-input').value = '';
+      document.getElementById('price-per-qty-content').classList.remove('visible');
     }
     document.getElementById('modal-title').textContent    = 'Add Your Own Quote';
     document.getElementById('modal-delete-btn').classList.remove('visible');
     document.getElementById('quote-modal-overlay').classList.remove('hidden');
   }
 
-  function togglePricePerQtyV1() {
-    const toggle = document.getElementById('enable-price-per-qty-v1');
-    const content = document.getElementById('price-per-qty-content-v1');
-    const input = document.getElementById('price-per-qty-input-v1');
-    if (!toggle) return;
-
-    toggle.classList.toggle('active');
-    if (toggle.classList.contains('active')) {
-      content.classList.add('visible');
-    } else {
-      content.classList.remove('visible');
-      if (input) input.value = '';
-    }
-    if (editingCard) {
-      quoteModalChanged = true;
-      checkModalSave();
-    }
-  }
-
-  function togglePricePerQtyV2() {
-    const checkbox = document.getElementById('enable-price-per-qty-v2');
-    const content = document.getElementById('price-per-qty-content-v2');
-    const imgOff = document.getElementById('ppq-v2-checkbox-off');
-    const imgOn = document.getElementById('ppq-v2-checkbox-on');
-    const input = document.getElementById('price-per-qty-input-v2');
+  function togglePricePerQty() {
+    const checkbox = document.getElementById('enable-price-per-qty');
+    const content = document.getElementById('price-per-qty-content');
+    const imgOff = document.getElementById('ppq-checkbox-off');
+    const imgOn = document.getElementById('ppq-checkbox-on');
+    const input = document.getElementById('price-per-qty-input');
     if (!checkbox) return;
 
     if (checkbox.checked) {
@@ -3794,22 +3711,18 @@ input[type="checkbox"]:not(:checked) ~ label .checkbox-svg {
     const validShippingTime = daysFromNum >= 1 && daysToNum > daysFromNum;
 
     // Check PPQ validation: if enabled, must have price > 0
-    const toggleV1 = document.getElementById('enable-price-per-qty-v1');
-    const checkboxV2 = document.getElementById('enable-price-per-qty-v2');
-    const ppqInputV1 = document.getElementById('price-per-qty-input-v1');
-    const ppqInputV2 = document.getElementById('price-per-qty-input-v2');
+    const checkbox = document.getElementById('enable-price-per-qty');
+    const ppqInput = document.getElementById('price-per-qty-input');
 
-    const isV1Enabled = toggleV1 && toggleV1.classList.contains('active');
-    const isV2Enabled = checkboxV2 && checkboxV2.checked;
-    const ppqInputV1Value = ppqInputV1 ? parseFloat(ppqInputV1.value) || 0 : 0;
-    const ppqInputV2Value = ppqInputV2 ? parseFloat(ppqInputV2.value) || 0 : 0;
+    const isPPQEnabled = checkbox && checkbox.checked;
+    const ppqInputValue = ppqInput ? parseFloat(ppqInput.value) || 0 : 0;
 
     // PPQ validation: if PPQ is selected, must have PPQ price > 0
-    const ppqValid = (!isV1Enabled && !isV2Enabled) || (isV1Enabled && ppqInputV1Value > 0) || (isV2Enabled && ppqInputV2Value > 0);
+    const ppqValid = !isPPQEnabled || ppqInputValue > 0;
 
     // Price validation: if PPQ is selected, main price must also be > 0
     const priceValue = parseFloat(price) || 0;
-    const priceValid = !((isV1Enabled || isV2Enabled) && priceValue <= 0);
+    const priceValid = !isPPQEnabled || priceValue > 0;
 
     const allFilled = location && method && price !== '' && priceValid
                       && daysFrom !== '' && daysTo !== '' && validShippingTime && ppqValid;
@@ -3824,25 +3737,15 @@ input[type="checkbox"]:not(:checked) ~ label .checkbox-svg {
     const daysFrom = document.getElementById('modal-days-from').value;
     const daysTo   = document.getElementById('modal-days-to').value;
 
-    // Get price per quantity from whichever version has a value
+    // Get price per quantity from checkbox
     let pricePerQty = null;
-    // Check V1 toggle
-    const toggleV1 = document.getElementById('enable-price-per-qty-v1');
-    const ppqInputV1 = document.getElementById('price-per-qty-input-v1');
-    const isV1On = toggleV1 && toggleV1.classList.contains('active');
-    if (isV1On && ppqInputV1 && ppqInputV1.value) {
-      pricePerQty = parseFloat(ppqInputV1.value);
-    }
-    // Check V2 checkbox if V1 didn't have a value
-    if (!pricePerQty) {
-      const checkboxV2 = document.getElementById('enable-price-per-qty-v2');
-      const ppqInputV2 = document.getElementById('price-per-qty-input-v2');
-      if (checkboxV2 && checkboxV2.checked && ppqInputV2 && ppqInputV2.value) {
-        pricePerQty = parseFloat(ppqInputV2.value);
-      }
+    const checkbox = document.getElementById('enable-price-per-qty');
+    const ppqInput = document.getElementById('price-per-qty-input');
+    if (checkbox && checkbox.checked && ppqInput && ppqInput.value) {
+      pricePerQty = parseFloat(ppqInput.value);
     }
 
-    const quoteType     = price === 0 ? 'Free Shipping' : 'Your Quote';
+    const quoteType     = price === 0 ? 'Free Shipping' : 'Flat Rate';
     const priceDisplay  = price === 0 ? '<strong>$0</strong>' : formatPriceDisplay(price, pricePerQty);
     const displayMethod = method.replace(/\s*\([^)]*\)$/, '').trim();
     const shippingTimeDisplay = daysFrom && daysTo ? `${daysFrom}-${daysTo} days` : '';
@@ -3946,52 +3849,32 @@ input[type="checkbox"]:not(:checked) ~ label .checkbox-svg {
     document.getElementById('modal-days-from').value = d.daysFrom;
     document.getElementById('modal-days-to').value   = d.daysTo;
 
-    // Restore price per quantity for current version only
+    // Restore price per quantity
     const ppqValue = d.pricePerQty ? parseFloat(d.pricePerQty) : 0;
-    const toggleV1 = document.getElementById('enable-price-per-qty-v1');
-    const checkboxV2 = document.getElementById('enable-price-per-qty-v2');
-    const ppqInputV1 = document.getElementById('price-per-qty-input-v1');
-    const ppqInputV2 = document.getElementById('price-per-qty-input-v2');
+    const checkbox = document.getElementById('enable-price-per-qty');
+    const ppqInput = document.getElementById('price-per-qty-input');
 
-    // Reset both versions first
-    if (toggleV1) {
-      toggleV1.classList.remove('active');
-      if (ppqInputV1) ppqInputV1.value = '';
-      document.getElementById('price-per-qty-content-v1').classList.remove('visible');
-    }
-    if (checkboxV2) {
-      checkboxV2.checked = false;
-      if (ppqInputV2) ppqInputV2.value = '';
-      document.getElementById('price-per-qty-content-v2').classList.remove('visible');
-      const imgOff = document.getElementById('ppq-v2-checkbox-off');
-      const imgOn = document.getElementById('ppq-v2-checkbox-on');
+    // Reset checkbox first
+    if (checkbox) {
+      checkbox.checked = false;
+      if (ppqInput) ppqInput.value = '';
+      document.getElementById('price-per-qty-content').classList.remove('visible');
+      const imgOff = document.getElementById('ppq-checkbox-off');
+      const imgOn = document.getElementById('ppq-checkbox-on');
       if (imgOff) imgOff.style.display = 'block';
       if (imgOn) imgOn.style.display = 'none';
     }
 
-    // Restore only the current version
-    if (ppqValue) {
-      if (currentVersion === 'v1') {
-        // Restore V1 toggle only
-        if (toggleV1 && ppqInputV1) {
-          toggleV1.disabled = false;
-          toggleV1.classList.add('active');
-          ppqInputV1.value = ppqValue;
-          document.getElementById('price-per-qty-content-v1').classList.add('visible');
-        }
-      } else {
-        // Restore V2 checkbox only
-        if (checkboxV2 && ppqInputV2) {
-          checkboxV2.disabled = false;
-          checkboxV2.checked = true;
-          ppqInputV2.value = ppqValue;
-          document.getElementById('price-per-qty-content-v2').classList.add('visible');
-          const imgOff = document.getElementById('ppq-v2-checkbox-off');
-          const imgOn = document.getElementById('ppq-v2-checkbox-on');
-          if (imgOff) imgOff.style.display = 'none';
-          if (imgOn) imgOn.style.display = 'block';
-        }
-      }
+    // Restore checkbox value if PPQ was set
+    if (ppqValue && checkbox && ppqInput) {
+      checkbox.disabled = false;
+      checkbox.checked = true;
+      ppqInput.value = ppqValue;
+      document.getElementById('price-per-qty-content').classList.add('visible');
+      const imgOff = document.getElementById('ppq-checkbox-off');
+      const imgOn = document.getElementById('ppq-checkbox-on');
+      if (imgOff) imgOff.style.display = 'none';
+      if (imgOn) imgOn.style.display = 'block';
     }
 
     quoteModalChanged = false;
@@ -4138,16 +4021,16 @@ input[type="checkbox"]:not(:checked) ~ label .checkbox-svg {
 
   // ── Parcel logic ───────────────────────────────────────────────────
   let parcelData = {
-    us:  { name: 'United States',     method: 'DHL Standard Parcel (10-12 days)', expressMethod: 'DHL Express Parcel (2-4 days)', time: '10-12 days', quoteType: '1stDibs Quote', expressQuoteType: '1stDibs Quote', price: '$50-$100', daysFrom: '', daysTo: '', expressDaysFrom: '', expressDaysTo: '' },
-    eu:  { name: 'Europe',            method: 'DHL Standard Parcel (10-12 days)', expressMethod: 'DHL Express Parcel (2-4 days)', time: '10-12 days', quoteType: '1stDibs Quote', expressQuoteType: '1stDibs Quote', price: '$50-$100', daysFrom: '', daysTo: '', expressDaysFrom: '', expressDaysTo: '' },
-    row: { name: 'Rest of the World', method: 'DHL Standard Parcel (10-12 days)', expressMethod: 'DHL Express Parcel (2-4 days)', time: '10-12 days', quoteType: '1stDibs Quote', expressQuoteType: '1stDibs Quote', price: '$50-$100', daysFrom: '', daysTo: '', expressDaysFrom: '', expressDaysTo: '' },
+    us:  { name: 'United States',     method: 'DHL Standard Parcel (10-12 days)', expressMethod: 'DHL Express Parcel (2-4 days)', time: '10-12 days', quoteType: 'Calculated Quote', expressQuoteType: 'Calculated Quote', price: '$50-$100', daysFrom: '', daysTo: '', expressDaysFrom: '', expressDaysTo: '' },
+    eu:  { name: 'Europe',            method: 'DHL Standard Parcel (10-12 days)', expressMethod: 'DHL Express Parcel (2-4 days)', time: '10-12 days', quoteType: 'Calculated Quote', expressQuoteType: 'Calculated Quote', price: '$50-$100', daysFrom: '', daysTo: '', expressDaysFrom: '', expressDaysTo: '' },
+    row: { name: 'Rest of the World', method: 'DHL Standard Parcel (10-12 days)', expressMethod: 'DHL Express Parcel (2-4 days)', time: '10-12 days', quoteType: 'Calculated Quote', expressQuoteType: 'Calculated Quote', price: '$50-$100', daysFrom: '', daysTo: '', expressDaysFrom: '', expressDaysTo: '' },
   };
   let editingParcelRegion = null;
   let parcelEditChanged = false;
 
   function hasModifiedParcelQuotes() {
     const anyRegionModified = Object.values(parcelData).some(d =>
-      d.quoteType !== '1stDibs Quote' || d.expressQuoteType !== '1stDibs Quote'
+      d.quoteType !== 'Calculated Quote' || d.expressQuoteType !== 'Calculated Quote'
     );
     const hasCustomCards = document.getElementById('custom-quotes-list').children.length > 0;
     return anyRegionModified || hasCustomCards;
@@ -4213,20 +4096,20 @@ input[type="checkbox"]:not(:checked) ~ label .checkbox-svg {
 
     ['us', 'eu', 'row'].forEach(r => {
       const d = parcelData[r];
-      if (d.quoteType !== '1stDibs Quote') {
+      if (d.quoteType !== 'Calculated Quote') {
         const price = d.quoteType === 'Free Shipping' ? 0 : (d.customPrice || 0);
         document.getElementById('custom-quotes-list').appendChild(
           makeCard(d.name, d.method, d.quoteType, price, d.customTimeLo || '1', d.customTimeHi || '14')
         );
-        d.quoteType = '1stDibs Quote';
+        d.quoteType = 'Calculated Quote';
         delete d.customPrice; delete d.customTimeLo; delete d.customTimeHi;
       }
-      if (d.expressQuoteType && d.expressQuoteType !== '1stDibs Quote') {
+      if (d.expressQuoteType && d.expressQuoteType !== 'Calculated Quote') {
         const price = d.expressQuoteType === 'Free Shipping' ? 0 : (d.expressCustomPrice || 0);
         document.getElementById('custom-quotes-list').appendChild(
           makeCard(`${d.name} (Express)`, d.method, d.expressQuoteType, price, d.expressCustomTimeLo || '1', d.expressCustomTimeHi || '3')
         );
-        d.expressQuoteType = '1stDibs Quote';
+        d.expressQuoteType = 'Calculated Quote';
         delete d.expressCustomPrice; delete d.expressCustomTimeLo; delete d.expressCustomTimeHi;
       }
     });
@@ -4234,8 +4117,8 @@ input[type="checkbox"]:not(:checked) ~ label .checkbox-svg {
 
   function resetToFreshParcelState() {
     ['us', 'eu', 'row'].forEach(r => {
-      parcelData[r].quoteType      = '1stDibs Quote';
-      parcelData[r].expressQuoteType = '1stDibs Quote';
+      parcelData[r].quoteType      = 'Calculated Quote';
+      parcelData[r].expressQuoteType = 'Calculated Quote';
       delete parcelData[r].customPrice;
       delete parcelData[r].customTimeLo; delete parcelData[r].customTimeHi;
       delete parcelData[r].expressCustomPrice;
@@ -4286,11 +4169,11 @@ input[type="checkbox"]:not(:checked) ~ label .checkbox-svg {
       const expLo = r5(stdLo * 1.6);
       const expHi = r5(stdHi * 1.8);
       // Only update 1stDibs-generated prices; preserve seller-set prices
-      if (parcelData[r].quoteType === '1stDibs Quote') {
+      if (parcelData[r].quoteType === 'Calculated Quote') {
         parcelData[r].price = `$${stdLo}-$${stdHi}`;
         parcelData[r].time  = stdTime;
       }
-      if (parcelData[r].expressQuoteType === '1stDibs Quote') {
+      if (parcelData[r].expressQuoteType === 'Calculated Quote') {
         parcelData[r].expressPrice = `$${expLo}-$${expHi}`;
         parcelData[r].expressTime  = expTime;
       }
@@ -4302,10 +4185,10 @@ input[type="checkbox"]:not(:checked) ~ label .checkbox-svg {
       document.getElementById(`parcel-${r}-method`).textContent      = displayMethod;
       document.getElementById(`parcel-${r}-quote-label`).innerHTML = formatQuoteLabel(d.quoteType);
       // Update price/time DOM
-      if (d.quoteType === '1stDibs Quote') {
+      if (d.quoteType === 'Calculated Quote') {
         document.getElementById(`parcel-${r}-time`).textContent   = d.time;
         document.getElementById(`parcel-${r}-price`).innerHTML    = `<strong>${d.price}</strong>`;
-      } else if (d.quoteType === 'Your Quote') {
+      } else if (d.quoteType === 'Flat Rate') {
         // Show custom shipping time for Choose Your Own
         if (d.daysFrom && d.daysTo) {
           document.getElementById(`parcel-${r}-time`).textContent = `${d.daysFrom}-${d.daysTo} days`;
@@ -4315,10 +4198,10 @@ input[type="checkbox"]:not(:checked) ~ label .checkbox-svg {
       // Refresh express row if already visible
       const expResolved = document.getElementById(`parcel-express-resolved-${r}`);
       if (expResolved && !expResolved.classList.contains('hidden')) {
-        if (d.expressQuoteType === '1stDibs Quote') {
+        if (d.expressQuoteType === 'Calculated Quote') {
           document.getElementById(`parcel-${r}-express-price`).innerHTML  = `<strong>${d.expressPrice}</strong>`;
           document.getElementById(`parcel-${r}-express-time`).textContent = d.expressTime;
-        } else if (d.expressQuoteType === 'Your Quote') {
+        } else if (d.expressQuoteType === 'Flat Rate') {
           // Show custom shipping time for Choose Your Own express
           if (d.expressDaysFrom && d.expressDaysTo) {
             document.getElementById(`parcel-${r}-express-time`).textContent = `${d.expressDaysFrom}-${d.expressDaysTo} days`;
@@ -4354,37 +4237,22 @@ input[type="checkbox"]:not(:checked) ~ label .checkbox-svg {
     setParcelEditSelect('parcel-edit-quote-select', d.quoteType);
     document.getElementById('pq-1-price').textContent = d.price;
     document.getElementById('parcel-edit-price-display').textContent = d.price;
-    document.getElementById('parcel-g1-price-input').value = d.quoteType === 'Your Quote' && d.customPrice != null ? d.customPrice : '';
+    document.getElementById('parcel-g1-price-input').value = d.quoteType === 'Flat Rate' && d.customPrice != null ? d.customPrice : '';
     document.getElementById('parcel-g1-flatrate-est').textContent = d.price;
     document.getElementById('parcel-g1-free-est').textContent = d.price;
-    // Restore price per quantity data for group 1 (both V1 and V2)
-    const ppqToggle1 = document.getElementById('parcel-g1-enable-price-per-qty-v1');
-    const ppqCheckbox1v2 = document.getElementById('parcel-g1-enable-price-per-qty-v2');
-    const ppqInput1v1 = document.getElementById('parcel-g1-price-per-qty-input-v1');
-    const ppqInput1v2 = document.getElementById('parcel-g1-price-per-qty-input-v2');
+    // Restore price per quantity data for group 1
+    const ppqCheckbox1 = document.getElementById('parcel-g1-enable-price-per-qty');
+    const ppqInput1 = document.getElementById('parcel-g1-price-per-qty-input');
     const isChecked = !!d.pricePerQuantity;
     const ppqValue = d.pricePerQuantity || '';
-    // V1 toggle
-    if (ppqToggle1 && ppqInput1v1) {
-      ppqInput1v1.value = ppqValue;
-      if (isChecked) {
-        ppqToggle1.querySelector('.toggle-off').classList.add('hidden');
-        ppqToggle1.querySelector('.toggle-on').classList.remove('hidden');
-        document.getElementById('parcel-g1-price-per-qty-content-v1').classList.add('visible');
+    // Checkbox
+    if (ppqCheckbox1 && ppqInput1) {
+      ppqCheckbox1.checked = isChecked;
+      ppqInput1.value = ppqValue;
+      if (ppqCheckbox1.checked) {
+        document.getElementById('parcel-g1-price-per-qty-content').classList.add('visible');
       } else {
-        ppqToggle1.querySelector('.toggle-off').classList.remove('hidden');
-        ppqToggle1.querySelector('.toggle-on').classList.add('hidden');
-        document.getElementById('parcel-g1-price-per-qty-content-v1').classList.remove('visible');
-      }
-    }
-    // V2 checkbox
-    if (ppqCheckbox1v2 && ppqInput1v2) {
-      ppqCheckbox1v2.checked = isChecked;
-      ppqInput1v2.value = ppqValue;
-      if (ppqCheckbox1v2.checked) {
-        document.getElementById('parcel-g1-price-per-qty-content-v2').classList.add('visible');
-      } else {
-        document.getElementById('parcel-g1-price-per-qty-content-v2').classList.remove('visible');
+        document.getElementById('parcel-g1-price-per-qty-content').classList.remove('visible');
       }
     }
     // Restore shipping time for group 1
@@ -4394,44 +4262,29 @@ input[type="checkbox"]:not(:checked) ~ label .checkbox-svg {
     updateParcelMethodLabels(1, d.quoteType);
     // Group 2 — restore from parcelData (set regardless, shown/hidden below)
     const expMethod = d.expressMethod || 'DHL Express Parcel (2-4 days)';
-    const expQuoteType = d.expressQuoteType || '1stDibs Quote';
+    const expQuoteType = d.expressQuoteType || 'Calculated Quote';
     const expPrice = d.expressPrice || d.price;
     setParcelEditSelect('parcel-edit-method-2-select', expMethod);
     setParcelEditSelect('parcel-edit-quote-2-select', expQuoteType);
     updateParcelMethodLabels(2, expQuoteType);
     document.getElementById('pq-2-price').textContent = expPrice;
     document.getElementById('parcel-edit-price-2-display').textContent = expPrice;
-    document.getElementById('parcel-g2-price-input').value = expQuoteType === 'Your Quote' && d.expressCustomPrice != null ? d.expressCustomPrice : '';
+    document.getElementById('parcel-g2-price-input').value = expQuoteType === 'Flat Rate' && d.expressCustomPrice != null ? d.expressCustomPrice : '';
     document.getElementById('parcel-g2-flatrate-est').textContent = expPrice;
     document.getElementById('parcel-g2-free-est').textContent = expPrice;
-    // Restore price per quantity data for group 2 (both V1 and V2)
-    const ppqToggle2 = document.getElementById('parcel-g2-enable-price-per-qty-v1');
-    const ppqCheckbox2v2 = document.getElementById('parcel-g2-enable-price-per-qty-v2');
-    const ppqInput2v1 = document.getElementById('parcel-g2-price-per-qty-input-v1');
-    const ppqInput2v2 = document.getElementById('parcel-g2-price-per-qty-input-v2');
+    // Restore price per quantity data for group 2
+    const ppqCheckbox2 = document.getElementById('parcel-g2-enable-price-per-qty');
+    const ppqInput2 = document.getElementById('parcel-g2-price-per-qty-input');
     const isChecked2 = !!d.expressPricePerQuantity;
     const ppqValue2 = d.expressPricePerQuantity || '';
-    // V1 toggle
-    if (ppqToggle2 && ppqInput2v1) {
-      ppqInput2v1.value = ppqValue2;
-      if (isChecked2) {
-        ppqToggle2.querySelector('.toggle-off').classList.add('hidden');
-        ppqToggle2.querySelector('.toggle-on').classList.remove('hidden');
-        document.getElementById('parcel-g2-price-per-qty-content-v1').classList.add('visible');
+    // Checkbox
+    if (ppqCheckbox2 && ppqInput2) {
+      ppqCheckbox2.checked = isChecked2;
+      ppqInput2.value = ppqValue2;
+      if (ppqCheckbox2.checked) {
+        document.getElementById('parcel-g2-price-per-qty-content').classList.add('visible');
       } else {
-        ppqToggle2.querySelector('.toggle-off').classList.remove('hidden');
-        ppqToggle2.querySelector('.toggle-on').classList.add('hidden');
-        document.getElementById('parcel-g2-price-per-qty-content-v1').classList.remove('visible');
-      }
-    }
-    // V2 checkbox
-    if (ppqCheckbox2v2 && ppqInput2v2) {
-      ppqCheckbox2v2.checked = isChecked2;
-      ppqInput2v2.value = ppqValue2;
-      if (ppqCheckbox2v2.checked) {
-        document.getElementById('parcel-g2-price-per-qty-content-v2').classList.add('visible');
-      } else {
-        document.getElementById('parcel-g2-price-per-qty-content-v2').classList.remove('visible');
+        document.getElementById('parcel-g2-price-per-qty-content').classList.remove('visible');
       }
     }
     // Restore shipping time for group 2
@@ -4462,9 +4315,9 @@ input[type="checkbox"]:not(:checked) ~ label .checkbox-svg {
     // Load PPQ module - restore same value to both V1 and V2
     const ppqValueConsolidated = d.pricePerQuantity || d.expressPricePerQuantity || '';
     const ppqToggle = document.getElementById('parcel-enable-ppq');
-    const ppqCheckbox = document.getElementById('parcel-enable-ppq-v2');
+    const ppqCheckbox = document.getElementById('parcel-enable-ppq');
     const ppqInputV1 = document.getElementById('parcel-ppq-input');
-    const ppqInputV2 = document.getElementById('parcel-ppq-input-v2');
+    const ppqInputV2 = document.getElementById('parcel-ppq-input');
 
     if (ppqValueConsolidated) {
       // Set V1 toggle
@@ -4475,9 +4328,9 @@ input[type="checkbox"]:not(:checked) ~ label .checkbox-svg {
       // Set V2 checkbox
       ppqInputV2.value = ppqValueConsolidated;
       ppqCheckbox.checked = true;
-      document.getElementById('parcel-ppq-content-v2').classList.add('visible');
-      const imgOff = document.getElementById('parcel-ppq-v2-checkbox-off');
-      const imgOn = document.getElementById('parcel-ppq-v2-checkbox-on');
+      document.getElementById('parcel-ppq-content').classList.add('visible');
+      const imgOff = document.getElementById('parcel-ppq-checkbox-off');
+      const imgOn = document.getElementById('parcel-ppq-checkbox-on');
       if (imgOff) imgOff.style.display = 'none';
       if (imgOn) imgOn.style.display = 'block';
     } else {
@@ -4489,9 +4342,9 @@ input[type="checkbox"]:not(:checked) ~ label .checkbox-svg {
       // Reset V2
       ppqInputV2.value = '';
       ppqCheckbox.checked = false;
-      document.getElementById('parcel-ppq-content-v2').classList.remove('visible');
-      const imgOff = document.getElementById('parcel-ppq-v2-checkbox-off');
-      const imgOn = document.getElementById('parcel-ppq-v2-checkbox-on');
+      document.getElementById('parcel-ppq-content').classList.remove('visible');
+      const imgOff = document.getElementById('parcel-ppq-checkbox-off');
+      const imgOn = document.getElementById('parcel-ppq-checkbox-on');
       if (imgOff) imgOff.style.display = 'block';
       if (imgOn) imgOn.style.display = 'none';
     }
@@ -4502,7 +4355,9 @@ input[type="checkbox"]:not(:checked) ~ label .checkbox-svg {
 
   function setParcelEditSelect(selectId, value) {
     const el = document.getElementById(selectId);
-    el.querySelector('.custom-select-value').textContent = value;
+    // Display "Choose Your Own" in modal for Flat Rate, otherwise show the value
+    const displayText = value === 'Flat Rate' && (selectId === 'parcel-edit-quote-select' || selectId === 'parcel-edit-quote-2-select') ? 'Choose Your Own' : value;
+    el.querySelector('.custom-select-value').textContent = displayText;
     el.querySelectorAll('.custom-select-option').forEach(o => {
       const match = (o.dataset.value && o.dataset.value === value) || (!o.dataset.value && o.textContent.trim() === value);
       o.classList.toggle('active', match);
@@ -4549,7 +4404,10 @@ input[type="checkbox"]:not(:checked) ~ label .checkbox-svg {
   function pickParcelQuoteOption(optionEl, selectId, groupNum) {
     const val = optionEl.dataset.value;
     const selectEl = document.getElementById(selectId);
-    selectEl.querySelector('.custom-select-value').textContent = val;
+    // Display "Choose Your Own" in modal dropdowns, "Flat Rate" on main page
+    const isModalDropdown = selectId === 'parcel-edit-quote-select' || selectId === 'parcel-edit-quote-2-select';
+    const displayText = val === 'Flat Rate' ? (isModalDropdown ? 'Choose Your Own' : 'Flat Rate') : val;
+    selectEl.querySelector('.custom-select-value').textContent = displayText;
     selectEl.querySelectorAll('.custom-select-option').forEach(o => o.classList.remove('active'));
     optionEl.classList.add('active');
     selectEl.classList.remove('open');
@@ -4571,7 +4429,7 @@ input[type="checkbox"]:not(:checked) ~ label .checkbox-svg {
 
     options.forEach(opt => {
       const dataType = opt.dataset.type;
-      if (quoteType === 'Your Quote') {
+      if (quoteType === 'Flat Rate') {
         if (dataType === 'standard') {
           opt.textContent = 'Standard Parcel';
           if (currentValue.includes('Standard') || currentValue === 'DHL Standard Parcel (10-12 days)' || currentValue === 'DHL Standard Parcel (5-14 Days)') {
@@ -4583,7 +4441,7 @@ input[type="checkbox"]:not(:checked) ~ label .checkbox-svg {
             newSelectedValue = 'Express Parcel';
           }
         }
-      } else if (quoteType === '1stDibs Quote') {
+      } else if (quoteType === 'Calculated Quote') {
         if (dataType === 'standard') {
           opt.textContent = 'DHL Standard Parcel (10-12 days)';
           if (currentValue.includes('Standard') || currentValue === 'Standard Parcel') {
@@ -4614,11 +4472,11 @@ input[type="checkbox"]:not(:checked) ~ label .checkbox-svg {
   }
 
   function formatQuoteLabel(quoteType, isLoading = false) {
-    if (quoteType === '1stDibs Quote' && globalUnitsPerPackage && globalUnitsPerPackage >= 2) {
+    if (quoteType === 'Calculated Quote' && globalUnitsPerPackage && globalUnitsPerPackage >= 2) {
       if (isLoading) {
-        return `1stDibs Quote <span class="calculating-dots">•••</span>`;
+        return `Calculated Quote <span class="calculating-dots">•••</span>`;
       }
-      return `1stDibs Quote (${globalUnitsPerPackage}/pkg)`;
+      return `Calculated Quote (${globalUnitsPerPackage}/pkg)`;
     }
     return quoteType;
   }
@@ -4635,9 +4493,9 @@ input[type="checkbox"]:not(:checked) ~ label .checkbox-svg {
     if (elFree) elFree.classList.add('hidden');
     if (elTime) elTime.classList.add('hidden');
 
-    if (quoteType === '1stDibs Quote') {
+    if (quoteType === 'Calculated Quote') {
       if (el1stdibs) el1stdibs.classList.remove('hidden');
-    } else if (quoteType === 'Your Quote') {
+    } else if (quoteType === 'Flat Rate') {
       if (elFlatrate) elFlatrate.classList.remove('hidden');
       if (elTime) elTime.classList.remove('hidden');
     } else if (quoteType === 'Free Shipping') {
@@ -4721,9 +4579,9 @@ input[type="checkbox"]:not(:checked) ~ label .checkbox-svg {
 
     // Get PPQ values
     const g1PPQToggle = document.getElementById('parcel-enable-ppq');
-    const g1PPQCheckbox = document.getElementById('parcel-enable-ppq-v2');
+    const g1PPQCheckbox = document.getElementById('parcel-enable-ppq');
     const g1PPQInputV1 = document.getElementById('parcel-ppq-input');
-    const g1PPQInputV2 = document.getElementById('parcel-ppq-input-v2');
+    const g1PPQInputV2 = document.getElementById('parcel-ppq-input');
 
     const g1PPQEnabledV1 = g1PPQToggle && g1PPQToggle.classList.contains('active');
     const g1PPQEnabledV2 = g1PPQCheckbox && g1PPQCheckbox.checked;
@@ -4735,7 +4593,7 @@ input[type="checkbox"]:not(:checked) ~ label .checkbox-svg {
     const g1DaysFromNum = parseInt(g1DaysFrom) || 0;
     const g1DaysToNum = parseInt(g1DaysTo) || 0;
     const g1HasTime = g1DaysFromNum > 0 && g1DaysToNum > 0 && g1DaysToNum > g1DaysFromNum;
-    const g1HasPrice = g1QuoteType === 'Your Quote' ? g1Price > 0 : true;
+    const g1HasPrice = g1QuoteType === 'Flat Rate' ? g1Price > 0 : true;
     const g1Valid = g1HasTime && g1HasPrice && g1PPQValid;
 
     // Check Group 2 requirements (only if visible and Choose Your Own)
@@ -4743,7 +4601,7 @@ input[type="checkbox"]:not(:checked) ~ label .checkbox-svg {
     const g2DaysToNum = parseInt(g2DaysTo) || 0;
     const g2HasTime = g2DaysFromNum > 0 && g2DaysToNum > 0 && g2DaysToNum > g2DaysFromNum;
     const g2HasPrice = g2Price > 0;
-    const g2NeedsValidation = g2Visible && g2QuoteType === 'Your Quote';
+    const g2NeedsValidation = g2Visible && g2QuoteType === 'Flat Rate';
     const g2Valid = !g2NeedsValidation || (g2HasTime && g2HasPrice);
 
     // Save is valid if Group 1 is valid AND Group 2 is valid (if applicable)
@@ -4767,29 +4625,11 @@ input[type="checkbox"]:not(:checked) ~ label .checkbox-svg {
   }
 
   function toggleParcelPPQ() {
-    const toggle = document.getElementById('parcel-enable-ppq');
+    const checkbox = document.getElementById('parcel-enable-ppq');
     const content = document.getElementById('parcel-ppq-content');
+    const imgOff = document.getElementById('parcel-ppq-checkbox-off');
+    const imgOn = document.getElementById('parcel-ppq-checkbox-on');
     const input = document.getElementById('parcel-ppq-input');
-    if (!toggle) return;
-
-    toggle.classList.toggle('active');
-    const isActive = toggle.classList.contains('active');
-    if (isActive) {
-      content.classList.add('visible');
-    } else {
-      content.classList.remove('visible');
-      if (input) input.value = '';
-    }
-    parcelEditChanged = true;
-    checkParcelEditValid();
-  }
-
-  function toggleParcelPPQV2() {
-    const checkbox = document.getElementById('parcel-enable-ppq-v2');
-    const content = document.getElementById('parcel-ppq-content-v2');
-    const imgOff = document.getElementById('parcel-ppq-v2-checkbox-off');
-    const imgOn = document.getElementById('parcel-ppq-v2-checkbox-on');
-    const input = document.getElementById('parcel-ppq-input-v2');
     if (!checkbox) return;
 
     if (checkbox.checked) {
@@ -4807,65 +4647,31 @@ input[type="checkbox"]:not(:checked) ~ label .checkbox-svg {
   }
 
   function updateParcelPPQModuleVisibility() {
-    // Check if either group has "Choose Your Own" selected
+    // Check if either group has "Choose Your Own" selected (in modal it displays as "Choose Your Own", on main page as "Flat Rate")
     const g1QuoteSelect = document.getElementById('parcel-edit-quote-select');
     const g2QuoteSelect = document.getElementById('parcel-edit-quote-2-select');
     const g1QuoteType = g1QuoteSelect ? g1QuoteSelect.querySelector('.custom-select-value').textContent : '';
     const g2QuoteType = g2QuoteSelect ? g2QuoteSelect.querySelector('.custom-select-value').textContent : '';
-    const hasChooseYourOwn = g1QuoteType === 'Your Quote' || g2QuoteType === 'Your Quote';
+    const hasChooseYourOwn = g1QuoteType === 'Choose Your Own' || g2QuoteType === 'Choose Your Own' || g1QuoteType === 'Flat Rate' || g2QuoteType === 'Flat Rate';
 
-    // Show/hide based on design version
-    const ppqModuleV1 = document.getElementById('parcel-ppq-module-v1');
-    const ppqModuleV2 = document.getElementById('parcel-ppq-module-v2');
-    const ppqToggle = document.getElementById('parcel-enable-ppq');
-    const ppqCheckbox = document.getElementById('parcel-enable-ppq-v2');
+    const ppqModule = document.getElementById('parcel-ppq-module');
+    const ppqCheckbox = document.getElementById('parcel-enable-ppq');
 
     if (hasChooseYourOwn) {
-      if (currentVersion === 'v1') {
-        if (ppqModuleV1) ppqModuleV1.classList.remove('hidden');
-        if (ppqModuleV2) ppqModuleV2.classList.add('hidden');
-      } else {
-        if (ppqModuleV1) ppqModuleV1.classList.add('hidden');
-        if (ppqModuleV2) ppqModuleV2.classList.remove('hidden');
-      }
+      if (ppqModule) ppqModule.classList.remove('hidden');
     } else {
-      if (ppqModuleV1) ppqModuleV1.classList.add('hidden');
-      if (ppqModuleV2) ppqModuleV2.classList.add('hidden');
-      if (ppqToggle) {
-        ppqToggle.classList.remove('active');
+      if (ppqModule) ppqModule.classList.add('hidden');
+      if (ppqCheckbox) {
+        ppqCheckbox.checked = false;
         document.getElementById('parcel-ppq-content').classList.remove('visible');
         document.getElementById('parcel-ppq-input').value = '';
       }
-      if (ppqCheckbox) {
-        ppqCheckbox.checked = false;
-        document.getElementById('parcel-ppq-content-v2').classList.remove('visible');
-        document.getElementById('parcel-ppq-input-v2').value = '';
-      }
     }
   }
 
-  function toggleParcelPricePerQtyV1(groupNum) {
-    const toggle = document.getElementById(`parcel-g${groupNum}-enable-price-per-qty-v1`);
-    const content = document.getElementById(`parcel-g${groupNum}-price-per-qty-content-v1`);
-    if (!toggle || !content) return;
-
-    const isOn = toggle.querySelector('.toggle-on').classList.contains('hidden');
-    if (isOn) {
-      toggle.querySelector('.toggle-off').classList.add('hidden');
-      toggle.querySelector('.toggle-on').classList.remove('hidden');
-      content.classList.add('visible');
-    } else {
-      toggle.querySelector('.toggle-off').classList.remove('hidden');
-      toggle.querySelector('.toggle-on').classList.add('hidden');
-      content.classList.remove('visible');
-    }
-    parcelEditChanged = true;
-    checkParcelEditValid();
-  }
-
-  function toggleParcelPricePerQtyV2(groupNum) {
-    const checkbox = document.getElementById(`parcel-g${groupNum}-enable-price-per-qty-v2`);
-    const content = document.getElementById(`parcel-g${groupNum}-price-per-qty-content-v2`);
+  function toggleParcelPricePerQty(groupNum) {
+    const checkbox = document.getElementById(`parcel-g${groupNum}-enable-price-per-qty`);
+    const content = document.getElementById(`parcel-g${groupNum}-price-per-qty-content`);
     if (!checkbox || !content) return;
 
     if (checkbox.checked) {
@@ -4930,7 +4736,7 @@ input[type="checkbox"]:not(:checked) ~ label .checkbox-svg {
     selectEl.classList.remove('open');
 
     // Sync both V1 and V2 with the same value
-    const otherSelectId = selectId === 'global-units-per-pkg-select-v1' ? 'global-units-per-pkg-select-v2' : 'global-units-per-pkg-select-v1';
+    const otherSelectId = selectId === 'global-units-per-pkg-select-v1' ? 'global-units-per-pkg-select' : 'global-units-per-pkg-select-v1';
     const otherSelect = document.getElementById(otherSelectId);
     if (otherSelect) {
       otherSelect.querySelector('.custom-select-value').textContent = value;
@@ -4941,7 +4747,7 @@ input[type="checkbox"]:not(:checked) ~ label .checkbox-svg {
 
     // Show toast if global multi-qty is currently enabled
     const toggleV1 = document.getElementById('global-units-per-pkg-toggle');
-    const checkboxV2 = document.getElementById('global-units-per-pkg-checkbox-v2');
+    const checkboxV2 = document.getElementById('global-units-per-pkg-checkbox');
     const isEnabled = (toggleV1 && toggleV1.classList.contains('active')) || (checkboxV2 && checkboxV2.checked);
     if (isEnabled) {
       // TOASTS REMOVED IN V2
@@ -4956,69 +4762,17 @@ input[type="checkbox"]:not(:checked) ~ label .checkbox-svg {
   }
 
   function toggleGlobalUnitsPerPkg() {
-    const toggle = document.getElementById('global-units-per-pkg-toggle');
+    const checkbox = document.getElementById('global-units-per-pkg-checkbox');
     const content = document.getElementById('max-units-content');
-    if (!toggle || toggle.disabled) return;
-
-    toggle.classList.toggle('active');
-    const isActive = toggle.classList.contains('active');
-
-    // Sync V2 checkbox with V1 toggle
-    const checkboxV2 = document.getElementById('global-units-per-pkg-checkbox-v2');
-    if (checkboxV2) {
-      checkboxV2.checked = isActive;
-      const contentV2 = document.getElementById('max-units-content-v2');
-      if (contentV2) {
-        if (isActive) {
-          contentV2.classList.add('visible');
-        } else {
-          contentV2.classList.remove('visible');
-        }
-      }
-    }
-
-    if (isActive) {
-      content.classList.add('visible');
-      globalUnitsPerPackage = parseInt(document.getElementById('global-units-per-pkg-select-v1').querySelector('.custom-select-value').textContent) || null;
-      const unitsValue = document.getElementById('global-units-per-pkg-select-v1').querySelector('.custom-select-value').textContent;
-      // TOASTS REMOVED IN V2
-      // showToast(`Successfully enabled ${unitsValue} maximum units per package for United States, Europe, and Rest of the World.`);
-    } else {
-      content.classList.remove('visible');
-      globalUnitsPerPackage = null;
-    }
-    updateQuoteLabelsWithGlobalUnits();
-  }
-
-  function toggleGlobalUnitsPerPkgV2() {
-    const checkbox = document.getElementById('global-units-per-pkg-checkbox-v2');
-    const content = document.getElementById('max-units-content-v2');
-    const imgOff = document.getElementById('maxunits-v2-checkbox-off');
-    const imgOn = document.getElementById('maxunits-v2-checkbox-on');
+    const imgOff = document.getElementById('maxunits-checkbox-off');
+    const imgOn = document.getElementById('maxunits-checkbox-on');
     if (!checkbox) return;
-
-    // Sync V1 toggle with V2 checkbox
-    const toggleV1 = document.getElementById('global-units-per-pkg-toggle');
-    if (toggleV1 && !toggleV1.disabled) {
-      toggleV1.classList.toggle('active', checkbox.checked);
-      const contentV1 = document.getElementById('max-units-content');
-      if (contentV1) {
-        if (checkbox.checked) {
-          contentV1.classList.add('visible');
-        } else {
-          contentV1.classList.remove('visible');
-        }
-      }
-    }
 
     if (checkbox.checked) {
       content.classList.add('visible');
       if (imgOff) imgOff.style.display = 'none';
       if (imgOn) imgOn.style.display = 'block';
-      globalUnitsPerPackage = parseInt(document.getElementById('global-units-per-pkg-select-v2').querySelector('.custom-select-value').textContent) || null;
-      const unitsValue = document.getElementById('global-units-per-pkg-select-v2').querySelector('.custom-select-value').textContent;
-      // TOASTS REMOVED IN V2
-      // showToast(`Successfully enabled ${unitsValue} maximum units per package for United States, Europe, and Rest of the World.`);
+      globalUnitsPerPackage = parseInt(document.getElementById('global-units-per-pkg-select').querySelector('.custom-select-value').textContent) || null;
     } else {
       content.classList.remove('visible');
       if (imgOff) imgOff.style.display = 'block';
@@ -5029,110 +4783,61 @@ input[type="checkbox"]:not(:checked) ~ label .checkbox-svg {
   }
 
   function enableMaxUnitsToggle() {
-    const toggle = document.getElementById('global-units-per-pkg-toggle');
-    const label = document.querySelector('.max-units-toggle-row label');
-    const checkboxV2 = document.getElementById('global-units-per-pkg-checkbox-v2');
-    const labelV2 = document.querySelector('#max-units-v2 .max-units-checkbox label');
+    const checkbox = document.getElementById('global-units-per-pkg-checkbox');
+    const label = document.querySelector('#max-units .max-units-checkbox label');
 
-    if (toggle) {
-      toggle.disabled = false;
+    if (checkbox) {
+      checkbox.disabled = false;
       if (label) label.classList.remove('disabled');
-    }
-    if (checkboxV2) {
-      checkboxV2.disabled = false;
-      if (labelV2) labelV2.classList.remove('disabled');
     }
   }
 
   function disableMaxUnitsToggle() {
-    const toggle = document.getElementById('global-units-per-pkg-toggle');
-    const label = document.querySelector('.max-units-toggle-row label');
-    const checkboxV2 = document.getElementById('global-units-per-pkg-checkbox-v2');
-    const labelV2 = document.querySelector('#max-units-v2 .max-units-checkbox label');
+    const checkbox = document.getElementById('global-units-per-pkg-checkbox');
+    const label = document.querySelector('#max-units .max-units-checkbox label');
 
-    if (toggle) {
-      toggle.disabled = true;
-      toggle.classList.remove('active');
+    if (checkbox) {
+      checkbox.disabled = true;
+      checkbox.checked = false;
       if (label) label.classList.add('disabled');
       const content = document.getElementById('max-units-content');
       if (content) {
         content.classList.remove('visible');
       }
     }
-    if (checkboxV2) {
-      checkboxV2.disabled = true;
-      checkboxV2.checked = false;
-      if (labelV2) labelV2.classList.add('disabled');
-      const contentV2 = document.getElementById('max-units-content-v2');
-      if (contentV2) {
-        contentV2.classList.remove('visible');
-      }
-    }
     globalUnitsPerPackage = null;
     updateQuoteLabelsWithGlobalUnits();
   }
 
-  function switchMaxUnitsVersion(version) {
-    currentVersion = version;
-    const wrappers = ['max-units-v1', 'max-units-v2'];
-    const btns = ['v1-btn', 'v2-btn'];
-    const versions = ['v1', 'v2'];
-    const modalWrappers = ['price-per-qty-v1', 'price-per-qty-v2'];
+  function updateMaxUnitsVisibility() {
+    const maxUnits = document.getElementById('max-units');
 
-    // Hide all wrappers and deactivate all buttons
-    wrappers.forEach(id => {
-      const el = document.getElementById(id);
-      if (el) el.classList.add('hidden');
-    });
-    btns.forEach(cls => {
-      const el = document.querySelector('.' + cls);
-      if (el) el.classList.remove('active');
-    });
-    // Hide all modal versions
-    modalWrappers.forEach(id => {
-      const el = document.getElementById(id);
-      if (el) el.classList.add('hidden');
-    });
-
-    // Sync V1 and V2 states before switching
-    const toggle = document.getElementById('global-units-per-pkg-toggle');
-    const checkbox = document.getElementById('global-units-per-pkg-checkbox-v2');
-    const checkboxLabel = document.querySelector('#max-units-v2 .max-units-checkbox label');
-    const imgOff = document.getElementById('maxunits-v2-checkbox-off');
-    const imgOn = document.getElementById('maxunits-v2-checkbox-on');
-    if (toggle && checkbox) {
-      const toggleActive = toggle.classList.contains('active');
-      checkbox.checked = toggleActive;
-      // Sync checkbox images
-      if (toggleActive) {
-        if (imgOff) imgOff.style.display = 'none';
-        if (imgOn) imgOn.style.display = 'block';
-      } else {
-        if (imgOff) imgOff.style.display = 'block';
-        if (imgOn) imgOn.style.display = 'none';
-      }
-      // Sync disabled state
-      checkbox.disabled = toggle.disabled;
-      if (checkboxLabel) {
-        if (toggle.disabled) {
-          checkboxLabel.classList.add('disabled');
-        } else {
-          checkboxLabel.classList.remove('disabled');
-        }
-      }
+    // Hide max units if Step 1 not answered
+    if (!currentAnswer) {
+      if (maxUnits) maxUnits.classList.add('hidden');
+      return;
     }
 
-    // Show the selected version
-    const versionIndex = versions.indexOf(version);
-    if (versionIndex !== -1) {
-      const wrapper = document.getElementById(wrappers[versionIndex]);
-      const btn = document.querySelector('.' + btns[versionIndex]);
-      const modalWrapper = document.getElementById(modalWrappers[versionIndex]);
-      if (wrapper) wrapper.classList.remove('hidden');
-      if (btn) btn.classList.add('active');
-      if (modalWrapper) modalWrapper.classList.remove('hidden');
+    // Check if first package has parcel-eligible dimensions
+    const firstPkg = document.querySelector('#packages-container .pkg-wrap');
+    if (!firstPkg) {
+      if (maxUnits) maxUnits.classList.add('hidden');
+      return;
+    }
+
+    const inputs = Array.from(firstPkg.querySelectorAll('input[type="number"]')).slice(0, 4);
+    const [l, w, h, wt] = inputs.map(i => parseFloat(i.value) || 0);
+
+    // Show max units only if first package is parcel-eligible
+    const isParcelEligible = l > 0 && w > 0 && h > 0 && wt > 0 && isParcel(l, w, h, wt);
+
+    if (isParcelEligible) {
+      if (maxUnits) maxUnits.classList.remove('hidden');
+    } else {
+      if (maxUnits) maxUnits.classList.add('hidden');
     }
   }
+
 
   function updateQuoteLabelsWithGlobalUnits(isLoading = false) {
     // Update all visible quote labels to reflect current global units per package
@@ -5182,25 +4887,19 @@ input[type="checkbox"]:not(:checked) ~ label .checkbox-svg {
       const prevPPQValue2 = parcelData[r].expressPricePerQuantity || 0;
 
       parcelData[r].method    = document.getElementById('parcel-edit-method-select').querySelector('.custom-select-value').textContent;
-      parcelData[r].quoteType = document.getElementById('parcel-edit-quote-select').querySelector('.custom-select-value').textContent;
+      // Get the actual data-value from the selected option, not the displayed text
+      const quoteSelect1 = document.getElementById('parcel-edit-quote-select');
+      const selectedOption1 = quoteSelect1.querySelector('.custom-select-option.active');
+      parcelData[r].quoteType = selectedOption1 ? selectedOption1.dataset.value : 'Calculated Quote';
       const qt1 = parcelData[r].quoteType;
-      if (qt1 === 'Your Quote') {
+      if (qt1 === 'Flat Rate') {
         parcelData[r].customPrice = parseFloat(document.getElementById('parcel-g1-price-input').value) || 0;
-        // Read PPQ from correct module (V1 or V2) and save to group 1
+        // Read PPQ from checkbox and save to group 1
         let ppqValue = null;
-        if (currentVersion === 'v1') {
-          const ppqToggle = document.getElementById('parcel-enable-ppq');
-          const ppqInput = document.getElementById('parcel-ppq-input');
-          const isOn = ppqToggle && ppqToggle.classList.contains('active');
-          if (isOn && ppqInput && ppqInput.value) {
-            ppqValue = parseFloat(ppqInput.value) || 0;
-          }
-        } else {
-          const ppqCheckbox = document.getElementById('parcel-enable-ppq-v2');
-          const ppqInput = document.getElementById('parcel-ppq-input-v2');
-          if (ppqCheckbox && ppqCheckbox.checked && ppqInput && ppqInput.value) {
-            ppqValue = parseFloat(ppqInput.value) || 0;
-          }
+        const ppqCheckbox = document.getElementById('parcel-enable-ppq');
+        const ppqInput = document.getElementById('parcel-ppq-input');
+        if (ppqCheckbox && ppqCheckbox.checked && ppqInput && ppqInput.value) {
+          ppqValue = parseFloat(ppqInput.value) || 0;
         }
         if (ppqValue) {
           parcelData[r].pricePerQuantity = ppqValue;
@@ -5216,25 +4915,19 @@ input[type="checkbox"]:not(:checked) ~ label .checkbox-svg {
     const group2Visible = !document.getElementById('parcel-method-group-2').classList.contains('hidden');
     if (group2Visible) {
       parcelData[r].expressMethod    = document.getElementById('parcel-edit-method-2-select').querySelector('.custom-select-value').textContent;
-      parcelData[r].expressQuoteType = document.getElementById('parcel-edit-quote-2-select').querySelector('.custom-select-value').textContent;
+      // Get the actual data-value from the selected option, not the displayed text
+      const quoteSelect2 = document.getElementById('parcel-edit-quote-2-select');
+      const selectedOption2 = quoteSelect2.querySelector('.custom-select-option.active');
+      parcelData[r].expressQuoteType = selectedOption2 ? selectedOption2.dataset.value : 'Calculated Quote';
       const qt2 = parcelData[r].expressQuoteType;
-      if (qt2 === 'Your Quote') {
+      if (qt2 === 'Flat Rate') {
         parcelData[r].expressCustomPrice = parseFloat(document.getElementById('parcel-g2-price-input').value) || 0;
         // Read PPQ from correct module (V1 or V2) and save to group 2
         let ppqValue2 = null;
-        if (currentVersion === 'v1') {
-          const ppqToggle = document.getElementById('parcel-enable-ppq');
-          const ppqInput = document.getElementById('parcel-ppq-input');
-          const isOn = ppqToggle && ppqToggle.classList.contains('active');
-          if (isOn && ppqInput && ppqInput.value) {
-            ppqValue2 = parseFloat(ppqInput.value) || 0;
-          }
-        } else {
-          const ppqCheckbox = document.getElementById('parcel-enable-ppq-v2');
-          const ppqInput = document.getElementById('parcel-ppq-input-v2');
-          if (ppqCheckbox && ppqCheckbox.checked && ppqInput && ppqInput.value) {
-            ppqValue2 = parseFloat(ppqInput.value) || 0;
-          }
+        const ppqCheckbox2 = document.getElementById('parcel-enable-ppq');
+        const ppqInput2 = document.getElementById('parcel-ppq-input');
+        if (ppqCheckbox2 && ppqCheckbox2.checked && ppqInput2 && ppqInput2.value) {
+          ppqValue2 = parseFloat(ppqInput2.value) || 0;
         }
         if (ppqValue2) {
           parcelData[r].expressPricePerQuantity = ppqValue2;
@@ -5246,7 +4939,7 @@ input[type="checkbox"]:not(:checked) ~ label .checkbox-svg {
         const daysTo2 = document.getElementById('parcel-g2-days-to').value.trim();
         parcelData[r].expressDaysFrom = daysFrom2;
         parcelData[r].expressDaysTo = daysTo2;
-      } else if (qt2 === '1stDibs Quote') {
+      } else if (qt2 === 'Calculated Quote') {
         // Preserve expressPrice for calculated quotes
         const priceEl = document.getElementById('parcel-edit-price-2-display');
         if (priceEl && priceEl.textContent) {
@@ -5258,9 +4951,9 @@ input[type="checkbox"]:not(:checked) ~ label .checkbox-svg {
     const displayMethod = parcelData[r].method.replace(/\s*\([^)]*\)$/, '').trim();
     const methodTime = (parcelData[r].method.match(/\(([^)]+)\)/) || [, ''])[1];
     document.getElementById(`parcel-${r}-method`).textContent      = displayMethod;
-    const qt1Display = qt1 === 'Your Quote' ? 'Your Quote' : formatQuoteLabel(qt1);
+    const qt1Display = qt1 === 'Flat Rate' ? 'Flat Rate' : formatQuoteLabel(qt1);
     document.getElementById(`parcel-${r}-quote-label`).innerHTML = qt1Display;
-    if (qt1 === 'Your Quote') {
+    if (qt1 === 'Flat Rate') {
       document.getElementById(`parcel-${r}-price`).innerHTML = formatPriceDisplay(parcelData[r].customPrice, parcelData[r].pricePerQuantity);
       // Use custom shipping time for Choose Your Own
       const customTime = (parcelData[r].daysFrom && parcelData[r].daysTo) ? `${parcelData[r].daysFrom}-${parcelData[r].daysTo} days` : '';
@@ -5268,7 +4961,7 @@ input[type="checkbox"]:not(:checked) ~ label .checkbox-svg {
     } else if (qt1 === 'Free Shipping') {
       document.getElementById(`parcel-${r}-price`).innerHTML  = '<strong>$0</strong>';
       document.getElementById(`parcel-${r}-time`).textContent = methodTime;
-    } else if (qt1 === '1stDibs Quote') {
+    } else if (qt1 === 'Calculated Quote') {
       const priceDisplay = document.getElementById(`parcel-${r}-price`);
       const priceEl = document.getElementById('parcel-edit-price-display');
       if (priceEl && priceEl.textContent) {
@@ -5284,10 +4977,10 @@ input[type="checkbox"]:not(:checked) ~ label .checkbox-svg {
       const expDisplayMethod = expMethod.replace(/\s*\([^)]*\)$/, '').trim();
       const expMethodTime    = (expMethod.match(/\(([^)]+)\)/) || [, ''])[1];
       document.getElementById(`parcel-${r}-express-method`).textContent      = expDisplayMethod;
-      const expQuoteDisplay = expQuoteType === 'Your Quote' ? 'Your Quote' : formatQuoteLabel(expQuoteType);
+      const expQuoteDisplay = expQuoteType === 'Flat Rate' ? 'Flat Rate' : formatQuoteLabel(expQuoteType);
       document.getElementById(`parcel-${r}-express-quote-label`).innerHTML = expQuoteDisplay;
       // Use custom shipping time for Choose Your Own, otherwise use extracted time from method name
-      if (expQuoteType === 'Your Quote') {
+      if (expQuoteType === 'Flat Rate') {
         const customExpTime = (parcelData[r].expressDaysFrom && parcelData[r].expressDaysTo) ? `${parcelData[r].expressDaysFrom}-${parcelData[r].expressDaysTo} days` : '';
         document.getElementById(`parcel-${r}-express-time`).textContent = customExpTime;
         document.getElementById(`parcel-${r}-express-price`).innerHTML = formatPriceDisplay(parcelData[r].expressCustomPrice, parcelData[r].expressPricePerQuantity);
@@ -5314,7 +5007,7 @@ input[type="checkbox"]:not(:checked) ~ label .checkbox-svg {
       document.getElementById(`parcel-express-resolved-${r}`).classList.add('hidden');
       document.getElementById(`parcel-remove-${r}`).classList.add('hidden');
       document.getElementById(`parcel-add-${r}`).classList.remove('hidden');
-      parcelData[r].expressQuoteType = '1stDibs Quote';
+      parcelData[r].expressQuoteType = 'Calculated Quote';
       delete parcelData[r].expressCustomPrice;
     }
 
@@ -5324,11 +5017,11 @@ input[type="checkbox"]:not(:checked) ~ label .checkbox-svg {
     let ppqToastMessage = null;
 
     // Check if PPQ is newly enabled OR value changed for group 1
-    const group1PPQStatusChanged = qt1 === 'Your Quote' && parcelData[r].pricePerQuantity && (!wasPPQEnabled1 || parcelData[r].pricePerQuantity !== prevPPQValue1);
+    const group1PPQStatusChanged = qt1 === 'Flat Rate' && parcelData[r].pricePerQuantity && (!wasPPQEnabled1 || parcelData[r].pricePerQuantity !== prevPPQValue1);
 
     // Check if PPQ is newly enabled OR value changed for group 2
     const qt2 = group2Visible ? parcelData[r].expressQuoteType : null;
-    const group2PPQStatusChanged = group2Visible && qt2 === 'Your Quote' && parcelData[r].expressPricePerQuantity && (!wasPPQEnabled2 || parcelData[r].expressPricePerQuantity !== prevPPQValue2);
+    const group2PPQStatusChanged = group2Visible && qt2 === 'Flat Rate' && parcelData[r].expressPricePerQuantity && (!wasPPQEnabled2 || parcelData[r].expressPricePerQuantity !== prevPPQValue2);
 
     // Build toast message
     if (group1PPQStatusChanged && group2PPQStatusChanged) {
@@ -5449,7 +5142,7 @@ input[type="checkbox"]:not(:checked) ~ label .checkbox-svg {
       card.dataset.price    = q.price;
       card.dataset.daysFrom = q.timeLo;
       card.dataset.daysTo   = q.timeHi;
-      const quoteType    = q.price === 0 ? 'Free Shipping' : 'Your Quote';
+      const quoteType    = q.price === 0 ? 'Free Shipping' : 'Flat Rate';
       const priceDisplay = q.price === 0 ? '<strong>$0</strong>' : `<strong>$${Math.round(q.price)}</strong>`;
       card.innerHTML = `
         <div class="custom-quote-header">
@@ -5833,15 +5526,15 @@ input[type="checkbox"]:not(:checked) ~ label .checkbox-svg {
           <label class="modal-label">Shipping Quote</label>
           <div class="custom-select" id="parcel-edit-quote-select">
             <div class="custom-select-trigger" onclick="toggleCustomSelect('parcel-edit-quote-select')">
-              <span class="custom-select-value">1stDibs Quote</span>
+              <span class="custom-select-value">Calculated Quote</span>
               <img class="custom-select-chevron" src="Down icon.svg" alt="">
             </div>
             <div class="custom-select-dropdown">
-              <div class="custom-select-option active" data-value="1stDibs Quote" onclick="pickParcelQuoteOption(this,'parcel-edit-quote-select',1)">
-                <div class="pq-option"><div class="pq-option-row"><span class="pq-option-title">1stDibs Quote</span><span class="pq-option-price" id="pq-1-price">$50-$100</span></div><div class="pq-option-sub">1stDibs calculates the quote for you</div></div>
+              <div class="custom-select-option active" data-value="Calculated Quote" onclick="pickParcelQuoteOption(this,'parcel-edit-quote-select',1)">
+                <div class="pq-option"><div class="pq-option-row"><span class="pq-option-title">Calculated Quote</span><span class="pq-option-price" id="pq-1-price">$50-$100</span></div><div class="pq-option-sub">1stDibs calculates the quote for you</div></div>
               </div>
-              <div class="custom-select-option" data-value="Your Quote" onclick="pickParcelQuoteOption(this,'parcel-edit-quote-select',1)">
-                <div class="pq-option"><div class="pq-option-row"><span class="pq-option-title">Your Quote</span></div><div class="pq-option-sub">Set your own shipping price</div></div>
+              <div class="custom-select-option" data-value="Flat Rate" onclick="pickParcelQuoteOption(this,'parcel-edit-quote-select',1)">
+                <div class="pq-option"><div class="pq-option-row"><span class="pq-option-title">Choose Your Own</span></div><div class="pq-option-sub">Set your own shipping price</div></div>
               </div>
               <div class="custom-select-option" data-value="Free Shipping" onclick="pickParcelQuoteOption(this,'parcel-edit-quote-select',1)">
                 <div class="pq-option"><div class="pq-option-row"><span class="pq-option-title free">Free Shipping</span></div><div class="pq-option-sub">You absorb the shipping cost</div></div>
@@ -5877,7 +5570,7 @@ input[type="checkbox"]:not(:checked) ~ label .checkbox-svg {
             </div>
           </div>
         </div>
-        <!-- 1stDibs Quote price (default visible) -->
+        <!-- Calculated Quote price (default visible) -->
         <div class="modal-field" id="parcel-g1-1stdibs-price">
           <label class="modal-label">Buyer Will Pay</label>
           <div>
@@ -5917,15 +5610,15 @@ input[type="checkbox"]:not(:checked) ~ label .checkbox-svg {
           <label class="modal-label">Shipping Quote</label>
           <div class="custom-select" id="parcel-edit-quote-2-select">
             <div class="custom-select-trigger" onclick="toggleCustomSelect('parcel-edit-quote-2-select')">
-              <span class="custom-select-value">1stDibs Quote</span>
+              <span class="custom-select-value">Calculated Quote</span>
               <img class="custom-select-chevron" src="Down icon.svg" alt="">
             </div>
             <div class="custom-select-dropdown">
-              <div class="custom-select-option active" data-value="1stDibs Quote" onclick="pickParcelQuoteOption(this,'parcel-edit-quote-2-select',2)">
-                <div class="pq-option"><div class="pq-option-row"><span class="pq-option-title">1stDibs Quote</span><span class="pq-option-price" id="pq-2-price">$50-$100</span></div><div class="pq-option-sub">1stDibs calculates the quote for you</div></div>
+              <div class="custom-select-option active" data-value="Calculated Quote" onclick="pickParcelQuoteOption(this,'parcel-edit-quote-2-select',2)">
+                <div class="pq-option"><div class="pq-option-row"><span class="pq-option-title">Calculated Quote</span><span class="pq-option-price" id="pq-2-price">$50-$100</span></div><div class="pq-option-sub">1stDibs calculates the quote for you</div></div>
               </div>
-              <div class="custom-select-option" data-value="Your Quote" onclick="pickParcelQuoteOption(this,'parcel-edit-quote-2-select',2)">
-                <div class="pq-option"><div class="pq-option-row"><span class="pq-option-title">Your Quote</span></div><div class="pq-option-sub">Set your own shipping price</div></div>
+              <div class="custom-select-option" data-value="Flat Rate" onclick="pickParcelQuoteOption(this,'parcel-edit-quote-2-select',2)">
+                <div class="pq-option"><div class="pq-option-row"><span class="pq-option-title">Choose Your Own</span></div><div class="pq-option-sub">Set your own shipping price</div></div>
               </div>
               <div class="custom-select-option" data-value="Free Shipping" onclick="pickParcelQuoteOption(this,'parcel-edit-quote-2-select',2)">
                 <div class="pq-option"><div class="pq-option-row"><span class="pq-option-title free">Free Shipping</span></div><div class="pq-option-sub">You absorb the shipping cost</div></div>
@@ -5989,42 +5682,21 @@ input[type="checkbox"]:not(:checked) ~ label .checkbox-svg {
       </div>
 
       <!-- Price Per Quantity Module - V1 (Toggle) -->
-      <div class="modal-field price-per-qty-container hidden" id="parcel-ppq-module-v1">
+      <!-- Price Per Quantity Module (Checkbox) -->
+      <div class="modal-field price-per-qty-container hidden" id="parcel-ppq-module">
         <div class="price-per-qty-section">
-          <div class="price-per-qty-toggle-row">
-            <label for="parcel-enable-ppq">Want to offer a lower shipping rate if a user buys more than one item? <span style="font-weight: 300; color: var(--color-grey-66);">(applies only to <i>Your Quotes</i>)</span></label>
-            <button class="toggle-switch-img" id="parcel-enable-ppq" onclick="toggleParcelPPQ()">
-              <img src="Toggle active off.svg" width="63" height="30" alt="Off" class="toggle-off">
-              <img src="Toggle active on.svg" width="63" height="30" alt="On" class="toggle-on hidden">
-              <img src="Toggle disabled.svg" width="63" height="30" alt="Disabled" class="toggle-disabled">
-            </button>
+          <div class="price-per-qty-checkbox">
+            <input type="checkbox" id="parcel-enable-ppq" onchange="toggleParcelPPQ()" style="display: none;">
+            <label for="parcel-enable-ppq" style="display: flex; align-items: center; gap: 9px; margin: 0;">
+              <img class="checkbox-img-off" id="parcel-ppq-checkbox-off" src="Checkbox-Active-Off.svg" width="20" height="20" alt="Unchecked" style="flex-shrink: 0;">
+              <img class="checkbox-img-on" id="parcel-ppq-checkbox-on" src="Checkbox-Active-On.svg" width="20" height="20" alt="Checked" style="flex-shrink: 0; display: none;">
+              <span>Enable price per quantity <span style="font-weight: 300; color: var(--color-grey-66);">(applies only to Flat Rate quotes)</span></span>
+            </label>
           </div>
           <div class="price-per-qty-content" id="parcel-ppq-content">
             <div class="modal-price-input">
               <span class="modal-price-prefix">$</span>
               <input type="number" id="parcel-ppq-input" placeholder="0" min="0" oninput="parcelEditChanged=true; checkParcelEditValid()">
-              <span class="modal-price-suffix">USD</span>
-            </div>
-            <p class="modal-helper">Tell us the price you'd like to set for each additional item ordered, so we can calculate total cost based on a buyer's order.</p>
-          </div>
-        </div>
-      </div>
-
-      <!-- Price Per Quantity Module - V2 (Checkbox) -->
-      <div class="modal-field price-per-qty-container hidden" id="parcel-ppq-module-v2">
-        <div class="price-per-qty-section">
-          <div class="price-per-qty-checkbox">
-            <input type="checkbox" id="parcel-enable-ppq-v2" onchange="toggleParcelPPQV2()" style="display: none;">
-            <label for="parcel-enable-ppq-v2" style="display: flex; align-items: center; gap: 9px; margin: 0;">
-              <img class="checkbox-img-off" id="parcel-ppq-v2-checkbox-off" src="Checkbox-Active-Off.svg" width="20" height="20" alt="Unchecked" style="flex-shrink: 0;">
-              <img class="checkbox-img-on" id="parcel-ppq-v2-checkbox-on" src="Checkbox-Active-On.svg" width="20" height="20" alt="Checked" style="flex-shrink: 0; display: none;">
-              <span>Want to offer a lower shipping rate if a user buys more than one item? <span style="font-weight: 300; color: var(--color-grey-66);">(applies only to <i>Your Quotes</i>)</span></span>
-            </label>
-          </div>
-          <div class="price-per-qty-content" id="parcel-ppq-content-v2">
-            <div class="modal-price-input">
-              <span class="modal-price-prefix">$</span>
-              <input type="number" id="parcel-ppq-input-v2" placeholder="0" min="0" oninput="parcelEditChanged=true; checkParcelEditValid()">
               <span class="modal-price-suffix">USD</span>
             </div>
             <p class="modal-helper">Tell us the price you'd like to set for each additional item ordered, so we can calculate total cost based on a buyer's order.</p>
